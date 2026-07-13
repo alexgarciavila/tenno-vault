@@ -1,0 +1,127 @@
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { getWeapon } from "../../../data/catalog";
+import {
+  bratonExampleA,
+  lexExampleB,
+  skanaExampleC,
+} from "../../../test-support/progress-fixtures";
+import { WeaponCard } from "../WeaponCard";
+
+const noop = () => {};
+
+function normalized(text: string | null): string {
+  return (text ?? "").replace(/\s+/g, " ").trim();
+}
+
+describe("WeaponCard", () => {
+  it("ejemplo A (Braton): estado 'Instalado parcialmente' y resumen 1·1·2", () => {
+    const weapon = getWeapon("braton")!;
+    const { container } = render(
+      <WeaponCard
+        weapon={weapon}
+        progress={bratonExampleA()}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    expect(screen.getByText("Instalado parcialmente")).toBeDefined();
+    expect(normalized(container.textContent)).toContain("1 instalado · 1 disponible · 2 pendiente");
+  });
+
+  it("ejemplo B (Lex): estado 'Completado'", () => {
+    const weapon = getWeapon("lex")!;
+    render(
+      <WeaponCard
+        weapon={weapon}
+        progress={lexExampleB()}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    expect(screen.getByText("Completado")).toBeDefined();
+  });
+
+  it("ejemplo C (Skana): estado 'Cubierto' con 1 copia extra", () => {
+    const weapon = getWeapon("skana")!;
+    const { container } = render(
+      <WeaponCard
+        weapon={weapon}
+        progress={skanaExampleC()}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    expect(screen.getByText("Cubierto")).toBeDefined();
+    expect(normalized(container.textContent)).toContain("1 copia extra");
+  });
+
+  it("instalar una variante nueva llama a onInstallVariant sin confirmación", () => {
+    const weapon = getWeapon("braton")!;
+    const onInstall = vi.fn();
+    render(
+      <WeaponCard
+        weapon={weapon}
+        progress={bratonExampleA()}
+        onInstallVariant={onInstall}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    // Braton (base) aún no está instalada en el ejemplo A.
+    fireEvent.click(screen.getByRole("checkbox", { name: "Braton" }));
+    expect(onInstall).toHaveBeenCalledWith("braton");
+  });
+
+  it("desinstalar una variante SIN progreso no pide confirmación", () => {
+    const weapon = getWeapon("braton")!;
+    const onUninstall = vi.fn();
+    // Braton Prime instalada pero sin tiers completados ni perks (ejemplo A).
+    render(
+      <WeaponCard
+        weapon={weapon}
+        progress={bratonExampleA()}
+        onInstallVariant={noop}
+        onUninstallVariant={onUninstall}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    fireEvent.click(screen.getByRole("checkbox", { name: "Braton Prime" }));
+    expect(onUninstall).toHaveBeenCalledWith("braton-prime");
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("desinstalar una variante CON progreso abre ConfirmDialog", () => {
+    const weapon = getWeapon("lex")!;
+    const onUninstall = vi.fn();
+    // Ejemplo B: Lex Prime instalada con todos los tiers completados.
+    render(
+      <WeaponCard
+        weapon={weapon}
+        progress={lexExampleB()}
+        onInstallVariant={noop}
+        onUninstallVariant={onUninstall}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    fireEvent.click(screen.getByRole("checkbox", { name: "Lex Prime" }));
+    expect(onUninstall).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toBeDefined();
+  });
+
+  it("armas innatas no muestran el stepper de copias", () => {
+    const weapon = getWeapon("felarx")!;
+    render(
+      <WeaponCard
+        weapon={weapon}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    expect(screen.queryByRole("button", { name: "Añadir copia" })).toBeNull();
+  });
+});

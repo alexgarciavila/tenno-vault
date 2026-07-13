@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/*
+ * Sistema visual de Tenno Vault. Tema oscuro único del MVP.
+ * Tokens expuestos vía `@theme` para que Tailwind 4 genere utilidades
+ * (bg-*, text-*, border-*). Tipografía: system font stack (PWA offline, sin
+ * dependencia de fuentes externas).
+ */
+@theme {
+  --color-bg: #0a0e14;
+  --color-surface: #131a24;
+  --color-surface-alt: #1b2430;
+  --color-border: #2a3444;
+  --color-fg: #e8ecf1;
+  --color-fg-muted: #9aa7b8;
+  --color-accent: #38bdf8;
+  --color-accent-strong: #0ea5e9;
+  --color-focus: #7dd3fc;
+  --color-danger-fg: #fda4af;
+  --color-danger-bg: #4c0519;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Foco visible en todos los elementos focables. */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Respetar preferencia de movimiento reducido. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

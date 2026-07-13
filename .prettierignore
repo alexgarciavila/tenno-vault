@@ -1,0 +1,22 @@
+# artefactos generados
+node_modules
+.next
+out
+coverage
+package-lock.json
+
+# service worker generado por Serwist en tiempo de build
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+public/swe-worker-*.js.map
+
+# documentación de gobernanza y specs (no tocar sin petición explícita)
+AGENTS.md
+CLAUDE.md
+specs/
+agents/
+.claude/
+
+# fixtures HTML descargados de la wiki (se conservan tal cual)
+scripts/scrape/__fixtures__/

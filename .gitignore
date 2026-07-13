@@ -1,0 +1,46 @@
+# dependencias
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# service worker generado por Serwist en tiempo de build (se copia a out/)
+/public/sw.js
+/public/sw.js.map
+/public/swe-worker-*.js
+/public/swe-worker-*.js.map
+
+# producción
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# vitest
+/coverage
+
+# NOTA: src/data/*.json (catálogo generado) y scripts/scrape/report/
+# se versionan en git a propósito. No añadirlos aquí.
+
+# gobernanza y artefactos de agentes IA (solo uso interno de desarrollo,
+# el repo es público y no debe exponer cómo se construyó el proyecto)
+/AGENTS.md
+/CLAUDE.md
+/agents/
+/.claude/
+/specs/
+

@@ -1,0 +1,124 @@
+"use client";
+
+/**
+ * Controles de filtro (estado, categoría, tipo, semana). Mismo componente para
+ * la presentación inline (escritorio) y dentro de la hoja modal (móvil): mismo
+ * estado, distinta presentación. El filtro de semana se deshabilita con nota
+ * cuando solo se pide el tipo "innata" (rotation siempre null ahí).
+ */
+import type { WeaponCategory, WeaponKind } from "../../data/catalog-schema";
+import { useT } from "../../lib/i18n";
+import type { IncarnonStatus } from "../../lib/inventory";
+import { ToggleChip } from "../ui/ToggleChip";
+import type { FilterState } from "./filters";
+
+const STATUSES: IncarnonStatus[] = [
+  "not-owned",
+  "available",
+  "partially-installed",
+  "covered",
+  "completed",
+];
+const CATEGORIES: WeaponCategory[] = ["primary", "secondary", "melee"];
+const KINDS: WeaponKind[] = ["genesis", "innate"];
+const WEEKS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+function toggle<T>(list: T[], value: T): T[] {
+  return list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
+}
+
+export function FilterControls({
+  filters,
+  onChange,
+}: {
+  filters: FilterState;
+  onChange: (patch: Partial<FilterState>) => void;
+}) {
+  const t = useT();
+  const weekDisabled = filters.kinds.length === 1 && filters.kinds[0] === "innate";
+
+  return (
+    <div className="flex flex-col gap-4">
+      <fieldset>
+        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+          {t.incarnon.filterStatus}
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {STATUSES.map((status) => (
+            <ToggleChip
+              key={status}
+              label={t.status[status]}
+              checked={filters.statuses.includes(status)}
+              onChange={() => onChange({ statuses: toggle(filters.statuses, status) })}
+            />
+          ))}
+          <ToggleChip
+            label={t.status.incompleteData}
+            checked={filters.incompleteData}
+            onChange={(checked) => onChange({ incompleteData: checked })}
+          />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+          {t.incarnon.filterCategory}
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((category) => (
+            <ToggleChip
+              key={category}
+              label={t.category[category]}
+              checked={filters.categories.includes(category)}
+              onChange={() => onChange({ categories: toggle(filters.categories, category) })}
+            />
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+          {t.incarnon.filterKind}
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {KINDS.map((kind) => (
+            <ToggleChip
+              key={kind}
+              label={t.kind[kind]}
+              checked={filters.kinds.includes(kind)}
+              onChange={() => onChange({ kinds: toggle(filters.kinds, kind) })}
+            />
+          ))}
+        </div>
+      </fieldset>
+
+      <div>
+        <label
+          htmlFor="filtro-semana"
+          className="mb-2 block text-[0.8125rem] font-medium text-fg-muted"
+        >
+          {t.incarnon.filterWeek}
+        </label>
+        <select
+          id="filtro-semana"
+          value={filters.week ?? ""}
+          disabled={weekDisabled}
+          onChange={(event) =>
+            onChange({ week: event.target.value === "" ? null : Number(event.target.value) })
+          }
+          className="min-h-11 rounded-lg border border-border bg-surface-alt px-3 text-fg disabled:opacity-40"
+        >
+          <option value="">—</option>
+          {WEEKS.map((week) => (
+            <option key={week} value={week}>
+              {week}
+            </option>
+          ))}
+        </select>
+        {weekDisabled ? (
+          <p className="mt-1 text-[0.8125rem] text-fg-muted">{t.incarnon.weekNotApplicable}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
