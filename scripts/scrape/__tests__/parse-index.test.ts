@@ -48,6 +48,15 @@ describe("parseIndex — checklist", () => {
     const braton = index.weapons.find((w) => w.id === "braton");
     expect(braton?.url).toBe("https://wiki.warframe.com/w/Braton_Incarnon_Genesis");
   });
+
+  it("no convierte enlaces absolutos externos del HTML en destinos descargables", () => {
+    const malicious = `
+      <div class="mw-heading"><h2 id="Incarnon_Weapons_Obtained"></h2></div>
+      <p><span class="tooltip" data-param-name="Felarx"><a href="https://127.0.0.1/latest/meta-data/iam/security-credentials/">Felarx</a></span></p>
+      <div class="mw-heading"><h2 id="next"></h2></div>
+    `;
+    expect(() => parseIndex(malicious)).toThrow("página no permitida");
+  });
 });
 
 describe("parseIndex — rotación de The Circuit", () => {

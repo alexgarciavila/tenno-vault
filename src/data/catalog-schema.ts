@@ -6,7 +6,7 @@ import { z } from "zod";
  * Cualquier cambio estructural exige bump de `schemaVersion`.
  */
 
-export const CATALOG_SCHEMA_VERSION = 1 as const;
+export const CATALOG_SCHEMA_VERSION = 2 as const;
 
 export const evolutionPerkSchema = z.object({
   /** Id estable: `<weaponId>-e<tier>-<perk-slug>`, ej. "braton-e2-daring-reverie". */
@@ -46,7 +46,54 @@ export const weaponRotationSchema = z.object({
   letter: z.string().min(1),
 });
 
-export const incarnonWeaponSchema = z.object({
+export const incarnonImageContentTypeSchema = z.enum(["image/png", "image/jpeg", "image/webp"]);
+
+const SHA256_PATTERN = /^[a-f0-9]{64}$/;
+const WEAPON_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+export const incarnonImageSchema = z
+  .object({
+    localPath: z.string(),
+    sourceUrl: z.url(),
+    contentType: incarnonImageContentTypeSchema,
+    sha256: z.string().regex(SHA256_PATTERN),
+  })
+  .superRefine((image, ctx) => {
+    const extension =
+      image.contentType === "image/png"
+        ? "png"
+        : image.contentType === "image/jpeg"
+          ? "jpg"
+          : "webp";
+    const pattern = new RegExp(
+      `^/generated/incarnon-images/(${WEAPON_ID_PATTERN.source.slice(1, -1)})/${image.sha256}\\.${extension}$`,
+    );
+    if (!pattern.test(image.localPath)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["localPath"],
+        message: "La ruta local no coincide con el id, hash y tipo de la imagen.",
+      });
+    }
+
+    const source = new URL(image.sourceUrl);
+    if (
+      source.protocol !== "https:" ||
+      source.hostname !== "wiki.warframe.com" ||
+      source.port !== "" ||
+      source.username !== "" ||
+      source.password !== "" ||
+      !source.pathname.startsWith("/images/")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["sourceUrl"],
+        message: "La URL de imagen debe pertenecer a https://wiki.warframe.com/images/.",
+      });
+    }
+  });
+
+export const incarnonWeaponBaseSchema = z.object({
   /** Slug del arma base: "braton", "ack-and-brunt", "phenmor". */
   id: z.string().min(1),
   /** Nombre canónico de la wiki: "Braton Incarnon Genesis" | "Phenmor". */
@@ -61,11 +108,26 @@ export const incarnonWeaponSchema = z.object({
   variants: z.array(weaponVariantSchema),
   /** Genesis: 4 tiers · innatas: 5 tiers. */
   evolutions: z.array(evolutionTierSchema),
+  /** Recurso local content-addressed; null representa ausencia explícita. */
+  image: incarnonImageSchema.nullable(),
   sourceUrl: z.url(),
   scrapedAt: z.string(),
   dataStatus: dataStatusSchema,
   /** Qué falló/faltó, para el informe y el badge "datos incompletos". */
   reviewNotes: z.array(z.string()),
+});
+
+export const incarnonWeaponSchema = incarnonWeaponBaseSchema.superRefine((weapon, ctx) => {
+  if (
+    weapon.image &&
+    !weapon.image.localPath.startsWith(`/generated/incarnon-images/${weapon.id}/`)
+  ) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["image", "localPath"],
+      message: "La ruta de imagen debe usar el id de la misma arma.",
+    });
+  }
 });
 
 export const catalogAttributionSchema = z.object({
@@ -90,6 +152,8 @@ export type WeaponKind = z.infer<typeof weaponKindSchema>;
 export type WeaponCategory = z.infer<typeof weaponCategorySchema>;
 export type DataStatus = z.infer<typeof dataStatusSchema>;
 export type WeaponRotation = z.infer<typeof weaponRotationSchema>;
+export type IncarnonImageContentType = z.infer<typeof incarnonImageContentTypeSchema>;
+export type IncarnonImage = z.infer<typeof incarnonImageSchema>;
 export type IncarnonWeapon = z.infer<typeof incarnonWeaponSchema>;
 export type CatalogAttribution = z.infer<typeof catalogAttributionSchema>;
 export type IncarnonCatalog = z.infer<typeof incarnonCatalogSchema>;

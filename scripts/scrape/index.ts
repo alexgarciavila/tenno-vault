@@ -9,19 +9,27 @@
  * atómica de src/data/incarnon-catalog.json → informe en scripts/scrape/report/last-run.json.
  */
 
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 import {
-  incarnonCatalogSchema,
   type IncarnonCatalog,
   type IncarnonWeapon,
   type WeaponCategory,
 } from "../../src/data/catalog-schema";
-import { politeFetch } from "./fetch";
+import { readCatalogForGeneration } from "./catalog-compat";
+import { FetchHttpError, politeFetch, politeFetchBinary } from "./fetch";
+import { assertAllowedImageUrl, imageMetadata, MAX_IMAGE_BYTES, validateImageBytes } from "./image";
 import { stripGenesisSuffix } from "./normalize";
 import { parseIndex, type IndexWeaponEntry, type ParsedIndex } from "./parse-index";
 import { parseWeaponPage } from "./parse-weapon";
+import {
+  cleanupStagingRun,
+  publishCatalog,
+  stageImage,
+  verifyPublishedImage,
+  type StagedImage,
+} from "./publish";
 import { printSummary, writeReport, type RunReport } from "./report";
 import { decideDataStatus, formatValidationError, validateCatalog } from "./validate";
 
@@ -104,13 +112,10 @@ function loadExistingCatalog(): IncarnonCatalog | null {
   if (!existsSync(CATALOG_PATH)) return null;
   try {
     const raw: unknown = JSON.parse(readFileSync(CATALOG_PATH, "utf8"));
-    const result = validateCatalog(raw);
-    if (result.success) return result.catalog;
-    console.warn("Aviso: el catálogo existente no valida; se ignora para el merge.");
-    return null;
-  } catch {
-    console.warn("Aviso: no se pudo leer el catálogo existente; se ignora para el merge.");
-    return null;
+    return readCatalogForGeneration(raw);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`El catálogo existente es incompatible o inválido: ${message}`);
   }
 }
 
@@ -119,7 +124,7 @@ function buildWeaponRecord(
   entry: IndexWeaponEntry,
   index: ParsedIndex,
   html: string,
-): IncarnonWeapon {
+): { weapon: IncarnonWeapon; imageSourceUrl: string | null; imageIssue: string | null } {
   const weaponName = stripGenesisSuffix(entry.name);
   const parsed = parseWeaponPage(html, {
     weaponId: entry.id,
@@ -128,6 +133,8 @@ function buildWeaponRecord(
     sourceUrl: entry.url,
   });
   const reviewNotes = [...parsed.reviewNotes];
+  const imageIssue = parsed.image.status === "found" ? null : parsed.image.reason;
+  if (imageIssue) reviewNotes.push(`Imagen: ${imageIssue}`);
 
   // Genesis: categoría del checklist. Innatas: del infobox (Slot) de su página.
   let category: WeaponCategory;
@@ -159,27 +166,18 @@ function buildWeaponRecord(
     rotation,
     variants: parsed.variants,
     evolutions: parsed.evolutions,
+    image: null,
     sourceUrl: entry.url,
     scrapedAt: new Date().toISOString(),
     dataStatus: "complete",
     reviewNotes,
   };
   weapon.dataStatus = decideDataStatus(weapon);
-  return weapon;
-}
-
-/** Escritura atómica: tmp → validación → rename. El JSON previo queda intacto si algo falla. */
-function writeCatalogAtomically(catalog: IncarnonCatalog): void {
-  const tmpPath = `${CATALOG_PATH}.tmp`;
-  mkdirSync(dirname(CATALOG_PATH), { recursive: true });
-  writeFileSync(tmpPath, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
-
-  const reread: unknown = JSON.parse(readFileSync(tmpPath, "utf8"));
-  const check = incarnonCatalogSchema.safeParse(reread);
-  if (!check.success) {
-    throw new Error(`El catálogo temporal no valida:\n${formatValidationError(check.error)}`);
-  }
-  renameSync(tmpPath, CATALOG_PATH);
+  return {
+    weapon,
+    imageSourceUrl: parsed.image.status === "found" ? parsed.image.candidate.sourceUrl : null,
+    imageIssue,
+  };
 }
 
 function printList(index: ParsedIndex): void {
@@ -218,6 +216,11 @@ async function main(): Promise<void> {
       reviewRequired: [],
       kept: [],
       errors: index.reviewNotes.map((note) => ({ id: "index", error: note })),
+      imageIssues: [],
+      imagesKept: [],
+      imagesStaged: [],
+      imagesPublished: [],
+      publication: { status: "published" },
     };
     writeReport(report);
     printSummary(report);
@@ -234,12 +237,9 @@ async function main(): Promise<void> {
     }
   }
 
-  const existing = loadExistingCatalog();
-  const existingById = new Map<string, IncarnonWeapon>(
-    (existing?.weapons ?? []).map((weapon) => [weapon.id, weapon]),
-  );
-
   const weapons: IncarnonWeapon[] = [];
+  const stagedImages: StagedImage[] = [];
+  const runId = startedAt.replace(/[^0-9A-Za-z]/g, "-");
   const report: RunReport = {
     startedAt,
     finishedAt: "",
@@ -249,73 +249,198 @@ async function main(): Promise<void> {
     reviewRequired: [],
     kept: [],
     errors: [],
+    imageIssues: [],
+    imagesKept: [],
+    imagesStaged: [],
+    imagesPublished: [],
+    publication: { status: "aborted", reason: "Ejecución todavía no publicada." },
   };
 
-  for (const entry of index.weapons) {
-    const isTarget = options.mode === "all" || entry.id === options.weaponId;
-    const previous = existingById.get(entry.id);
-
-    if (!isTarget) {
-      // --weapon: el resto de armas se conserva del catálogo existente.
-      if (previous) {
-        weapons.push(previous);
-        report.kept.push(entry.id);
-      }
-      continue;
-    }
-
-    console.log(`Descargando ${entry.name} (${entry.url})…`);
-    let html: string;
-    try {
-      html = await getHtml(entry.url, entry.id, options.cacheDir);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      if (previous) {
-        // Fallo de fetch tras reintentos: se conserva el registro previo.
-        weapons.push(previous);
-        report.kept.push(entry.id);
-        console.warn(`  Error de fetch; se conserva el registro previo: ${message}`);
-      } else {
-        report.errors.push({ id: entry.id, error: message });
-        console.error(`  Error de fetch sin registro previo: ${message}`);
-      }
-      continue;
-    }
-
-    const weapon = buildWeaponRecord(entry, index, html);
-    weapons.push(weapon);
-    if (weapon.dataStatus === "review-required") {
-      report.reviewRequired.push({ id: weapon.id, notes: weapon.reviewNotes });
-    } else {
-      report.ok++;
-    }
+  function keepPreviousImage(
+    id: string,
+    previous: IncarnonWeapon | undefined,
+  ): IncarnonWeapon["image"] {
+    if (!previous?.image) throw new Error("No existe una imagen v2 previa reutilizable.");
+    verifyPublishedImage(previous.image);
+    report.imagesKept.push(id);
+    return previous.image;
   }
 
-  const catalog: IncarnonCatalog = {
-    schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
-    attribution: { ...ATTRIBUTION },
-    weapons,
-  };
-
-  const validation = validateCatalog(catalog);
-  if (!validation.success) {
-    console.error("La validación global del catálogo falló; no se toca el JSON anterior.");
-    console.error(formatValidationError(validation.error));
+  function abortPublication(reason: string): void {
+    report.publication = { status: "aborted", reason };
     report.finishedAt = new Date().toISOString();
-    report.errors.push({ id: "catalog", error: "Validación Zod global fallida." });
+    report.errors.push({ id: "publication", error: reason });
     writeReport(report);
     printSummary(report);
     process.exitCode = 1;
-    return;
   }
 
-  writeCatalogAtomically(validation.catalog);
-  console.log(`Catálogo escrito en ${CATALOG_PATH} (${weapons.length} armas).`);
+  try {
+    let existing: IncarnonCatalog | null;
+    try {
+      existing = loadExistingCatalog();
+    } catch (error) {
+      abortPublication(error instanceof Error ? error.message : String(error));
+      return;
+    }
+    const existingById = new Map<string, IncarnonWeapon>(
+      (existing?.weapons ?? []).map((weapon) => [weapon.id, weapon]),
+    );
 
-  report.finishedAt = new Date().toISOString();
-  writeReport(report);
-  printSummary(report);
+    for (const entry of index.weapons) {
+      const isTarget = options.mode === "all" || entry.id === options.weaponId;
+      const previous = existingById.get(entry.id);
+
+      if (!isTarget) {
+        // --weapon: el resto de armas se conserva del catálogo existente.
+        if (previous) {
+          weapons.push(previous);
+          report.kept.push(entry.id);
+        }
+        continue;
+      }
+
+      console.log(`Descargando ${entry.name} (${entry.url})…`);
+      let html: string;
+      try {
+        html = await getHtml(entry.url, entry.id, options.cacheDir);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (previous?.image) {
+          try {
+            verifyPublishedImage(previous.image);
+          } catch (verificationError) {
+            abortPublication(
+              `No se pudo conservar ${entry.id}: ${verificationError instanceof Error ? verificationError.message : String(verificationError)}`,
+            );
+            return;
+          }
+          // Fallo de fetch tras reintentos: se conserva el registro previo.
+          weapons.push(previous);
+          report.kept.push(entry.id);
+          report.imagesKept.push(entry.id);
+          console.warn(`  Error de fetch; se conserva el registro previo: ${message}`);
+        } else {
+          report.imageIssues.push({ id: entry.id, phase: "fetch", reason: message });
+          abortPublication(`Error de página para ${entry.id} sin imagen previa válida: ${message}`);
+          return;
+        }
+        continue;
+      }
+
+      const built = buildWeaponRecord(entry, index, html);
+      const weapon = built.weapon;
+      if (built.imageIssue || !built.imageSourceUrl) {
+        const reason = built.imageIssue ?? "No se obtuvo candidata de imagen.";
+        report.imageIssues.push({ id: entry.id, phase: "parse", reason });
+        try {
+          weapon.image = keepPreviousImage(entry.id, previous);
+        } catch (error) {
+          abortPublication(
+            `Imagen de ${entry.id} no disponible y sin respaldo válido: ${error instanceof Error ? error.message : String(error)}`,
+          );
+          return;
+        }
+      } else {
+        try {
+          assertAllowedImageUrl(built.imageSourceUrl);
+        } catch (error) {
+          const reason = error instanceof Error ? error.message : String(error);
+          report.imageIssues.push({ id: entry.id, phase: "url", reason });
+          try {
+            weapon.image = keepPreviousImage(entry.id, previous);
+          } catch {
+            abortPublication(`URL de imagen inválida para ${entry.id} sin respaldo: ${reason}`);
+            return;
+          }
+        }
+
+        if (!weapon.image) {
+          try {
+            const response = await politeFetchBinary(
+              built.imageSourceUrl,
+              assertAllowedImageUrl,
+              MAX_IMAGE_BYTES,
+            );
+            const validated = validateImageBytes(
+              response.finalUrl,
+              response.contentType,
+              response.bytes,
+            );
+            weapon.image = imageMetadata(entry.id, validated);
+            stagedImages.push(stageImage(runId, entry.id, weapon.image, validated.bytes));
+            report.imagesStaged.push(entry.id);
+          } catch (error) {
+            const reason = error instanceof Error ? error.message : String(error);
+            const phase = reason.includes("URL de imagen")
+              ? "url"
+              : error instanceof FetchHttpError || error instanceof TypeError
+                ? "fetch"
+                : "content";
+            report.imageIssues.push({ id: entry.id, phase, reason });
+            try {
+              weapon.image = keepPreviousImage(entry.id, previous);
+            } catch {
+              abortPublication(`Fallo de imagen para ${entry.id} sin respaldo válido: ${reason}`);
+              return;
+            }
+          }
+        }
+      }
+      weapons.push(weapon);
+      if (weapon.dataStatus === "review-required") {
+        report.reviewRequired.push({ id: weapon.id, notes: weapon.reviewNotes });
+      } else {
+        report.ok++;
+      }
+    }
+
+    if (weapons.length !== index.weapons.length) {
+      abortPublication(
+        `El catálogo candidato contiene ${weapons.length} de ${index.weapons.length} entradas; se evita una publicación parcial.`,
+      );
+      return;
+    }
+
+    const catalog: IncarnonCatalog = {
+      schemaVersion: 2,
+      generatedAt: new Date().toISOString(),
+      attribution: { ...ATTRIBUTION },
+      weapons,
+    };
+
+    const validation = validateCatalog(catalog);
+    if (!validation.success) {
+      console.error("La validación global del catálogo falló; no se toca el JSON anterior.");
+      console.error(formatValidationError(validation.error));
+      abortPublication("Validación Zod global fallida.");
+      return;
+    }
+
+    try {
+      publishCatalog(validation.catalog, stagedImages);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      report.imageIssues.push({ id: "catalog", phase: "publish", reason });
+      abortPublication(reason);
+      return;
+    }
+    console.log(`Catálogo escrito en ${CATALOG_PATH} (${weapons.length} armas).`);
+
+    report.imagesPublished = [...report.imagesStaged];
+    report.publication = { status: "published" };
+    report.finishedAt = new Date().toISOString();
+    writeReport(report);
+    printSummary(report);
+  } finally {
+    try {
+      cleanupStagingRun(runId);
+    } catch (error) {
+      console.warn(
+        `No se pudo limpiar el staging de ${runId}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
 }
 
 // No ejecutar el flujo al importar desde tests.

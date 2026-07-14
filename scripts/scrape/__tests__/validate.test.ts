@@ -12,6 +12,7 @@ function minimalWeapon(overrides: Partial<IncarnonWeapon> = {}): IncarnonWeapon 
     kind: "genesis",
     category: "primary",
     rotation: { week: 1, letter: "A" },
+    image: null,
     variants: [
       { id: "braton", name: "Braton", wikiUrl: "https://wiki.warframe.com/w/Braton" },
       { id: "mk1-braton", name: "Mk1-Braton", wikiUrl: "https://wiki.warframe.com/w/Mk1-Braton" },
@@ -69,7 +70,7 @@ function minimalWeapon(overrides: Partial<IncarnonWeapon> = {}): IncarnonWeapon 
 
 function minimalCatalog(weapon: IncarnonWeapon = minimalWeapon()): IncarnonCatalog {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: "2026-07-12T00:00:00.000Z",
     attribution: {
       source: "Warframe Wiki",
@@ -115,9 +116,26 @@ describe("validateCatalog", () => {
   });
 
   it("rechaza schemaVersion desconocida", () => {
-    const catalog = { ...minimalCatalog(), schemaVersion: 2 };
+    const catalog = { ...minimalCatalog(), schemaVersion: 3 };
     const result = validateCatalog(catalog);
     expect(result.success).toBe(false);
+  });
+
+  it("acepta metadatos de imagen coherentes y rechaza rutas incompletas", () => {
+    const sha256 = "a".repeat(64);
+    const valid = minimalWeapon({
+      image: {
+        localPath: `/generated/incarnon-images/braton/${sha256}.png`,
+        sourceUrl: "https://wiki.warframe.com/images/Braton.png",
+        contentType: "image/png",
+        sha256,
+      },
+    });
+    expect(validateCatalog(minimalCatalog(valid)).success).toBe(true);
+    const invalid = minimalWeapon({
+      image: { ...valid.image!, localPath: "", sourceUrl: "https://example.com/a.png" },
+    });
+    expect(validateCatalog(minimalCatalog(invalid)).success).toBe(false);
   });
 });
 

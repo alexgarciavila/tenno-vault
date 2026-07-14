@@ -15,6 +15,80 @@ function normalized(text: string | null): string {
 }
 
 describe("WeaponCard", () => {
+  it("reserva la región 16:9 y muestra solo la ruta local como imagen decorativa", () => {
+    const weapon = getWeapon("braton")!;
+    const sha256 = "a".repeat(64);
+    const { container } = render(
+      <WeaponCard
+        weapon={{
+          ...weapon,
+          image: {
+            localPath: `/generated/incarnon-images/braton/${sha256}.png`,
+            sourceUrl: "https://wiki.warframe.com/images/Braton.png",
+            contentType: "image/png",
+            sha256,
+          },
+        }}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    const region = container.querySelector("[data-image-state]");
+    const image = container.querySelector("img");
+    expect(region?.className).toContain("aspect-video");
+    expect(region?.className).toContain("w-full");
+    expect(region?.className).toContain("min-w-0");
+    expect(region?.getAttribute("aria-hidden")).toBe("true");
+    expect(image?.getAttribute("alt")).toBe("");
+    expect(image?.getAttribute("src")).toContain("/generated/incarnon-images/braton/");
+    expect(image?.getAttribute("src")).not.toContain("wiki.warframe.com");
+    expect(image?.getAttribute("loading")).toBe("lazy");
+    expect(image?.getAttribute("decoding")).toBe("async");
+    expect(image?.className).toContain("object-contain");
+    expect(container.querySelector("[data-image-state='loading']")).not.toBeNull();
+  });
+
+  it("usa el mismo fallback neutral cuando falta la imagen o falla su carga", () => {
+    const weapon = getWeapon("braton")!;
+    const { container, rerender } = render(
+      <WeaponCard
+        weapon={{ ...weapon, image: null }}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    expect(container.querySelector("[data-image-state='missing']")).not.toBeNull();
+    expect(container.querySelector("img")).toBeNull();
+
+    const sha256 = "b".repeat(64);
+    rerender(
+      <WeaponCard
+        weapon={{
+          ...weapon,
+          image: {
+            localPath: `/generated/incarnon-images/braton/${sha256}.png`,
+            sourceUrl: "https://wiki.warframe.com/images/Braton.png",
+            contentType: "image/png",
+            sha256,
+          },
+        }}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+    const image = container.querySelector("img");
+    if (!image) throw new Error("No se renderizó la imagen de prueba");
+    fireEvent.error(image);
+    expect(container.querySelector("[data-image-state='error']")).not.toBeNull();
+    expect(container.querySelector("img")).toBeNull();
+    expect(screen.queryByRole("img")).toBeNull();
+    expect(screen.getByRole("link", { name: /Wiki/i })).toBeDefined();
+    expect(screen.getByRole("checkbox", { name: "Braton" })).toBeDefined();
+  });
+
   it("ejemplo A (Braton): estado 'Instalado parcialmente' y resumen 1·1·2", () => {
     const weapon = getWeapon("braton")!;
     const { container } = render(

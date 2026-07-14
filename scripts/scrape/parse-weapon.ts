@@ -25,9 +25,79 @@ export interface ParsedWeaponPage {
   infoboxCategory: WeaponCategory | null;
   /** Motivos de revisión ante estructura inesperada; vacío si todo cuadra. */
   reviewNotes: string[];
+  image: ImageParseResult;
 }
 
+export interface ParsedImageCandidate {
+  sourceUrl: string;
+  evidence: "infobox-main-image";
+}
+
+export type ImageParseResult =
+  | { status: "found"; candidate: ParsedImageCandidate }
+  | { status: "missing"; reason: string }
+  | { status: "ambiguous"; reason: string };
+
 const EXPECTED_TIERS: Record<WeaponKind, number> = { genesis: 4, innate: 5 };
+
+function parsePositiveInteger(value: string | undefined): number | null {
+  if (!value) return null;
+  const parsed = Number.parseInt(value, 10);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+function selectImageSource(img: Cheerio<AnyNode>, pageUrl: string): string | null {
+  const sourceWidth = parsePositiveInteger(img.attr("data-file-width"));
+  const renderedWidth = parsePositiveInteger(img.attr("width"));
+  const srcsets = [img.attr("data-srcset"), img.attr("srcset")].filter((value): value is string =>
+    Boolean(value),
+  );
+  const candidates: Array<{ url: string; width: number }> = [];
+  for (const srcset of srcsets) {
+    for (const part of srcset.split(",")) {
+      const [rawUrl, descriptor] = part.trim().split(/\s+/, 2);
+      if (!rawUrl || !descriptor) continue;
+      const width = descriptor.endsWith("w")
+        ? parsePositiveInteger(descriptor.slice(0, -1))
+        : descriptor.endsWith("x") && renderedWidth
+          ? Math.min(
+              Math.round(Number.parseFloat(descriptor) * renderedWidth),
+              sourceWidth ?? Number.POSITIVE_INFINITY,
+            )
+          : null;
+      if (width && (!sourceWidth || width <= sourceWidth)) candidates.push({ url: rawUrl, width });
+    }
+  }
+  candidates.sort((a, b) => b.width - a.width);
+  const raw = candidates[0]?.url ?? img.attr("data-src") ?? img.attr("src");
+  if (!raw) return null;
+  try {
+    return new URL(raw, pageUrl).href;
+  } catch {
+    return null;
+  }
+}
+
+export function parseCanonicalImage($: CheerioAPI, pageUrl: string): ImageParseResult {
+  const images = $(".infobox").first().find(".main-image img");
+  if (images.length === 0) {
+    return { status: "missing", reason: "Infobox: no se encontró la imagen principal." };
+  }
+  if (images.length !== 1) {
+    return {
+      status: "ambiguous",
+      reason: `Infobox: se encontraron ${images.length} imágenes principales.`,
+    };
+  }
+  const sourceUrl = selectImageSource(images.first(), pageUrl);
+  if (!sourceUrl) {
+    return {
+      status: "missing",
+      reason: "Infobox: la imagen principal no tiene una fuente válida.",
+    };
+  }
+  return { status: "found", candidate: { sourceUrl, evidence: "infobox-main-image" } };
+}
 
 /** Nº de tier de una fila EVOn: texto "EVO2" en el th o imagen con alt/src que contenga EVOn. */
 function evoTierNumber($: CheerioAPI, cell: Cheerio<AnyNode>): number | null {
@@ -316,11 +386,12 @@ export function parseWeaponPage(html: string, ctx: ParseWeaponContext): ParsedWe
   const $ = load(html);
   const reviewNotes: string[] = [];
   const infoboxCategory = parseInfoboxCategory($);
+  const image = parseCanonicalImage($, ctx.sourceUrl);
 
   const table = findEvolutionsTable($);
   if (!table) {
     reviewNotes.push('Evolutions: no se encontró la sección "Evolutions" con su tabla.');
-    return { variants: [], evolutions: [], infoboxCategory, reviewNotes };
+    return { variants: [], evolutions: [], infoboxCategory, reviewNotes, image };
   }
 
   const headerRow = table.find("tr").first();
@@ -339,5 +410,5 @@ export function parseWeaponPage(html: string, ctx: ParseWeaponContext): ParsedWe
     reviewNotes.push("Evolutions: el arma quedó sin variantes.");
   }
 
-  return { variants, evolutions, infoboxCategory, reviewNotes };
+  return { variants, evolutions, infoboxCategory, reviewNotes, image };
 }
