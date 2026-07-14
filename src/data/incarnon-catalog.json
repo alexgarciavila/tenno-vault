@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-07-12T18:12:45.295Z",
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-13T21:55:06.591Z",
   "attribution": {
     "source": "Warframe Wiki",
     "sourceUrl": "https://wiki.warframe.com/w/Incarnon",
@@ -133,8 +133,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/felarx/8297414682c87324eb2d194778e1bd828325489d90be37fc30f8867fb744c4b2.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Felarx.png?4d866",
+        "contentType": "image/png",
+        "sha256": "8297414682c87324eb2d194778e1bd828325489d90be37fc30f8867fb744c4b2"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Felarx",
-      "scrapedAt": "2026-07-12T18:11:27.366Z",
+      "scrapedAt": "2026-07-13T21:52:28.347Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -258,8 +264,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/innodem/879208f089241be4a977e2adb20972fd0dcc7f86110b8bf9e0130b47a010a0fd.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Innodem.png?24109",
+        "contentType": "image/png",
+        "sha256": "879208f089241be4a977e2adb20972fd0dcc7f86110b8bf9e0130b47a010a0fd"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Innodem",
-      "scrapedAt": "2026-07-12T18:11:28.842Z",
+      "scrapedAt": "2026-07-13T21:52:31.342Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -389,8 +401,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/laetum/276066b570811ca264812ebc447ecc563b457d7b08ce3cc34f990b3edd03f137.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Laetum.png?b6a44",
+        "contentType": "image/png",
+        "sha256": "276066b570811ca264812ebc447ecc563b457d7b08ce3cc34f990b3edd03f137"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Laetum",
-      "scrapedAt": "2026-07-12T18:11:30.303Z",
+      "scrapedAt": "2026-07-13T21:52:34.324Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -519,8 +537,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/onos/34fc69e03a0f877f3e4d7a203d306b849fccdd9340d69d0e0ba2da317ce9ea2e.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Onos.png?2a4ee",
+        "contentType": "image/png",
+        "sha256": "34fc69e03a0f877f3e4d7a203d306b849fccdd9340d69d0e0ba2da317ce9ea2e"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Onos",
-      "scrapedAt": "2026-07-12T18:11:31.840Z",
+      "scrapedAt": "2026-07-13T21:52:37.354Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -650,8 +674,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/phenmor/fce1c539ccb85ba2f1e98188a5ddc72789c5338ab0c7802f4f130a5fb79eaa8a.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Phenmor.png?c36f7",
+        "contentType": "image/png",
+        "sha256": "fce1c539ccb85ba2f1e98188a5ddc72789c5338ab0c7802f4f130a5fb79eaa8a"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Phenmor",
-      "scrapedAt": "2026-07-12T18:11:33.305Z",
+      "scrapedAt": "2026-07-13T21:52:40.410Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -771,8 +801,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/praedos/a0a395577b9d89081d48296c75f4b8c2fde013f7c1bbd845a2fac8bd62934fd1.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Praedos.png?217dc",
+        "contentType": "image/png",
+        "sha256": "a0a395577b9d89081d48296c75f4b8c2fde013f7c1bbd845a2fac8bd62934fd1"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Praedos",
-      "scrapedAt": "2026-07-12T18:11:34.808Z",
+      "scrapedAt": "2026-07-13T21:52:43.365Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -895,8 +931,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/ruvox/33c4e4d5ff47f1d7f274ec7c842f688e2f27beac595c6191014b8021dd5266e9.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Ruvox.png?01731",
+        "contentType": "image/png",
+        "sha256": "33c4e4d5ff47f1d7f274ec7c842f688e2f27beac595c6191014b8021dd5266e9"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Ruvox",
-      "scrapedAt": "2026-07-12T18:11:36.342Z",
+      "scrapedAt": "2026-07-13T21:52:46.395Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1020,8 +1062,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/thalys/b4c316fa1aa67ada211a8af6011316d6d6fa1625ea5076dbea2b36aa60dfb1b6.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Thalys.png?5535b",
+        "contentType": "image/png",
+        "sha256": "b4c316fa1aa67ada211a8af6011316d6d6fa1625ea5076dbea2b36aa60dfb1b6"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Thalys",
-      "scrapedAt": "2026-07-12T18:11:37.847Z",
+      "scrapedAt": "2026-07-13T21:52:49.352Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1125,8 +1173,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/boar/558fb224dbf98b604840f036e7b0f88ea0338577091c9f3755567601da4cbacc.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BoarIncarnonGenesis.png?84d02",
+        "contentType": "image/png",
+        "sha256": "558fb224dbf98b604840f036e7b0f88ea0338577091c9f3755567601da4cbacc"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Boar_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:39.309Z",
+      "scrapedAt": "2026-07-13T21:52:52.370Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1258,8 +1312,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/boltor/b3dfa670448c6424de17b2de36ec2832923065ea0006c17cefd8653673acf867.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BoltorIncarnonGenesis.png?304b9",
+        "contentType": "image/png",
+        "sha256": "b3dfa670448c6424de17b2de36ec2832923065ea0006c17cefd8653673acf867"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Boltor_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:40.777Z",
+      "scrapedAt": "2026-07-13T21:52:55.390Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1412,8 +1472,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/braton/1da0a5a4622411b6040f3b5fe87d104a726945533483c3114a58622b4bd04efe.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BratonIncarnonGenesis.png?cd344",
+        "contentType": "image/png",
+        "sha256": "1da0a5a4622411b6040f3b5fe87d104a726945533483c3114a58622b4bd04efe"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Braton_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:42.282Z",
+      "scrapedAt": "2026-07-13T21:52:58.362Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1517,8 +1583,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/burston/33fe8d344a5dd9d92e0853a48b6ac9f1c21a0b6c01cf41e6a1fb11afaed4c5b6.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BurstonIncarnonGenesis.png?f2405",
+        "contentType": "image/png",
+        "sha256": "33fe8d344a5dd9d92e0853a48b6ac9f1c21a0b6c01cf41e6a1fb11afaed4c5b6"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Burston_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:43.809Z",
+      "scrapedAt": "2026-07-13T21:53:01.428Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1643,8 +1715,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/dera/628b4b2993f6de24e2ff0e0d373aa38f5689bf511a680e739c59a8acaca02bed.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DeraIncarnonGenesis.png?a0f49",
+        "contentType": "image/png",
+        "sha256": "628b4b2993f6de24e2ff0e0d373aa38f5689bf511a680e739c59a8acaca02bed"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Dera_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:45.311Z",
+      "scrapedAt": "2026-07-13T21:53:04.442Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1744,8 +1822,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/dread/a7d8878eaf1f04f482489a1594a8f5d67dbb9e8838f43bd062daa10663db7d0c.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DreadIncarnonGenesis.png?275bb",
+        "contentType": "image/png",
+        "sha256": "a7d8878eaf1f04f482489a1594a8f5d67dbb9e8838f43bd062daa10663db7d0c"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Dread_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:46.839Z",
+      "scrapedAt": "2026-07-13T21:53:07.472Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -1879,8 +1963,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/gorgon/c6af314e7c27b4088def12ba06ad1e3e52d7798e3922eb8b407598ebb7c6874e.png",
+        "sourceUrl": "https://wiki.warframe.com/images/GorgonIncarnonGenesis.png?06577",
+        "contentType": "image/png",
+        "sha256": "c6af314e7c27b4088def12ba06ad1e3e52d7798e3922eb8b407598ebb7c6874e"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Gorgon_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:48.335Z",
+      "scrapedAt": "2026-07-13T21:53:10.474Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2006,8 +2096,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/latron/ac6526bc670f417ff86dd613357f39a0774807cf90480db9a86fdd69e6143b80.png",
+        "sourceUrl": "https://wiki.warframe.com/images/LatronIncarnonGenesis.png?dcf2e",
+        "contentType": "image/png",
+        "sha256": "ac6526bc670f417ff86dd613357f39a0774807cf90480db9a86fdd69e6143b80"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Latron_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:49.783Z",
+      "scrapedAt": "2026-07-13T21:53:13.485Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2107,8 +2203,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/miter/c27cd9176b0cecc162fc3684027582e54f5352e5ca1553945b1baf290b767d20.png",
+        "sourceUrl": "https://wiki.warframe.com/images/MiterIncarnonGenesis.png?aa080",
+        "contentType": "image/png",
+        "sha256": "c27cd9176b0cecc162fc3684027582e54f5352e5ca1553945b1baf290b767d20"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Miter_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:51.319Z",
+      "scrapedAt": "2026-07-13T21:53:16.526Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2229,8 +2331,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/paris/f103050c73f0799c3f8e301f5279b2e39c58ef05c34eb77d67b1439752f0a79b.png",
+        "sourceUrl": "https://wiki.warframe.com/images/ParisIncarnonGenesis.png?a37cf",
+        "contentType": "image/png",
+        "sha256": "f103050c73f0799c3f8e301f5279b2e39c58ef05c34eb77d67b1439752f0a79b"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Paris_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:52.818Z",
+      "scrapedAt": "2026-07-13T21:53:19.537Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2335,8 +2443,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/soma/4f869dd0394d88615ad0e392a99a9a2e3a8d533b209c0fd3342ffe045c9ddfcc.png",
+        "sourceUrl": "https://wiki.warframe.com/images/SomaIncarnonGenesis.png?9e705",
+        "contentType": "image/png",
+        "sha256": "4f869dd0394d88615ad0e392a99a9a2e3a8d533b209c0fd3342ffe045c9ddfcc"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Soma_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:54.321Z",
+      "scrapedAt": "2026-07-13T21:53:22.557Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2482,8 +2596,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/strun/688a749c3fd93c14ca470ac439996db59860f238b3b9cd539fb4c99ba5994d1e.png",
+        "sourceUrl": "https://wiki.warframe.com/images/StrunIncarnonGenesis.png?76302",
+        "contentType": "image/png",
+        "sha256": "688a749c3fd93c14ca470ac439996db59860f238b3b9cd539fb4c99ba5994d1e"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Strun_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:55.824Z",
+      "scrapedAt": "2026-07-13T21:53:25.575Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2619,8 +2739,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/sybaris/6f5daa91f9f3500a43ab898ecef43372d4c88c68eb0cd54587d5baba819ccc47.png",
+        "sourceUrl": "https://wiki.warframe.com/images/SybarisIncarnonGenesis.png?cbe4f",
+        "contentType": "image/png",
+        "sha256": "6f5daa91f9f3500a43ab898ecef43372d4c88c68eb0cd54587d5baba819ccc47"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Sybaris_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:57.320Z",
+      "scrapedAt": "2026-07-13T21:53:28.587Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2719,8 +2845,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/torid/0c5a85562fbd099327cda2c5dad4b034f416092bdf35fd8dd0c6824aa87cc728.png",
+        "sourceUrl": "https://wiki.warframe.com/images/ToridIncarnonGenesis.png?77066",
+        "contentType": "image/png",
+        "sha256": "0c5a85562fbd099327cda2c5dad4b034f416092bdf35fd8dd0c6824aa87cc728"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Torid_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:11:58.787Z",
+      "scrapedAt": "2026-07-13T21:53:31.561Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2838,8 +2970,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/vectis/6e0c47d9d3d2d4f36ee52a2d0026f46b74623e5e87d6fee8cd8df3e328e16ba3.png",
+        "sourceUrl": "https://wiki.warframe.com/images/VectisIncarnonGenesis.png?3907f",
+        "contentType": "image/png",
+        "sha256": "6e0c47d9d3d2d4f36ee52a2d0026f46b74623e5e87d6fee8cd8df3e328e16ba3"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Vectis_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:00.331Z",
+      "scrapedAt": "2026-07-13T21:53:34.583Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -2952,8 +3090,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/angstrum/17bc58e290f301ddcad155f40f057cffc91a80f4c463f9118a6b604ba44abd17.png",
+        "sourceUrl": "https://wiki.warframe.com/images/AngstrumIncarnonGenesis.png?0d74c",
+        "contentType": "image/png",
+        "sha256": "17bc58e290f301ddcad155f40f057cffc91a80f4c463f9118a6b604ba44abd17"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Angstrum_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:01.820Z",
+      "scrapedAt": "2026-07-13T21:53:37.624Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3054,8 +3198,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/atomos/db1803ef8d9531fa7f8170fd0aaf3e1b366e992f9346fba1be07def7277588ae.png",
+        "sourceUrl": "https://wiki.warframe.com/images/AtomosIncarnonGenesis.png?3fa45",
+        "contentType": "image/png",
+        "sha256": "db1803ef8d9531fa7f8170fd0aaf3e1b366e992f9346fba1be07def7277588ae"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Atomos_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:03.320Z",
+      "scrapedAt": "2026-07-13T21:53:40.650Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3189,8 +3339,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/ballistica/159660c50789701a7eb1dbaec5c36d56a6f65177f734ae8d084a8aa084b23a4f.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BallisticaIncarnonGenesis.png?3907f",
+        "contentType": "image/png",
+        "sha256": "159660c50789701a7eb1dbaec5c36d56a6f65177f734ae8d084a8aa084b23a4f"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Ballistica_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:04.822Z",
+      "scrapedAt": "2026-07-13T21:53:43.679Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3301,8 +3457,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/bronco/e72e03042c602b92b585e5b9b8d1f9662ef411adfbc69b26a331603f8622143b.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BroncoIncarnonGenesis.png?d14de",
+        "contentType": "image/png",
+        "sha256": "e72e03042c602b92b585e5b9b8d1f9662ef411adfbc69b26a331603f8622143b"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Bronco_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:06.325Z",
+      "scrapedAt": "2026-07-13T21:53:46.727Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3400,8 +3562,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/cestra/66a06586bd0905c7fd55795e855ad85d0ce5b94ca0d170aa23a27eb6192fc4b9.png",
+        "sourceUrl": "https://wiki.warframe.com/images/CestraIncarnonGenesis.png?91290",
+        "contentType": "image/png",
+        "sha256": "66a06586bd0905c7fd55795e855ad85d0ce5b94ca0d170aa23a27eb6192fc4b9"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Cestra_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:07.817Z",
+      "scrapedAt": "2026-07-13T21:53:49.721Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3499,8 +3667,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/despair/61b8490b5a84a827c3187e9d0179966c98644a7264868ba79208551517ce6dcb.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DespairIncarnonGenesis.png?5b14a",
+        "contentType": "image/png",
+        "sha256": "61b8490b5a84a827c3187e9d0179966c98644a7264868ba79208551517ce6dcb"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Despair_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:09.324Z",
+      "scrapedAt": "2026-07-13T21:53:52.736Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3601,8 +3775,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/dual-toxocyst/2ee9948ce4e91de6fec21416d19bf1155c412b304a1338ca8f09bf73d16e1579.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DualToxocystIncarnonGenesis.png?a8c5c",
+        "contentType": "image/png",
+        "sha256": "2ee9948ce4e91de6fec21416d19bf1155c412b304a1338ca8f09bf73d16e1579"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Dual_Toxocyst_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:10.827Z",
+      "scrapedAt": "2026-07-13T21:53:55.752Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3719,8 +3899,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/furis/725dfb541555cd097ea57a00e222cfc885d7336dced07b54f1ce6d5aa15ba56e.png",
+        "sourceUrl": "https://wiki.warframe.com/images/FurisIncarnonGenesis.png?0f961",
+        "contentType": "image/png",
+        "sha256": "725dfb541555cd097ea57a00e222cfc885d7336dced07b54f1ce6d5aa15ba56e"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Furis_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:12.322Z",
+      "scrapedAt": "2026-07-13T21:53:58.788Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3835,8 +4021,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/gammacor/4267eb8ce26fe21795cf8a45bc731a65509576758acca87fcbf444e3b9ed6777.png",
+        "sourceUrl": "https://wiki.warframe.com/images/GammacorIncarnonGenesis.png?67d7e",
+        "contentType": "image/png",
+        "sha256": "4267eb8ce26fe21795cf8a45bc731a65509576758acca87fcbf444e3b9ed6777"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Gammacor_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:13.825Z",
+      "scrapedAt": "2026-07-13T21:54:01.781Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -3955,8 +4147,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/kunai/e67bf5f54081470dd4dc506e54436c2e1472d84b27116b93a67160fca86c5089.png",
+        "sourceUrl": "https://wiki.warframe.com/images/KunaiIncarnonGenesis.png?73b69",
+        "contentType": "image/png",
+        "sha256": "e67bf5f54081470dd4dc506e54436c2e1472d84b27116b93a67160fca86c5089"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Kunai_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:15.337Z",
+      "scrapedAt": "2026-07-13T21:54:04.798Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4086,8 +4284,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/lato/0762fc381d8bf97eba252a0ce0d4fbae19bea27168084e8b09cc5372a3d643cf.png",
+        "sourceUrl": "https://wiki.warframe.com/images/LatoIncarnonGenesis.png?dcf2e",
+        "contentType": "image/png",
+        "sha256": "0762fc381d8bf97eba252a0ce0d4fbae19bea27168084e8b09cc5372a3d643cf"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Lato_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:16.825Z",
+      "scrapedAt": "2026-07-13T21:54:07.815Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4205,8 +4409,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/lex/ae4cc44a8b898534766cd30b166cd92d7011985b5b00d9e9fc2970258b8a1888.png",
+        "sourceUrl": "https://wiki.warframe.com/images/LexIncarnonGenesis.png?48b32",
+        "contentType": "image/png",
+        "sha256": "ae4cc44a8b898534766cd30b166cd92d7011985b5b00d9e9fc2970258b8a1888"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Lex_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:18.300Z",
+      "scrapedAt": "2026-07-13T21:54:10.820Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4331,8 +4541,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/sicarus/f1bc448c816bbef937d517cbf524cd685e9e6ca06e49895705326294bc6d37bf.png",
+        "sourceUrl": "https://wiki.warframe.com/images/SicarusIncarnonGenesis.png?400d1",
+        "contentType": "image/png",
+        "sha256": "f1bc448c816bbef937d517cbf524cd685e9e6ca06e49895705326294bc6d37bf"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Sicarus_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:19.830Z",
+      "scrapedAt": "2026-07-13T21:54:13.848Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4432,8 +4648,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/stug/0376bf9774fd6153da9179c050046d18c997cb8fb196e7aa5e25eae1ae58ee63.png",
+        "sourceUrl": "https://wiki.warframe.com/images/StugIncarnonGenesis.png?3907f",
+        "contentType": "image/png",
+        "sha256": "0376bf9774fd6153da9179c050046d18c997cb8fb196e7aa5e25eae1ae58ee63"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Stug_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:21.325Z",
+      "scrapedAt": "2026-07-13T21:54:16.853Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4553,8 +4775,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/vasto/92b2e9a93c8b36717b08b3f355455381fbf0c36d906353bba9d19f664aa96eef.png",
+        "sourceUrl": "https://wiki.warframe.com/images/VastoIncarnonGenesis.png?68187",
+        "contentType": "image/png",
+        "sha256": "92b2e9a93c8b36717b08b3f355455381fbf0c36d906353bba9d19f664aa96eef"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Vasto_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:22.830Z",
+      "scrapedAt": "2026-07-13T21:54:19.872Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4679,8 +4907,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/zylok/ff000a9798a21ebe4d0db4d9598b8d4bcf2597283dbbb67a368ee95f6813f3f5.png",
+        "sourceUrl": "https://wiki.warframe.com/images/ZylokIncarnonGenesis.png?e5a08",
+        "contentType": "image/png",
+        "sha256": "ff000a9798a21ebe4d0db4d9598b8d4bcf2597283dbbb67a368ee95f6813f3f5"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Zylok_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:24.328Z",
+      "scrapedAt": "2026-07-13T21:54:22.902Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4778,8 +5012,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/ack-and-brunt/774047badcd9b43a4a545b2f72491d7d66813b3bc6ab0310ef64142b1049f73d.png",
+        "sourceUrl": "https://wiki.warframe.com/images/Ack%26BruntIncarnonGenesis.png?3be12",
+        "contentType": "image/png",
+        "sha256": "774047badcd9b43a4a545b2f72491d7d66813b3bc6ab0310ef64142b1049f73d"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Ack_%26_Brunt_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:25.883Z",
+      "scrapedAt": "2026-07-13T21:54:25.900Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -4878,8 +5118,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/anku/d106c7b18439133369797f942cf11f39cd471fa2f23dd91ac48d64ceeed1e773.png",
+        "sourceUrl": "https://wiki.warframe.com/images/AnkuIncarnonGenesis.png?1b761",
+        "contentType": "image/png",
+        "sha256": "d106c7b18439133369797f942cf11f39cd471fa2f23dd91ac48d64ceeed1e773"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Anku_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:27.327Z",
+      "scrapedAt": "2026-07-13T21:54:28.917Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5008,8 +5254,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/bo/2e394521eb44e2ee7ac0c5784e6b4adc2ac2948ef13cfa96d9489123701c2372.png",
+        "sourceUrl": "https://wiki.warframe.com/images/BoIncarnonGenesis.png?5dee7",
+        "contentType": "image/png",
+        "sha256": "2e394521eb44e2ee7ac0c5784e6b4adc2ac2948ef13cfa96d9489123701c2372"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Bo_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:28.833Z",
+      "scrapedAt": "2026-07-13T21:54:31.910Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5108,8 +5360,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/ceramic-dagger/b76c97b013181e4a33f98dda4805ead8dd78b96a653b4adbde7cb70c77752537.png",
+        "sourceUrl": "https://wiki.warframe.com/images/CeramicDaggerIncarnonGenesis.png?892de",
+        "contentType": "image/png",
+        "sha256": "b76c97b013181e4a33f98dda4805ead8dd78b96a653b4adbde7cb70c77752537"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Ceramic_Dagger_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:30.338Z",
+      "scrapedAt": "2026-07-13T21:54:34.960Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5229,8 +5487,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/destreza/57e3b522999c7128939875132c8a9d3f3754c3935ff835b90f7c91df7c7cc2f1.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DestrezaIncarnonGenesis.png?3907f",
+        "contentType": "image/png",
+        "sha256": "57e3b522999c7128939875132c8a9d3f3754c3935ff835b90f7c91df7c7cc2f1"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Destreza_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:31.833Z",
+      "scrapedAt": "2026-07-13T21:54:37.943Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5328,8 +5592,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/dual-ichor/332c72f72bd414acf2c413d369522954c6ea67ad2306f8ec424b8de3975bffcb.png",
+        "sourceUrl": "https://wiki.warframe.com/images/DualIchorIncarnonGenesis.png?275bb",
+        "contentType": "image/png",
+        "sha256": "332c72f72bd414acf2c413d369522954c6ea67ad2306f8ec424b8de3975bffcb"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Dual_Ichor_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:33.337Z",
+      "scrapedAt": "2026-07-13T21:54:41.005Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5452,8 +5722,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/furax/2d07d23c805d6d263e63edf9f2e6443f17648815d6d65185cf107e0c96a2eb46.png",
+        "sourceUrl": "https://wiki.warframe.com/images/FuraxIncarnonGenesis.png?0f961",
+        "contentType": "image/png",
+        "sha256": "2d07d23c805d6d263e63edf9f2e6443f17648815d6d65185cf107e0c96a2eb46"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Furax_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:34.794Z",
+      "scrapedAt": "2026-07-13T21:54:43.967Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5551,8 +5827,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/hate/27361cf316623e7388603bfacac82f074abd14ce2405f6ec69b1c386601a9ea4.png",
+        "sourceUrl": "https://wiki.warframe.com/images/HateIncarnonGenesis.png?aa2e4",
+        "contentType": "image/png",
+        "sha256": "27361cf316623e7388603bfacac82f074abd14ce2405f6ec69b1c386601a9ea4"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Hate_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:36.295Z",
+      "scrapedAt": "2026-07-13T21:54:46.988Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5665,8 +5947,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/magistar/3748c5b6b2b2341bcaf0a52d032bf49f3659f60e55ae43a2ccd73e7e343b9bcd.png",
+        "sourceUrl": "https://wiki.warframe.com/images/MagistarIncarnonGenesis.png?c6056",
+        "contentType": "image/png",
+        "sha256": "3748c5b6b2b2341bcaf0a52d032bf49f3659f60e55ae43a2ccd73e7e343b9bcd"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Magistar_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:37.825Z",
+      "scrapedAt": "2026-07-13T21:54:50.000Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5763,8 +6051,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/nami-solo/b4da6f65fc5773dc6bc801cbc62c5fdfe2435b0ce544995692be9f1b36e129a8.png",
+        "sourceUrl": "https://wiki.warframe.com/images/NamiSoloIncarnonGenesis.png?aa080",
+        "contentType": "image/png",
+        "sha256": "b4da6f65fc5773dc6bc801cbc62c5fdfe2435b0ce544995692be9f1b36e129a8"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Nami_Solo_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:39.326Z",
+      "scrapedAt": "2026-07-13T21:54:53.061Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -5884,8 +6178,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/obex/6a1dccddf43647a4e46f35859c2ce844e35546639e10ba7eb447d16849b15979.png",
+        "sourceUrl": "https://wiki.warframe.com/images/ObexIncarnonGenesis.png?e6ce2",
+        "contentType": "image/png",
+        "sha256": "6a1dccddf43647a4e46f35859c2ce844e35546639e10ba7eb447d16849b15979"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Obex_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:40.829Z",
+      "scrapedAt": "2026-07-13T21:54:56.072Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -6008,8 +6308,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/okina/2bf4daf08ca65a060dc24d1d4de4307d3e0a2a344963afc2f24e6d894096f6bd.png",
+        "sourceUrl": "https://wiki.warframe.com/images/OkinaIncarnonGenesis.png?1a7cf",
+        "contentType": "image/png",
+        "sha256": "2bf4daf08ca65a060dc24d1d4de4307d3e0a2a344963afc2f24e6d894096f6bd"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Okina_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:42.339Z",
+      "scrapedAt": "2026-07-13T21:54:59.091Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -6107,8 +6413,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/sibear/b9fd0775c879a57bfa0fec97135b4658d231a272f34dd4ce49b7633b5fdbc055.png",
+        "sourceUrl": "https://wiki.warframe.com/images/SibearIncarnonGenesis.png?a5838",
+        "contentType": "image/png",
+        "sha256": "b9fd0775c879a57bfa0fec97135b4658d231a272f34dd4ce49b7633b5fdbc055"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Sibear_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:43.836Z",
+      "scrapedAt": "2026-07-13T21:55:02.095Z",
       "dataStatus": "complete",
       "reviewNotes": []
     },
@@ -6241,8 +6553,14 @@
           ]
         }
       ],
+      "image": {
+        "localPath": "/generated/incarnon-images/skana/5722a1efda54b53467d58486d37c04e6e50dd1b0d505375ea9a820bc0202303c.png",
+        "sourceUrl": "https://wiki.warframe.com/images/SkanaIncarnonGenesis.png?f2443",
+        "contentType": "image/png",
+        "sha256": "5722a1efda54b53467d58486d37c04e6e50dd1b0d505375ea9a820bc0202303c"
+      },
       "sourceUrl": "https://wiki.warframe.com/w/Skana_Incarnon_Genesis",
-      "scrapedAt": "2026-07-12T18:12:45.295Z",
+      "scrapedAt": "2026-07-13T21:55:05.116Z",
       "dataStatus": "complete",
       "reviewNotes": []
     }

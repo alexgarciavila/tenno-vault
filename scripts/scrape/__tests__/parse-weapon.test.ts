@@ -23,6 +23,16 @@ describe("parseWeaponPage — Braton (Genesis, 4 variantes)", () => {
     expect(page.reviewNotes).toEqual([]);
   });
 
+  it("elige la imagen principal de mayor resolución declarada", () => {
+    expect(page.image).toEqual({
+      status: "found",
+      candidate: {
+        sourceUrl: "https://wiki.warframe.com/images/BratonIncarnonGenesis.png?cd344",
+        evidence: "infobox-main-image",
+      },
+    });
+  });
+
   it("extrae las 4 variantes con id, nombre y URL absoluta", () => {
     expect(page.variants.map((v) => v.id)).toEqual([
       "braton",
@@ -137,6 +147,15 @@ describe("parseWeaponPage — Phenmor (innata, 5 tiers)", () => {
     expect(page.reviewNotes).toEqual([]);
   });
 
+  it("extrae también la imagen canónica del arma innata", () => {
+    expect(page.image.status).toBe("found");
+    if (page.image.status === "found") {
+      expect(page.image.candidate.sourceUrl).toMatch(
+        /^https:\/\/wiki\.warframe\.com\/images\/Phenmor\.png/,
+      );
+    }
+  });
+
   it("modela una única variante implícita: el arma misma", () => {
     expect(page.variants).toEqual([
       {
@@ -176,6 +195,16 @@ describe("parseWeaponPage — estructura inesperada", () => {
     expect(page.evolutions).toEqual([]);
     expect(page.variants).toEqual([]);
     expect(page.reviewNotes.length).toBeGreaterThan(0);
+  });
+
+  it("distingue imagen ausente y marcado ambiguo", () => {
+    const missing = parseWeaponPage("<div class='infobox'></div>", bratonCtx);
+    expect(missing.image.status).toBe("missing");
+    const ambiguous = parseWeaponPage(
+      `<div class="infobox"><span class="main-image"><img src="/images/a.png"><img src="/images/b.png"></span></div>`,
+      bratonCtx,
+    );
+    expect(ambiguous.image.status).toBe("ambiguous");
   });
 
   it("tabla mutilada (sin marcadores EVO ni variantes) → reviewNotes con los motivos", () => {

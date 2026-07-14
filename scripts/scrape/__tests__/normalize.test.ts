@@ -39,9 +39,24 @@ describe("normalize", () => {
     expect(perkId("braton", 2, "Daring Reverie")).toBe("braton-e2-daring-reverie");
   });
 
-  it("convierte href relativos en URLs absolutas de la wiki", () => {
+  it("convierte href relativos permitidos en URLs absolutas de la wiki", () => {
     expect(absoluteWikiUrl("/w/Braton_Prime")).toBe("https://wiki.warframe.com/w/Braton_Prime");
-    expect(absoluteWikiUrl("https://example.com/x")).toBe("https://example.com/x");
+  });
+
+  it("rechaza páginas externas, loopback/privadas, credenciales, puertos y rutas ajenas", () => {
+    for (const url of [
+      "https://example.com/w/Braton",
+      "https://127.0.0.1/w/Braton",
+      "https://10.0.0.1/w/Braton",
+      "https://user:pass@wiki.warframe.com/w/Braton",
+      "https://wiki.warframe.com:444/w/Braton",
+      "https://wiki.warframe.com:443/w/Braton",
+      "http://wiki.warframe.com/w/Braton",
+      "https://wiki.warframe.com/images/Braton.png",
+      "//127.0.0.1/w/Braton",
+    ]) {
+      expect(() => absoluteWikiUrl(url)).toThrow("página no permitida");
+    }
   });
 
   it("une líneas de valores con separador medio", () => {

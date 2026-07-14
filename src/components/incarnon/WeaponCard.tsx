@@ -18,6 +18,7 @@ import { CopyStepper } from "../ui/CopyStepper";
 import { ExternalLink } from "../ui/ExternalLink";
 import { StatusBadge } from "../ui/StatusBadge";
 import { VariantChecklist } from "./VariantChecklist";
+import { WeaponImage } from "./WeaponImage";
 import { buildWeaponViewModel } from "./weapon-view-model";
 
 export function WeaponCard({
@@ -63,6 +64,8 @@ export function WeaponCard({
           {t.category[weapon.category]}
         </span>
       </header>
+
+      <WeaponImage key={weapon.image?.localPath ?? "missing"} image={weapon.image} />
 
       <p className="text-[0.8125rem] text-fg-muted">
         {weapon.rotation

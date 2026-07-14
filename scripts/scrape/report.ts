@@ -16,6 +16,17 @@ export interface RunReport {
   kept: string[];
   /** Errores irrecuperables por arma. */
   errors: Array<{ id: string; error: string }>;
+  imageIssues: Array<{
+    id: string;
+    phase: "parse" | "url" | "fetch" | "content" | "publish";
+    reason: string;
+  }>;
+  imagesKept: string[];
+  /** Imágenes descargadas en staging durante esta ejecución, aún no confirmadas. */
+  imagesStaged: string[];
+  /** Imágenes confirmadas únicamente después del commit del catálogo. */
+  imagesPublished: string[];
+  publication: { status: "published" | "aborted"; reason?: string };
 }
 
 export const DEFAULT_REPORT_PATH = join("scripts", "scrape", "report", "last-run.json");
@@ -35,6 +46,11 @@ export function printSummary(report: RunReport): void {
   console.log(`  Revisión:         ${report.reviewRequired.length}`);
   console.log(`  Conservadas:      ${report.kept.length}`);
   console.log(`  Errores:          ${report.errors.length}`);
+  console.log(`  Imágenes staged:  ${report.imagesStaged.length}`);
+  console.log(`  Imágenes nuevas:  ${report.imagesPublished.length}`);
+  console.log(`  Imágenes previas: ${report.imagesKept.length}`);
+  console.log(`  Incidencias img.: ${report.imageIssues.length}`);
+  console.log(`  Publicación:      ${report.publication.status}`);
 
   for (const item of report.reviewRequired) {
     console.log(`  [revisar] ${item.id}`);
@@ -42,4 +58,9 @@ export function printSummary(report: RunReport): void {
   }
   for (const id of report.kept) console.log(`  [conservada] ${id}`);
   for (const err of report.errors) console.log(`  [error] ${err.id}: ${err.error}`);
+  for (const issue of report.imageIssues) {
+    console.log(`  [imagen:${issue.phase}] ${issue.id}: ${issue.reason}`);
+  }
+  for (const id of report.imagesKept) console.log(`  [imagen conservada] ${id}`);
+  if (report.publication.reason) console.log(`  [publicación] ${report.publication.reason}`);
 }

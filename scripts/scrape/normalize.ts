@@ -71,10 +71,41 @@ export function perkId(weaponId: string, tier: number, perkName: string): string
   return `${weaponId}-e${tier}-${slugify(perkName)}`;
 }
 
-/** Convierte un href de la wiki en URL absoluta. */
+function hasExplicitPort(value: string): boolean {
+  const authority = value.match(/^(?:https:)?\/\/([^/?#]*)/i)?.[1];
+  if (!authority) return false;
+  const host = authority.slice(authority.lastIndexOf("@") + 1);
+  return /:\d+$/.test(host);
+}
+
+/** Valida una página canónica de la wiki antes de cualquier petición HTML. */
+export function assertAllowedWikiPageUrl(value: string): URL {
+  let url: URL;
+  try {
+    url = new URL(value, WIKI_BASE_URL);
+  } catch {
+    throw new Error(`URL de página no permitida: ${value}`);
+  }
+  if (
+    url.protocol !== "https:" ||
+    url.hostname !== "wiki.warframe.com" ||
+    url.port !== "" ||
+    hasExplicitPort(value) ||
+    url.username !== "" ||
+    url.password !== "" ||
+    !/^\/w\/[^/]+$/.test(url.pathname) ||
+    /%(?:00|2f|5c)/i.test(url.pathname) ||
+    url.search !== "" ||
+    url.hash !== ""
+  ) {
+    throw new Error(`URL de página no permitida: ${value}`);
+  }
+  return url;
+}
+
+/** Convierte un href permitido de la wiki en URL absoluta. */
 export function absoluteWikiUrl(href: string): string {
-  if (/^https?:\/\//i.test(href)) return href;
-  return new URL(href, WIKI_BASE_URL).toString();
+  return assertAllowedWikiPageUrl(href).href;
 }
 
 /**
