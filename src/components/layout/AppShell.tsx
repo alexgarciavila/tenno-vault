@@ -12,11 +12,12 @@
  * encabezado.
  */
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useT } from "../../lib/i18n";
 import { BottomNav } from "./BottomNav";
 import { MoreSheet } from "./MoreSheet";
 import { SidebarNav } from "./SidebarNav";
+import { BrandMark } from "../ui/BrandMark";
 
 const MAIN_ID = "contenido-principal";
 
@@ -26,11 +27,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
+  useEffect(() => {
+    const tablet = window.matchMedia("(min-width: 768px) and (max-width: 1023px)");
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    setCollapsed(tablet.matches);
+    const closeMobileSheet = () => {
+      if (tablet.matches || desktop.matches) setMoreOpen(false);
+    };
+    tablet.addEventListener("change", closeMobileSheet);
+    desktop.addEventListener("change", closeMobileSheet);
+    return () => {
+      tablet.removeEventListener("change", closeMobileSheet);
+      desktop.removeEventListener("change", closeMobileSheet);
+    };
+  }, []);
+
   return (
-    <div className="flex min-h-dvh">
+    <div className="relative flex min-h-dvh">
       <a
         href={`#${MAIN_ID}`}
-        className="sr-only rounded-lg bg-accent px-4 py-2 font-medium text-bg focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50"
+        className="sr-only bg-accent px-4 py-2 font-semibold text-bg focus:not-sr-only focus:fixed focus:left-3 focus:top-[max(0.75rem,env(safe-area-inset-top))] focus:z-[60]"
       >
         {t.nav.skipToContent}
       </a>
@@ -42,11 +58,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center border-b border-border bg-surface-alt px-4 py-3 md:hidden">
-          <span className="font-semibold tracking-tight text-fg">{t.app.name}</span>
+        <header className="extreme-panel reflow-chain flex min-h-14 flex-wrap items-center gap-2 border-b border-border-subtle bg-bg-deep/95 px-4 pt-[env(safe-area-inset-top)] md:hidden">
+          <BrandMark className="size-8" />
+          <span className="reflow-text flex-1 font-bold uppercase tracking-[0.08em] text-fg">
+            {t.app.name}
+          </span>
         </header>
 
-        <main id={MAIN_ID} className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 pb-24 md:pb-8">
+        <main
+          id={MAIN_ID}
+          className="mx-auto w-full min-w-0 max-w-[90rem] flex-1 px-4 py-6 pb-[var(--mobile-bottom-nav-clearance)] sm:px-5 md:px-6 md:py-8 md:pb-8 lg:px-8 xl:px-10"
+        >
           {children}
         </main>
       </div>

@@ -39,7 +39,7 @@ export function SearchInput({
       <label htmlFor={id} className="mb-1 block text-[0.8125rem] font-medium text-fg-muted">
         {label}
       </label>
-      <div className="relative">
+      <div className="relative after:pointer-events-none after:absolute after:right-0 after:top-0 after:size-2 after:border-r after:border-t after:border-accent">
         <IconSearch className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-fg-muted" />
         <input
           id={id}
@@ -47,7 +47,7 @@ export function SearchInput({
           value={local}
           placeholder={placeholder}
           onChange={(event) => setLocal(event.target.value)}
-          className="min-h-11 w-full rounded-lg border border-border bg-surface-alt pl-9 pr-3 text-fg placeholder:text-fg-muted"
+          className="min-h-12 w-full rounded-lg border border-border bg-surface-alt pl-10 pr-3 text-fg placeholder:text-fg-subtle hover:border-accent focus:border-accent"
         />
       </div>
     </div>

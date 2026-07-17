@@ -8,8 +8,8 @@ type Variant = "info" | "success" | "warning" | "error";
 
 const STYLE: Record<Variant, string> = {
   info: "border-border bg-surface-alt text-fg",
-  success: "border-[#0c3d1e] bg-[#0c3d1e] text-[#86efac]",
-  warning: "border-[#4a3308] bg-[#4a3308] text-[#fbbf24]",
+  success: "border-success-fg bg-success-bg text-success-fg",
+  warning: "border-warning-fg bg-warning-bg text-warning-fg",
   error: "border-danger-bg bg-danger-bg text-danger-fg",
 };
 

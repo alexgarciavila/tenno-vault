@@ -17,6 +17,8 @@ CLAUDE.md
 specs/
 agents/
 .claude/
+.opencode/
+design/
 
 # fixtures HTML descargados de la wiki (se conservan tal cual)
 scripts/scrape/__fixtures__/

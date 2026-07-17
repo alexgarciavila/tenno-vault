@@ -86,7 +86,7 @@ export function ConfirmDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="extreme-modal-gutter fixed inset-0 z-50 flex min-w-0 items-center justify-center bg-black/75 p-4"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onCancel();
       }}
@@ -97,33 +97,33 @@ export function ConfirmDialog({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descId}
-        className="w-full max-w-md rounded-xl border border-border bg-surface p-5 shadow-xl"
+        className="extreme-modal-panel reflow-chain relative max-h-[min(90dvh,44rem)] w-full max-w-md overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-[0_16px_40px_rgb(0_0_0/.32)] before:absolute before:left-0 before:top-0 before:h-1 before:max-w-full before:w-24 before:bg-accent"
       >
-        <h2 id={titleId} className="text-lg font-semibold text-fg">
+        <h2 id={titleId} className="reflow-text text-lg font-semibold text-fg">
           {title}
         </h2>
-        <div id={descId} className="mt-2 space-y-2 text-fg-muted">
+        <div id={descId} className="reflow-text mt-2 space-y-2 text-fg-muted">
           {description}
         </div>
 
         {requireCheckbox ? (
-          <label className="mt-4 flex items-start gap-2 text-[0.8125rem] text-fg">
+          <label className="extreme-perk-option reflow-chain mt-4 flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-danger-bg bg-danger-bg/30 p-2 text-[0.8125rem] text-fg">
             <input
               type="checkbox"
               checked={acknowledged}
               onChange={(event) => setAcknowledged(event.target.checked)}
               className="mt-0.5 size-5 shrink-0 accent-[#fda4af]"
             />
-            <span>{checkboxLabel}</span>
+            <span className="reflow-text flex-1">{checkboxLabel}</span>
           </label>
         ) : null}
 
-        <div className="mt-5 flex justify-end gap-2">
+        <div className="extreme-actions reflow-chain mt-5 flex flex-wrap justify-end gap-2">
           <button
             ref={cancelRef}
             type="button"
             onClick={onCancel}
-            className="min-h-11 rounded-lg border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent"
+            className="reflow-text min-h-11 rounded-lg border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent"
           >
             {cancelLabel}
           </button>
@@ -131,7 +131,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onConfirm}
             disabled={confirmDisabled}
-            className={`min-h-11 rounded-lg px-4 font-medium disabled:cursor-not-allowed disabled:opacity-40 ${
+            className={`reflow-text min-h-11 rounded-lg px-4 font-medium disabled:cursor-not-allowed disabled:opacity-40 ${
               danger
                 ? "bg-danger-bg text-danger-fg hover:brightness-125"
                 : "bg-accent text-bg hover:bg-accent-strong"

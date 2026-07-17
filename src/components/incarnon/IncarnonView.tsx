@@ -19,6 +19,7 @@ import { SearchInput } from "../ui/SearchInput";
 import { Sheet } from "../ui/Sheet";
 import { ToggleChip } from "../ui/ToggleChip";
 import { ViewSwitch } from "../ui/ViewSwitch";
+import { EditorialPageHeader } from "../ui/EditorialPageHeader";
 import { FilterControls } from "./FilterControls";
 import { EMPTY_FILTERS, countActiveFilters, filterWeapons } from "./filters";
 import { WeaponCard } from "./WeaponCard";
@@ -59,20 +60,26 @@ export function IncarnonView() {
 
   if (!hydrated) {
     return (
-      <div className="space-y-4">
-        <h1 className="text-[1.75rem] font-bold text-fg">{t.incarnon.title}</h1>
-        <p className="text-fg-muted">{t.app.loading}</p>
+      <div className="space-y-5">
+        <EditorialPageHeader title={t.incarnon.title} subtitle={t.incarnon.subtitle} />
+        <p aria-live="polite" className="text-fg-muted">
+          {t.app.loading}
+        </p>
+        <div aria-hidden="true" className="grid gap-4 sm:grid-cols-2">
+          <div className="angular-panel h-52" />
+          <div className="angular-panel h-52" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-[1.75rem] font-bold text-fg">{t.incarnon.title}</h1>
+    <div className="space-y-6">
+      <EditorialPageHeader title={t.incarnon.title} subtitle={t.incarnon.subtitle} />
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-end gap-3">
-          <div className="min-w-[16rem] flex-1">
+          <div className="min-w-0 flex-1 basis-64">
             {/* SearchInput controla su propio debounce internamente. */}
             <SearchInput
               value={filters.search}
@@ -99,7 +106,7 @@ export function IncarnonView() {
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent md:hidden"
+            className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent md:hidden"
           >
             {t.incarnon.filters}
             {activeCount > 0 ? (
@@ -120,7 +127,7 @@ export function IncarnonView() {
         </div>
 
         {/* Filtros inline en escritorio. */}
-        <div className="hidden rounded-xl border border-border bg-surface p-4 md:block">
+        <div className="angular-panel hidden p-5 md:block">
           <FilterControls filters={filters} onChange={patch} />
         </div>
       </div>
@@ -141,7 +148,7 @@ export function IncarnonView() {
           onSetUninstalledCopies={setUninstalledCopies}
         />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] gap-4 lg:gap-5">
           {filtered.map((weapon) => (
             <WeaponCard
               key={weapon.id}

@@ -57,17 +57,19 @@ export function WeaponCard({
     : undefined;
 
   return (
-    <article className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-4">
-      <header className="flex items-start justify-between gap-2">
-        <h3 className="text-lg font-semibold text-fg">{weapon.name}</h3>
-        <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[0.75rem] text-fg-muted">
+    <article className="angular-panel extreme-panel reflow-chain flex flex-col gap-4 p-4 transition-colors hover:[&::before]:border-accent">
+      <header className="weapon-card__header reflow-chain items-start justify-between gap-2">
+        <h2 className="weapon-card__name text-lg font-bold tracking-[0.03em] text-fg">
+          {weapon.name}
+        </h2>
+        <span className="weapon-card__category rounded-sm border border-border px-2 py-0.5 text-[0.75rem] text-fg-muted">
           {t.category[weapon.category]}
         </span>
       </header>
 
       <WeaponImage key={weapon.image?.localPath ?? "missing"} image={weapon.image} />
 
-      <p className="text-[0.8125rem] text-fg-muted">
+      <p className="text-[0.8125rem] font-medium text-gold">
         {weapon.rotation
           ? `${t.incarnon.weekShort} ${weapon.rotation.week} · ${weapon.rotation.letter}`
           : t.kind.innate}
@@ -75,7 +77,7 @@ export function WeaponCard({
 
       <StatusBadge status={vm.status.status} hasIncompleteData={vm.status.hasIncompleteData} />
 
-      <p className="text-[0.8125rem] tabular-nums text-fg">
+      <p className="reflow-text flex flex-wrap gap-x-1 text-[0.8125rem] tabular-nums text-fg">
         {vm.copies.installed} {t.incarnon.summaryInstalled} · {vm.copies.uninstalled}{" "}
         {t.incarnon.summaryAvailable} · {vm.copies.missing} {t.incarnon.summaryPending}
         {vm.copies.extra > 0 ? (
@@ -88,15 +90,17 @@ export function WeaponCard({
       </p>
 
       {!isInnate ? (
-        <CopyStepper
-          value={vm.copies.uninstalled}
-          label={t.incarnon.uninstalledCopies}
-          onIncrement={() => onSetUninstalledCopies(vm.copies.uninstalled + 1)}
-          onDecrement={() => onSetUninstalledCopies(Math.max(0, vm.copies.uninstalled - 1))}
-        />
+        <div className="reflow-chain border-y border-border-subtle py-3">
+          <CopyStepper
+            value={vm.copies.uninstalled}
+            label={t.incarnon.uninstalledCopies}
+            onIncrement={() => onSetUninstalledCopies(vm.copies.uninstalled + 1)}
+            onDecrement={() => onSetUninstalledCopies(Math.max(0, vm.copies.uninstalled - 1))}
+          />
+        </div>
       ) : null}
 
-      <div>
+      <div className="reflow-chain">
         <p className="mb-1 text-[0.8125rem] font-medium text-fg-muted">
           {isInnate ? t.incarnon.variant : t.incarnon.installedVariants}
         </p>
@@ -107,10 +111,10 @@ export function WeaponCard({
         />
       </div>
 
-      <footer className="flex flex-wrap items-center justify-between gap-3 pt-1">
+      <footer className="extreme-actions reflow-chain mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-3 max-[420px]:items-stretch max-[420px]:[&>*]:w-full">
         <Link
           href={`/evoluciones#arma-${weapon.id}`}
-          className="inline-flex min-h-11 items-center rounded-lg border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent"
+          className="reflow-text inline-flex min-h-11 items-center justify-center rounded-sm border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent"
         >
           {t.incarnon.viewEvolutions}
         </Link>

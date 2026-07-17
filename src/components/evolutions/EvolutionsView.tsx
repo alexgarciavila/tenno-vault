@@ -15,6 +15,7 @@ import { ExternalLink } from "../ui/ExternalLink";
 import { ProgressMiniBar } from "../ui/ProgressMiniBar";
 import { EvolutionTierCard } from "./EvolutionTierCard";
 import { useRouter } from "next/navigation";
+import { EditorialPageHeader } from "../ui/EditorialPageHeader";
 
 export function EvolutionsView() {
   const t = useT();
@@ -28,8 +29,10 @@ export function EvolutionsView() {
   if (!hydrated) {
     return (
       <div className="space-y-4">
-        <h1 className="text-[1.75rem] font-bold text-fg">{t.evolutions.title}</h1>
-        <p className="text-fg-muted">{t.app.loading}</p>
+        <EditorialPageHeader title={t.evolutions.title} subtitle={t.evolutions.subtitle} />
+        <p aria-live="polite" className="text-fg-muted">
+          {t.app.loading}
+        </p>
       </div>
     );
   }
@@ -47,7 +50,7 @@ export function EvolutionsView() {
   if (groups.length === 0) {
     return (
       <div className="space-y-5">
-        <h1 className="text-[1.75rem] font-bold text-fg">{t.evolutions.title}</h1>
+        <EditorialPageHeader title={t.evolutions.title} subtitle={t.evolutions.subtitle} />
         <EmptyState
           title={t.evolutions.emptyTitle}
           description={t.evolutions.emptyBody}
@@ -59,18 +62,21 @@ export function EvolutionsView() {
   }
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-[1.75rem] font-bold text-fg">{t.evolutions.title}</h1>
+    <div className="reflow-chain space-y-8">
+      <EditorialPageHeader title={t.evolutions.title} subtitle={t.evolutions.subtitle} />
 
       {groups.map(({ weapon, installations }) => (
         <section
           key={weapon.id}
           id={`arma-${weapon.id}`}
           aria-labelledby={`titulo-${weapon.id}`}
-          className="scroll-mt-4 space-y-4"
+          className="angular-panel extreme-panel reflow-chain scroll-mt-6 space-y-6 p-4 sm:p-5 lg:p-6 target:[&::before]:border-accent target:[&::before]:shadow-[0_0_18px_rgb(112_220_235/.12)]"
         >
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2">
-            <h2 id={`titulo-${weapon.id}`} className="text-xl font-semibold text-fg">
+          <div className="extreme-stack extreme-gap reflow-chain flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+            <h2
+              id={`titulo-${weapon.id}`}
+              className="reflow-text font-bold tracking-[0.04em] text-fg"
+            >
               {weapon.name}
             </h2>
             <ExternalLink href={weapon.sourceUrl} label={t.evolutions.viewWiki} />
@@ -82,9 +88,12 @@ export function EvolutionsView() {
               (ep) => ep.completed,
             ).length;
             return (
-              <div key={installation.variantId} className="space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-lg font-medium text-fg">
+              <div
+                key={installation.variantId}
+                className="extreme-variant reflow-chain space-y-4 rounded-sm border border-border-subtle bg-bg-deep/50 p-3 sm:p-4"
+              >
+                <div className="extreme-stack extreme-gap reflow-chain flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="reflow-text text-lg font-semibold text-gold">
                     {variant?.name ?? installation.variantId}
                   </h3>
                   <ProgressMiniBar
@@ -93,7 +102,7 @@ export function EvolutionsView() {
                   />
                 </div>
 
-                <div className="grid gap-3 lg:grid-cols-2">
+                <div className="reflow-chain grid grid-cols-[repeat(auto-fit,minmax(min(100%,22.5rem),1fr))] gap-4 max-[240px]:grid-cols-[minmax(0,1fr)]">
                   {[...weapon.evolutions]
                     .sort((a, b) => a.tier - b.tier)
                     .map((tier) => {
@@ -101,24 +110,25 @@ export function EvolutionsView() {
                         (item) => item.tier === tier.tier,
                       );
                       return (
-                        <EvolutionTierCard
-                          key={tier.tier}
-                          tier={tier}
-                          variantId={installation.variantId}
-                          selectedPerkId={ep?.selectedPerkId ?? null}
-                          completed={ep?.completed ?? false}
-                          onSelectPerk={(perkId) =>
-                            selectPerk(weapon.id, installation.variantId, tier.tier, perkId)
-                          }
-                          onToggleCompleted={(completed) =>
-                            setTierCompleted(
-                              weapon.id,
-                              installation.variantId,
-                              tier.tier,
-                              completed,
-                            )
-                          }
-                        />
+                        <div key={tier.tier} className="reflow-chain">
+                          <EvolutionTierCard
+                            tier={tier}
+                            variantId={installation.variantId}
+                            selectedPerkId={ep?.selectedPerkId ?? null}
+                            completed={ep?.completed ?? false}
+                            onSelectPerk={(perkId) =>
+                              selectPerk(weapon.id, installation.variantId, tier.tier, perkId)
+                            }
+                            onToggleCompleted={(completed) =>
+                              setTierCompleted(
+                                weapon.id,
+                                installation.variantId,
+                                tier.tier,
+                                completed,
+                              )
+                            }
+                          />
+                        </div>
                       );
                     })}
                 </div>

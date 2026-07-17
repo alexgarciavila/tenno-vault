@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useT } from "../../lib/i18n";
 import { IconChevronLeft } from "../icons";
 import { NAV_ITEMS, isActivePath } from "./nav-items";
+import { BrandMark } from "../ui/BrandMark";
 
 export function SidebarNav({
   pathname,
@@ -24,21 +25,24 @@ export function SidebarNav({
   return (
     <nav
       aria-label={t.nav.primary}
-      className={`sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-border bg-surface-alt py-3 md:flex ${
-        collapsed ? "w-16 px-2" : "w-60 px-3"
+      className={`sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-border-subtle bg-gradient-to-b from-bg-deep to-surface py-4 transition-[width] md:flex ${
+        collapsed ? "w-[4.5rem] px-2" : "w-60 px-3 lg:w-[15.5rem]"
       }`}
     >
-      <div className={`mb-4 flex items-center ${collapsed ? "justify-center" : "justify-between"}`}>
-        {!collapsed ? (
-          <span className="px-2 font-semibold tracking-tight text-fg">{t.app.name}</span>
-        ) : null}
+      <div className={`mb-8 flex items-center ${collapsed ? "flex-col gap-3" : "justify-between"}`}>
+        <div className="flex min-w-0 items-center gap-2 px-1">
+          <BrandMark className="size-9" />
+          {!collapsed ? (
+            <span className="font-bold uppercase tracking-[0.08em] text-fg">{t.app.name}</span>
+          ) : null}
+        </div>
         <button
           type="button"
           onClick={onToggleCollapse}
           aria-expanded={!collapsed}
           aria-label={collapsed ? t.nav.expand : t.nav.collapse}
           title={collapsed ? t.nav.expand : t.nav.collapse}
-          className="inline-flex size-11 items-center justify-center rounded-lg text-fg-muted hover:text-fg"
+          className="inline-flex size-11 items-center justify-center rounded-lg border border-transparent text-fg-muted hover:border-border hover:bg-surface-elevated hover:text-fg"
         >
           <IconChevronLeft
             className={`size-5 transition-transform ${collapsed ? "rotate-180" : ""}`}
@@ -46,7 +50,7 @@ export function SidebarNav({
         </button>
       </div>
 
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-1 flex-col justify-center gap-2">
         {NAV_ITEMS.map((item) => {
           const active = isActivePath(item.href, pathname);
           const { Icon } = item;
@@ -58,12 +62,12 @@ export function SidebarNav({
                 aria-current={active ? "page" : undefined}
                 aria-label={collapsed ? label : undefined}
                 title={collapsed ? label : undefined}
-                className={`flex min-h-11 items-center gap-3 rounded-lg px-3 ${
+                className={`relative flex min-h-12 items-center gap-3 rounded-sm border-l-[3px] px-3 ${
                   collapsed ? "justify-center" : ""
                 } ${
                   active
-                    ? "border-l-2 border-accent bg-surface pl-2.5 font-medium text-fg"
-                    : "text-fg-muted hover:bg-surface hover:text-fg"
+                    ? "border-accent bg-accent-surface font-semibold text-accent-strong after:absolute after:right-3 after:size-1.5 after:rotate-45 after:bg-accent"
+                    : "border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
                 }`}
               >
                 <Icon className="size-5 shrink-0" />
