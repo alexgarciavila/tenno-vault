@@ -14,14 +14,16 @@ export function EmptyState({
   onCta?: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-8 text-center">
-      <p className="text-lg font-medium text-fg">{title}</p>
-      {description ? <p className="mx-auto mt-2 max-w-md text-fg-muted">{description}</p> : null}
+    <div className="angular-panel extreme-panel reflow-chain p-8 text-center">
+      <p className="reflow-text text-lg font-medium text-fg">{title}</p>
+      {description ? (
+        <p className="reflow-text mx-auto mt-2 max-w-md text-fg-muted">{description}</p>
+      ) : null}
       {ctaLabel && onCta ? (
         <button
           type="button"
           onClick={onCta}
-          className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-accent px-4 font-medium text-bg hover:bg-accent-strong"
+          className="reflow-text mt-4 inline-flex min-h-11 items-center rounded-sm bg-accent px-4 font-semibold text-bg hover:bg-accent-strong"
         >
           {ctaLabel}
         </button>

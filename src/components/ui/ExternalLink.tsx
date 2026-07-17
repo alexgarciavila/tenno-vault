@@ -24,9 +24,9 @@ export function ExternalLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${label} ${t.common.opensInNewTab}`}
-      className={`inline-flex items-center gap-1.5 text-accent hover:text-accent-strong hover:underline ${className}`}
+      className={`external-link inline-flex min-h-11 items-center gap-1.5 text-accent hover:text-accent-strong hover:underline ${className}`}
     >
-      <span>{label}</span>
+      <span className="external-link__label">{label}</span>
       <IconExternal className="size-4 shrink-0" />
     </a>
   );

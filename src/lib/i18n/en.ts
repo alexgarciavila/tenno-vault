@@ -62,6 +62,7 @@ export const en = {
   },
   incarnon: {
     title: "Incarnon",
+    subtitle: "Adapters · Rotation",
     searchLabel: "Search weapon",
     searchPlaceholder: "Braton, Lex, Skana…",
     filters: "Filters",
@@ -92,6 +93,7 @@ export const en = {
     emptyTitle: "No weapon matches the filters.",
     emptyBody: "Try removing one.",
     tableRegionLabel: "Incarnon table",
+    tableScrollHint: "Scroll horizontally to view every column.",
     colName: "Name",
     colCategory: "Category",
     colWeek: "Week",
@@ -103,6 +105,7 @@ export const en = {
   },
   evolutions: {
     title: "Evolutions",
+    subtitle: "Progress · Perks",
     emptyTitle: "You don't have any installation tracked yet.",
     emptyBody: "Go to Incarnon and mark a variant as installed to start tracking its evolutions.",
     goToIncarnon: "Go to Incarnon",
@@ -112,6 +115,7 @@ export const en = {
     challenge: "Challenge",
     choosePerk: "Choose a perk",
     completed: "Completed",
+    pending: "Pending",
     perksLegend: "Available perks",
     viewWiki: "View on the wiki",
     progress: "Progress",

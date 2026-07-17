@@ -11,7 +11,7 @@ import { formatCatalogDate } from "../../lib/format";
 export function CatalogDateNote({ generatedAt }: { generatedAt: string }) {
   const t = useT();
   return (
-    <p className="text-[0.8125rem] text-fg-muted">
+    <p className="border-l-2 border-gold pl-3 text-[0.8125rem] text-fg-muted">
       {t.common.catalogUpdated} {formatCatalogDate(generatedAt)} ·{" "}
       <Link href="/acerca-de" className="text-accent hover:underline">
         {t.common.viewAttribution}

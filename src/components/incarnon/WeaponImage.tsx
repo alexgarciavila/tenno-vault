@@ -11,7 +11,7 @@ export function WeaponImage({ image }: { image: IncarnonImage | null }) {
 
   return (
     <div
-      className="relative aspect-video w-full min-w-0 overflow-hidden rounded-lg border border-border bg-surface-alt p-3"
+      className="relative aspect-video w-full min-w-0 overflow-hidden rounded-sm border border-border-subtle bg-bg-deep p-3 before:absolute before:left-2 before:top-2 before:size-3 before:border-l before:border-t before:border-accent after:absolute after:bottom-2 after:right-2 after:size-3 after:border-b after:border-r after:border-accent"
       data-image-state={image === null ? "missing" : status}
       aria-hidden="true"
     >

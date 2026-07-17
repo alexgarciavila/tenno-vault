@@ -198,4 +198,29 @@ describe("WeaponCard", () => {
     );
     expect(screen.queryByRole("button", { name: "Añadir copia" })).toBeNull();
   });
+
+  it("expone un header con reflow intrínseco en cards reales cortas, innatas y largas", () => {
+    const weapons = [getWeapon("felarx")!, getWeapon("innodem")!, getWeapon("burston")!];
+    const { container, rerender } = render(<div />);
+
+    for (const weapon of weapons) {
+      rerender(
+        <WeaponCard
+          weapon={weapon}
+          onInstallVariant={noop}
+          onUninstallVariant={noop}
+          onSetUninstalledCopies={noop}
+        />,
+      );
+
+      const header = container.querySelector(".weapon-card__header");
+      const category = container.querySelector(".weapon-card__category");
+      const name = screen.getByRole("heading", { level: 2, name: weapon.name });
+      expect(header).not.toBeNull();
+      expect(name.classList).toContain("weapon-card__name");
+      expect(header?.contains(name)).toBe(true);
+      expect(category?.textContent?.trim()).not.toBe("");
+      expect(header?.contains(category)).toBe(true);
+    }
+  });
 });

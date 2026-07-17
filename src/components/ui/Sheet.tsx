@@ -65,7 +65,7 @@ export function Sheet({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-4"
+      className="extreme-modal-gutter fixed inset-0 z-50 flex min-w-0 items-end justify-center bg-black/75 sm:items-center sm:p-4"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -75,10 +75,10 @@ export function Sheet({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-lg rounded-t-2xl border border-border bg-surface p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:rounded-2xl"
+        className="extreme-modal-panel reflow-chain relative max-h-[min(85dvh,44rem)] w-full max-w-lg overflow-y-auto rounded-t-xl border border-border bg-surface p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_16px_40px_rgb(0_0_0/.32)] before:absolute before:left-0 before:top-0 before:h-1 before:max-w-full before:w-24 before:bg-accent sm:rounded-xl"
       >
-        <div className="mb-3 flex items-center justify-between">
-          <h2 id={titleId} className="text-lg font-semibold text-fg">
+        <div className="extreme-gap reflow-chain mb-3 flex items-center justify-between">
+          <h2 id={titleId} className="reflow-text text-lg font-semibold text-fg">
             {title}
           </h2>
           <button
@@ -86,7 +86,7 @@ export function Sheet({
             type="button"
             onClick={onClose}
             aria-label={t.nav.close}
-            className="inline-flex size-11 items-center justify-center rounded-lg text-fg-muted hover:text-fg"
+            className="inline-flex size-11 items-center justify-center rounded-lg border border-transparent text-fg-muted hover:border-border hover:bg-surface-elevated hover:text-fg"
           >
             <IconClose className="size-5" />
           </button>

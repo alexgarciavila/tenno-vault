@@ -11,21 +11,22 @@ import { getCatalog } from "../../data/catalog";
 import { useT } from "../../lib/i18n";
 import { formatCatalogDate } from "../../lib/format";
 import { ExternalLink } from "../ui/ExternalLink";
+import { EditorialPageHeader } from "../ui/EditorialPageHeader";
 
 export function AboutView() {
   const t = useT();
   const { attribution, generatedAt } = getCatalog();
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <h1 className="text-[1.75rem] font-bold text-fg">{t.about.title}</h1>
+    <div className="legal-copy max-w-[68ch] space-y-6">
+      <EditorialPageHeader title={t.about.title} />
 
-      <section className="space-y-1">
+      <section className="angular-panel space-y-2 p-5">
         <h2 className="text-xl font-semibold text-fg">{t.about.appHeading}</h2>
         <p className="text-fg-muted">{t.about.appBody}</p>
       </section>
 
-      <section className="space-y-1">
+      <section className="angular-panel space-y-2 p-5">
         <h2 className="text-xl font-semibold text-fg">{t.about.sourceHeading}</h2>
         <p className="text-fg-muted">
           {t.about.sourceBody} {formatCatalogDate(generatedAt)}.
@@ -33,13 +34,13 @@ export function AboutView() {
         <ExternalLink href={attribution.sourceUrl} label={t.about.sourceLink} />
       </section>
 
-      <section className="space-y-1">
+      <section className="angular-panel space-y-2 p-5">
         <h2 className="text-xl font-semibold text-fg">{t.about.licenseHeading}</h2>
         <p className="text-fg-muted">{t.about.licenseBody}</p>
         <ExternalLink href={attribution.licenseUrl} label={t.about.licenseLink} />
       </section>
 
-      <section className="space-y-1">
+      <section className="angular-panel space-y-2 p-5">
         <h2 className="text-xl font-semibold text-fg">{t.about.noticeHeading}</h2>
         <p className="text-fg-muted">{t.about.noticeBody}</p>
       </section>

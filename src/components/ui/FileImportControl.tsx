@@ -22,7 +22,7 @@ export function FileImportControl({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="reflow-chain flex flex-col gap-1">
       <label htmlFor={inputId} className="sr-only">
         {label}
       </label>
@@ -38,7 +38,7 @@ export function FileImportControl({
           // Permite reseleccionar el mismo archivo.
           event.target.value = "";
         }}
-        className="block w-full text-[0.8125rem] text-fg-muted file:mr-3 file:min-h-11 file:cursor-pointer file:rounded-lg file:border file:border-border file:bg-surface-alt file:px-4 file:font-medium file:text-fg hover:file:border-accent"
+        className="reflow-text block w-full text-[0.8125rem] text-fg-muted file:mr-3 file:min-h-11 file:max-w-full file:cursor-pointer file:rounded-sm file:border file:border-border file:bg-surface-alt file:px-4 file:font-medium file:text-fg hover:file:border-accent"
       />
       <span className="sr-only">{buttonLabel}</span>
     </div>

@@ -7,6 +7,15 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Cambiado
+
+- Renovada la identidad visual de Tenno Vault, incluido el shell y la navegación
+  responsive, con un rediseño completo de Incarnon y Evoluciones y una adaptación
+  coherente de Inicio, Configuración y Acerca de.
+- Mejoradas la adaptación a pantallas estrechas y al zoom, la visibilidad del foco
+  y la presentación de controles y contenido, sin alterar el progreso guardado ni
+  los flujos existentes.
+
 ## [0.2.0]
 
 ### Añadido

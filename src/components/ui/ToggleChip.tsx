@@ -16,15 +16,15 @@ export function ToggleChip({
       type="button"
       aria-pressed={checked}
       onClick={() => onChange(!checked)}
-      className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3 text-[0.8125rem] font-medium ${
+      className={`reflow-text inline-flex min-h-11 max-w-full items-center gap-2 rounded-sm border px-3 py-1.5 text-left text-[0.8125rem] font-medium leading-snug ${
         checked
-          ? "border-accent bg-[#0c3b4a] text-[#7dd3fc]"
-          : "border-border bg-surface-alt text-fg-muted hover:text-fg"
+          ? "border-accent bg-accent-surface text-accent-strong"
+          : "border-border bg-surface-alt text-fg-muted hover:border-accent hover:text-fg"
       }`}
     >
       <span
         aria-hidden="true"
-        className={`inline-block size-3 rounded-full ${checked ? "bg-accent" : "bg-border"}`}
+        className={`inline-grid size-3 shrink-0 rotate-45 place-items-center border ${checked ? "border-accent bg-accent" : "border-fg-muted bg-transparent"}`}
       />
       {label}
     </button>

@@ -7,39 +7,309 @@
  * dependencia de fuentes externas).
  */
 @theme {
-  --color-bg: #0a0e14;
-  --color-surface: #131a24;
-  --color-surface-alt: #1b2430;
-  --color-border: #2a3444;
-  --color-fg: #e8ecf1;
-  --color-fg-muted: #9aa7b8;
-  --color-accent: #38bdf8;
-  --color-accent-strong: #0ea5e9;
-  --color-focus: #7dd3fc;
-  --color-danger-fg: #fda4af;
-  --color-danger-bg: #4c0519;
+  --color-bg: #03070b;
+  --color-bg-deep: #020509;
+  --color-surface: #08131b;
+  --color-surface-alt: #0d1b25;
+  --color-surface-elevated: #122630;
+  --color-border: #31505c;
+  --color-border-subtle: #1b3540;
+  --color-fg: #f1f7f9;
+  --color-fg-muted: #a5bac2;
+  --color-fg-subtle: #78939d;
+  --color-accent: #70dceb;
+  --color-accent-strong: #a8f0f7;
+  --color-accent-surface: #0b3944;
+  --color-focus: #a8f0f7;
+  --color-gold: #d9b66f;
+  --color-gold-surface: #3a2c12;
+  --color-success-fg: #8de5ad;
+  --color-success-bg: #0b3421;
+  --color-warning-fg: #ffd078;
+  --color-warning-bg: #3d2a0b;
+  --color-danger-fg: #ffb4be;
+  --color-danger-bg: #4a1220;
 
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 :root {
   color-scheme: dark;
+  --mobile-bottom-nav-clearance: calc(5.5rem + env(safe-area-inset-bottom));
 }
 
 html,
 body {
   background-color: var(--color-bg);
   color: var(--color-fg);
+  max-width: 100%;
 }
 
 body {
   font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  background-image:
+    radial-gradient(circle at 92% 4%, rgb(112 220 235 / 0.08), transparent 32rem),
+    radial-gradient(circle at 5% 92%, rgb(20 66 105 / 0.14), transparent 36rem);
+  background-attachment: fixed;
+}
+
+html {
+  scroll-padding-top: 1.5rem;
+}
+
+/* Mantiene el foco desplazado por teclado por encima de la navegación fija. */
+@media (max-width: 47.999rem) {
+  html {
+    scroll-padding-bottom: var(--mobile-bottom-nav-clearance);
+  }
+
+  main :focus-visible {
+    scroll-margin-bottom: var(--mobile-bottom-nav-clearance);
+  }
+}
+
+h1 {
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+}
+
+.editorial-page-header {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.editorial-page-header__copy {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* URLs y etiquetas legales visibles deben poder partirse en reflow extremo. */
+.legal-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.external-link {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.external-link__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Contrato compartido para liberar mínimos intrínsecos en layouts anidados. */
+.reflow-chain {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.reflow-text {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+fieldset.reflow-chain,
+fieldset.reflow-chain > legend {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+/* CopyStepper consulta su ancho real, no el viewport ni un dispositivo. */
+.copy-stepper {
+  container-type: inline-size;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.copy-stepper__label {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.copy-stepper__controls {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@container (max-width: 127px) {
+  .copy-stepper {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .copy-stepper__label {
+    width: 100%;
+  }
+
+  .copy-stepper__controls {
+    display: grid;
+    grid-template-columns: repeat(2, 44px);
+    grid-template-rows: auto 44px;
+    gap: 8px;
+  }
+
+  .copy-stepper__decrement {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .copy-stepper__value {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .copy-stepper__increment {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* Conserva nombre y categoría en línea cuando caben y los apila cuando no. */
+.weapon-card__header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.weapon-card__name {
+  min-width: min(100%, 8rem);
+  flex: 1 1 8rem;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.weapon-card__category {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Reflow/zoom extremo: reduce solo decoración y padding, nunca targets o copy. */
+@media (max-width: 240px) {
+  main {
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+  }
+
+  .extreme-panel,
+  .extreme-tier {
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+  }
+
+  .extreme-variant {
+    padding-right: 4px !important;
+    padding-left: 4px !important;
+  }
+
+  .extreme-gap {
+    column-gap: 8px !important;
+  }
+
+  .extreme-stack {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .extreme-stack > * {
+    width: 100%;
+  }
+
+  .extreme-perk-option {
+    gap: 4px !important;
+    padding-right: 4px !important;
+    padding-left: 4px !important;
+  }
+
+  .extreme-marker {
+    transform: none !important;
+  }
+
+  .extreme-marker > * {
+    transform: none !important;
+  }
+
+  .extreme-actions {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+
+  .extreme-actions > * {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .extreme-modal-gutter {
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+  }
+
+  .extreme-modal-panel {
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+  }
+}
+
+a,
+button,
+input,
+select {
+  transition-duration: 150ms;
+  transition-property: color, background-color, border-color, opacity;
+}
+
+.angular-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.angular-panel::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 0.75rem) 0,
+    100% 0.75rem,
+    100% 100%,
+    0.75rem 100%,
+    0 calc(100% - 0.75rem)
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.editorial-rule {
+  height: 1px;
+  min-width: 2rem;
+  flex: 1;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
 }
 
 /* Foco visible en todos los elementos focables. */
 :focus-visible {
   outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px var(--color-bg-deep);
   border-radius: 2px;
 }
 

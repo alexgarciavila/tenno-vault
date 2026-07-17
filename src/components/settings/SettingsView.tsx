@@ -32,6 +32,7 @@ import { ImportPreviewDialog } from "../ui/ImportPreviewDialog";
 import { InlineAlert } from "../ui/InlineAlert";
 import { SegmentedControl } from "../ui/SegmentedControl";
 import { ViewSwitch } from "../ui/ViewSwitch";
+import { EditorialPageHeader } from "../ui/EditorialPageHeader";
 
 export function SettingsView() {
   const t = useT();
@@ -54,7 +55,7 @@ export function SettingsView() {
   if (!hydrated) {
     return (
       <div className="space-y-4">
-        <h1 className="text-[1.75rem] font-bold text-fg">{t.settings.title}</h1>
+        <EditorialPageHeader title={t.settings.title} />
         <p className="text-fg-muted">{t.app.loading}</p>
       </div>
     );
@@ -116,9 +117,9 @@ export function SettingsView() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-[1.75rem] font-bold text-fg">{t.settings.title}</h1>
+      <EditorialPageHeader title={t.settings.title} />
 
-      <section aria-labelledby="cfg-idioma" className="space-y-3">
+      <section aria-labelledby="cfg-idioma" className="angular-panel space-y-3 p-5">
         <h2 id="cfg-idioma" className="text-xl font-semibold text-fg">
           {t.settings.languageSection}
         </h2>
@@ -133,14 +134,14 @@ export function SettingsView() {
         />
       </section>
 
-      <section aria-labelledby="cfg-vista" className="space-y-3">
+      <section aria-labelledby="cfg-vista" className="angular-panel space-y-3 p-5">
         <h2 id="cfg-vista" className="text-xl font-semibold text-fg">
           {t.settings.viewSection}
         </h2>
         <ViewSwitch value={view} onChange={setView} />
       </section>
 
-      <section aria-labelledby="cfg-backup" className="space-y-3">
+      <section aria-labelledby="cfg-backup" className="angular-panel space-y-5 p-5">
         <h2 id="cfg-backup" className="text-xl font-semibold text-fg">
           {t.settings.backupSection}
         </h2>
@@ -149,7 +150,7 @@ export function SettingsView() {
           <button
             type="button"
             onClick={handleExport}
-            className="min-h-11 rounded-lg border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent"
+            className="min-h-11 rounded-sm border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent hover:bg-surface-elevated"
           >
             {t.settings.export}
           </button>
@@ -172,7 +173,7 @@ export function SettingsView() {
 
       <section
         aria-labelledby="cfg-peligro"
-        className="space-y-3 rounded-xl border border-danger-bg bg-danger-bg/20 p-4"
+        className="space-y-3 rounded-sm border border-danger-fg bg-danger-bg/25 p-5"
       >
         <h2 id="cfg-peligro" className="text-xl font-semibold text-danger-fg">
           {t.settings.dangerSection}

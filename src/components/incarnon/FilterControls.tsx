@@ -38,12 +38,12 @@ export function FilterControls({
   const weekDisabled = filters.kinds.length === 1 && filters.kinds[0] === "innate";
 
   return (
-    <div className="flex flex-col gap-4">
-      <fieldset>
-        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+    <div className="reflow-chain grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-4">
+      <fieldset className="reflow-chain">
+        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
           {t.incarnon.filterStatus}
         </legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="reflow-chain flex flex-wrap gap-2">
           {STATUSES.map((status) => (
             <ToggleChip
               key={status}
@@ -60,11 +60,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+      <fieldset className="reflow-chain">
+        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
           {t.incarnon.filterCategory}
         </legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="reflow-chain flex flex-wrap gap-2">
           {CATEGORIES.map((category) => (
             <ToggleChip
               key={category}
@@ -76,11 +76,11 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+      <fieldset className="reflow-chain">
+        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
           {t.incarnon.filterKind}
         </legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="reflow-chain flex flex-wrap gap-2">
           {KINDS.map((kind) => (
             <ToggleChip
               key={kind}
@@ -92,7 +92,7 @@ export function FilterControls({
         </div>
       </fieldset>
 
-      <div>
+      <div className="reflow-chain">
         <label
           htmlFor="filtro-semana"
           className="mb-2 block text-[0.8125rem] font-medium text-fg-muted"
@@ -106,7 +106,7 @@ export function FilterControls({
           onChange={(event) =>
             onChange({ week: event.target.value === "" ? null : Number(event.target.value) })
           }
-          className="min-h-11 rounded-lg border border-border bg-surface-alt px-3 text-fg disabled:opacity-40"
+          className="max-w-full min-h-11 rounded-sm border border-border bg-surface-alt px-3 text-fg hover:border-accent disabled:cursor-not-allowed disabled:text-fg-subtle"
         >
           <option value="">—</option>
           {WEEKS.map((week) => (
@@ -116,7 +116,9 @@ export function FilterControls({
           ))}
         </select>
         {weekDisabled ? (
-          <p className="mt-1 text-[0.8125rem] text-fg-muted">{t.incarnon.weekNotApplicable}</p>
+          <p className="reflow-text mt-1 text-[0.8125rem] text-fg-muted">
+            {t.incarnon.weekNotApplicable}
+          </p>
         ) : null}
       </div>
     </div>

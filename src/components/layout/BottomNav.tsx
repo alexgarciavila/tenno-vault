@@ -22,12 +22,12 @@ export function BottomNav({
   const t = useT();
   const primary = NAV_ITEMS.filter((item) => item.primary);
   const itemClass =
-    "flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[0.6875rem]";
+    "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 px-1 py-2 text-center text-[0.6875rem] leading-tight";
 
   return (
     <nav
       aria-label={t.nav.primary}
-      className="fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-surface-alt pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-bg-deep/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
     >
       {primary.map((item) => {
         const active = isActivePath(item.href, pathname);
@@ -37,10 +37,10 @@ export function BottomNav({
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`${itemClass} min-h-14 ${active ? "text-accent" : "text-fg-muted"}`}
+            className={`${itemClass} min-h-14 ${active ? "bg-accent-surface text-accent-strong before:absolute before:inset-x-2 before:top-0 before:h-0.5 before:bg-accent" : "text-fg-muted hover:bg-surface hover:text-fg"}`}
           >
             <Icon className="size-6" />
-            <span>{t.nav[item.labelKey]}</span>
+            <span className="reflow-text">{t.nav[item.labelKey]}</span>
           </Link>
         );
       })}
@@ -48,10 +48,10 @@ export function BottomNav({
         type="button"
         onClick={onOpenMore}
         aria-haspopup="dialog"
-        className={`${itemClass} min-h-14 ${moreActive ? "text-accent" : "text-fg-muted"}`}
+        className={`${itemClass} min-h-14 ${moreActive ? "bg-accent-surface text-accent-strong before:absolute before:inset-x-2 before:top-0 before:h-0.5 before:bg-accent" : "text-fg-muted hover:bg-surface hover:text-fg"}`}
       >
         <IconMore className="size-6" />
-        <span>{t.nav.more}</span>
+        <span className="reflow-text">{t.nav.more}</span>
       </button>
     </nav>
   );

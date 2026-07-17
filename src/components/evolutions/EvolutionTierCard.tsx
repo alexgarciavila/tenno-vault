@@ -32,15 +32,28 @@ export function EvolutionTierCard({
   const fixedPerk = tier.perks[0];
 
   return (
-    <article className="rounded-xl border border-border bg-surface p-4">
-      <header className="mb-1">
-        <h4 className="font-semibold text-fg">
+    <article
+      className={`extreme-tier reflow-chain relative rounded-sm border p-4 ${completed ? "border-success-fg bg-success-bg/25" : "border-border bg-surface"}`}
+    >
+      <header className="extreme-stack extreme-gap reflow-chain mb-3 flex flex-wrap items-center gap-3 border-b border-border-subtle pb-3">
+        <span
+          aria-hidden="true"
+          className="extreme-marker inline-grid size-9 shrink-0 rotate-45 place-items-center border border-accent bg-accent-surface text-accent-strong"
+        >
+          <span className="-rotate-45 font-bold tabular-nums">{tier.tier}</span>
+        </span>
+        <h4 className="reflow-text flex-1 font-semibold text-fg">
           {t.evolutions.tier} {tier.tier}
           {!tier.selectable && fixedPerk ? (
-            <span className="ml-2 font-normal text-fg-muted">· {fixedPerk.name}</span>
+            <span className="font-normal text-fg-muted"> · {fixedPerk.name}</span>
           ) : null}
         </h4>
-        <p className="text-[0.8125rem] text-fg-muted">
+        <span
+          className={`reflow-text rounded-sm px-2 py-1 text-[0.75rem] font-semibold ${completed ? "bg-success-bg text-success-fg" : "bg-surface-elevated text-fg-muted"}`}
+        >
+          {completed ? t.evolutions.completed : t.evolutions.pending}
+        </span>
+        <p className="reflow-text w-full rounded-sm border-l-2 border-gold bg-gold-surface/40 px-3 py-2 text-[0.8125rem] text-fg-muted max-[240px]:px-1">
           {tier.unlockCondition
             ? `${t.evolutions.challenge}: ${tier.unlockCondition}`
             : t.evolutions.unlockOnInstall}
@@ -48,35 +61,37 @@ export function EvolutionTierCard({
       </header>
 
       {tier.selectable ? (
-        <fieldset className="mt-3">
-          <legend className="mb-2 text-[0.8125rem] font-medium text-fg-muted">
+        <fieldset className="reflow-chain mt-3">
+          <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
             {t.evolutions.choosePerk}
           </legend>
-          <div className="flex flex-col gap-1">
+          <div className="reflow-chain flex flex-col gap-1">
             {tier.perks.map((perk) => {
               const values = perk.variantValues?.[variantId];
               return (
                 <label
                   key={perk.id}
-                  className="flex cursor-pointer items-start gap-3 rounded-lg px-2 py-2 hover:bg-surface-alt"
+                  className="extreme-perk-option reflow-chain flex min-h-11 cursor-pointer items-start gap-3 rounded-sm border border-transparent px-3 py-2 hover:border-border hover:bg-surface-alt has-[:checked]:border-accent has-[:checked]:bg-accent-surface"
                 >
                   <input
                     type="radio"
                     name={radioName}
                     checked={selectedPerkId === perk.id}
                     onChange={() => onSelectPerk(perk.id)}
-                    className="mt-1 size-5 shrink-0 accent-[#38bdf8]"
+                    className="mt-1 size-5 shrink-0 accent-[#70dceb]"
                   />
-                  <span>
-                    <span className="font-medium text-fg">{perk.name}</span>
-                    <span className="block text-[0.8125rem] text-fg-muted">{perk.description}</span>
+                  <span className="reflow-text flex-1">
+                    <span className="reflow-text block font-medium text-fg">{perk.name}</span>
+                    <span className="reflow-text block text-[0.8125rem] text-fg-muted">
+                      {perk.description}
+                    </span>
                     {values ? (
-                      <span className="mt-0.5 block text-[0.8125rem] tabular-nums text-accent">
+                      <span className="reflow-text mt-0.5 block text-[0.8125rem] tabular-nums text-accent">
                         {values}
                       </span>
                     ) : null}
                     {perk.notes ? (
-                      <span className="mt-0.5 block text-[0.75rem] italic text-fg-muted">
+                      <span className="reflow-text mt-0.5 block text-[0.75rem] italic text-fg-muted">
                         {perk.notes}
                       </span>
                     ) : null}
@@ -87,17 +102,17 @@ export function EvolutionTierCard({
           </div>
         </fieldset>
       ) : fixedPerk?.description ? (
-        <p className="mt-2 text-[0.8125rem] text-fg-muted">{fixedPerk.description}</p>
+        <p className="reflow-text mt-2 text-[0.8125rem] text-fg-muted">{fixedPerk.description}</p>
       ) : null}
 
-      <label className="mt-3 flex min-h-11 cursor-pointer items-center gap-3">
+      <label className="extreme-perk-option reflow-chain mt-4 flex min-h-11 cursor-pointer items-center gap-3 border-t border-border-subtle pt-3">
         <input
           type="checkbox"
           checked={completed}
           onChange={(event) => onToggleCompleted(event.target.checked)}
-          className="size-5 shrink-0 accent-[#86efac]"
+          className="size-5 shrink-0 accent-[#8de5ad]"
         />
-        <span className="font-medium text-fg">{t.evolutions.completed}</span>
+        <span className="reflow-text flex-1 font-medium text-fg">{t.evolutions.completed}</span>
       </label>
     </article>
   );

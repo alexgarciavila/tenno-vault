@@ -17,6 +17,8 @@ const eslintConfig = [
       ".next/**",
       "out/**",
       "coverage/**",
+      ".opencode/**",
+      "design/**",
       "next-env.d.ts",
       // Service worker generado por Serwist en tiempo de build (minificado).
       "public/sw.js",

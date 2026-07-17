@@ -28,19 +28,19 @@ export function MoreSheet({
           const active = isActivePath(item.href, pathname);
           const { Icon } = item;
           return (
-            <li key={item.href}>
+            <li key={item.href} className="reflow-chain">
               <Link
                 href={item.href}
                 onClick={onClose}
                 aria-current={active ? "page" : undefined}
-                className={`flex min-h-12 items-center gap-3 rounded-lg px-3 ${
+                className={`reflow-chain flex min-h-12 items-center gap-3 rounded-lg px-3 ${
                   active
-                    ? "bg-surface-alt font-medium text-fg"
-                    : "text-fg-muted hover:bg-surface-alt hover:text-fg"
+                    ? "border-l-[3px] border-accent bg-accent-surface font-semibold text-accent-strong"
+                    : "border-l-[3px] border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
                 }`}
               >
                 <Icon className="size-5" />
-                <span>{t.nav[item.labelKey]}</span>
+                <span className="reflow-text flex-1">{t.nav[item.labelKey]}</span>
               </Link>
             </li>
           );
