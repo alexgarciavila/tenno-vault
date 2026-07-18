@@ -46,7 +46,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="relative flex min-h-dvh">
       <a
         href={`#${MAIN_ID}`}
-        className="sr-only bg-accent px-4 py-2 font-semibold text-bg focus:not-sr-only focus:fixed focus:left-3 focus:top-[max(0.75rem,env(safe-area-inset-top))] focus:z-[60]"
+        className="sr-only bg-accent px-4 py-2 font-bold uppercase tracking-[0.1em] text-bg focus:not-sr-only focus:fixed focus:left-3 focus:top-[max(0.75rem,env(safe-area-inset-top))] focus:z-[60]"
       >
         {t.nav.skipToContent}
       </a>
@@ -58,16 +58,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="extreme-panel reflow-chain flex min-h-14 flex-wrap items-center gap-2 border-b border-border-subtle bg-bg-deep/95 px-4 pt-[env(safe-area-inset-top)] md:hidden">
+        <header className="extreme-panel reflow-chain flex min-h-14 flex-wrap items-center gap-3 border-b border-border-subtle bg-bg-deep/95 px-4 pt-[env(safe-area-inset-top)] md:hidden">
           <BrandMark className="size-8" />
-          <span className="reflow-text flex-1 font-bold uppercase tracking-[0.08em] text-fg">
+          <span className="display-title flex-1 font-display text-[0.8125rem] uppercase tracking-[0.16em] text-fg-strong">
             {t.app.name}
           </span>
         </header>
 
         <main
           id={MAIN_ID}
-          className="mx-auto w-full min-w-0 max-w-[90rem] flex-1 px-4 py-6 pb-[var(--mobile-bottom-nav-clearance)] sm:px-5 md:px-6 md:py-8 md:pb-8 lg:px-8 xl:px-10"
+          className="w-full min-w-0 flex-1 px-4 py-6 pb-[var(--mobile-bottom-nav-clearance)] sm:px-5 md:px-6 md:py-8 md:pb-8 lg:px-8 xl:px-10"
         >
           {children}
         </main>

@@ -40,9 +40,7 @@ export function FilterControls({
   return (
     <div className="reflow-chain grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-4">
       <fieldset className="reflow-chain">
-        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
-          {t.incarnon.filterStatus}
-        </legend>
+        <legend className="wf-section-label reflow-text mb-3">{t.incarnon.filterStatus}</legend>
         <div className="reflow-chain flex flex-wrap gap-2">
           {STATUSES.map((status) => (
             <ToggleChip
@@ -61,9 +59,7 @@ export function FilterControls({
       </fieldset>
 
       <fieldset className="reflow-chain">
-        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
-          {t.incarnon.filterCategory}
-        </legend>
+        <legend className="wf-section-label reflow-text mb-3">{t.incarnon.filterCategory}</legend>
         <div className="reflow-chain flex flex-wrap gap-2">
           {CATEGORIES.map((category) => (
             <ToggleChip
@@ -77,9 +73,7 @@ export function FilterControls({
       </fieldset>
 
       <fieldset className="reflow-chain">
-        <legend className="reflow-text mb-2 text-[0.8125rem] font-medium text-fg-muted">
-          {t.incarnon.filterKind}
-        </legend>
+        <legend className="wf-section-label reflow-text mb-3">{t.incarnon.filterKind}</legend>
         <div className="reflow-chain flex flex-wrap gap-2">
           {KINDS.map((kind) => (
             <ToggleChip
@@ -93,10 +87,7 @@ export function FilterControls({
       </fieldset>
 
       <div className="reflow-chain">
-        <label
-          htmlFor="filtro-semana"
-          className="mb-2 block text-[0.8125rem] font-medium text-fg-muted"
-        >
+        <label htmlFor="filtro-semana" className="wf-section-label mb-3">
           {t.incarnon.filterWeek}
         </label>
         <select
@@ -106,7 +97,7 @@ export function FilterControls({
           onChange={(event) =>
             onChange({ week: event.target.value === "" ? null : Number(event.target.value) })
           }
-          className="max-w-full min-h-11 rounded-sm border border-border bg-surface-alt px-3 text-fg hover:border-accent disabled:cursor-not-allowed disabled:text-fg-subtle"
+          className="max-w-full min-h-11 rounded-sm border border-[rgb(111_217_231/0.25)] bg-[#081016] px-4 font-semibold uppercase tracking-[0.08em] text-fg hover:border-accent disabled:cursor-not-allowed disabled:text-fg-subtle"
         >
           <option value="">—</option>
           {WEEKS.map((week) => (

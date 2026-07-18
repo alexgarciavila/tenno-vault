@@ -42,6 +42,8 @@ describe("AppShell — navegación y landmarks", () => {
     );
     const main = screen.getByRole("main");
     expect(main.getAttribute("id")).toBe("contenido-principal");
+    expect(main.className).toContain("w-full");
+    expect(main.className).not.toMatch(/max-w-|mx-auto/);
     expect(main.className).toContain("pb-[var(--mobile-bottom-nav-clearance)]");
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
   });

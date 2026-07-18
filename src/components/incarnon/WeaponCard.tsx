@@ -51,25 +51,35 @@ export function WeaponCard({
     onUninstallVariant(variantId);
   }
 
+  // Pie "EVOLUCIONES · n/m": n = tiers completados en las instalaciones; m = total
+  // de tiers de esas instalaciones. Cuando NO hay ninguna instalación, se muestra
+  // el total de tiers del ARMA (weapon.evolutions.length) con n = 0, para reflejar
+  // el objetivo del arma (p. ej. "0/5") en lugar de un "0/0" sin contexto.
+  const hasInstallations = vm.evolutions.byInstallation.length > 0;
+  const evolutionsTotal = hasInstallations
+    ? vm.evolutions.totalTiers
+    : weapon.evolutions.length;
+  const evolutionsCompleted = hasInstallations ? vm.evolutions.completedTiers : 0;
+
   const pendingVariant = weapon.variants.find((v) => v.id === pendingUninstall);
   const pendingSummary = pendingUninstall
     ? vm.evolutions.byInstallation.find((s) => s.variantId === pendingUninstall)
     : undefined;
 
   return (
-    <article className="angular-panel extreme-panel reflow-chain flex flex-col gap-4 p-4 transition-colors hover:[&::before]:border-accent">
-      <header className="weapon-card__header reflow-chain items-start justify-between gap-2">
-        <h2 className="weapon-card__name text-lg font-bold tracking-[0.03em] text-fg">
+    <article className="angular-panel angular-panel--hover extreme-panel reflow-chain flex flex-col gap-4 p-5">
+      <header className="weapon-card__header reflow-chain gap-2">
+        <h2 className="weapon-card__name font-display text-base uppercase tracking-[0.12em] text-fg-strong">
           {weapon.name}
         </h2>
-        <span className="weapon-card__category rounded-sm border border-border px-2 py-0.5 text-[0.75rem] text-fg-muted">
+        <span className="wf-cut wf-cut-sm weapon-card__category px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-accent">
           {t.category[weapon.category]}
         </span>
       </header>
 
       <WeaponImage key={weapon.image?.localPath ?? "missing"} image={weapon.image} />
 
-      <p className="text-[0.8125rem] font-medium text-gold">
+      <p className="wf-diamond text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-gold">
         {weapon.rotation
           ? `${t.incarnon.weekShort} ${weapon.rotation.week} · ${weapon.rotation.letter}`
           : t.kind.innate}
@@ -101,7 +111,7 @@ export function WeaponCard({
       ) : null}
 
       <div className="reflow-chain">
-        <p className="mb-1 text-[0.8125rem] font-medium text-fg-muted">
+        <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-muted">
           {isInnate ? t.incarnon.variant : t.incarnon.installedVariants}
         </p>
         <VariantChecklist
@@ -111,14 +121,24 @@ export function WeaponCard({
         />
       </div>
 
-      <footer className="extreme-actions reflow-chain mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-3 max-[420px]:items-stretch max-[420px]:[&>*]:w-full">
+      <div className="reflow-chain mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-fg-subtle">
+        <span className="reflow-text tabular-nums text-fg-muted">
+          {t.incarnon.colEvolutions} · {evolutionsCompleted}/{evolutionsTotal}
+        </span>
+      </div>
+
+      <footer className="extreme-actions reflow-chain flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-3 max-[420px]:items-stretch max-[420px]:[&>*]:w-full">
         <Link
           href={`/evoluciones#arma-${weapon.id}`}
-          className="reflow-text inline-flex min-h-11 items-center justify-center rounded-sm border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent"
+          className="wf-cut reflow-text inline-flex min-h-11 items-center justify-center px-4 text-[0.75rem] font-bold uppercase tracking-[0.12em] text-accent-strong"
         >
           {t.incarnon.viewEvolutions}
         </Link>
-        <ExternalLink href={weapon.sourceUrl} label={t.incarnon.viewWiki} />
+        <ExternalLink
+          href={weapon.sourceUrl}
+          label={t.incarnon.viewWiki}
+          className="text-[0.75rem] font-semibold uppercase tracking-[0.1em]"
+        />
       </footer>
 
       <ConfirmDialog

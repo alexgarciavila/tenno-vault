@@ -78,7 +78,10 @@ export function Sheet({
         className="extreme-modal-panel reflow-chain relative max-h-[min(85dvh,44rem)] w-full max-w-lg overflow-y-auto rounded-t-xl border border-border bg-surface p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_16px_40px_rgb(0_0_0/.32)] before:absolute before:left-0 before:top-0 before:h-1 before:max-w-full before:w-24 before:bg-accent sm:rounded-xl"
       >
         <div className="extreme-gap reflow-chain mb-3 flex items-center justify-between">
-          <h2 id={titleId} className="reflow-text text-lg font-semibold text-fg">
+          <h2
+            id={titleId}
+            className="display-title text-lg font-semibold uppercase tracking-[0.08em] text-fg-strong"
+          >
             {title}
           </h2>
           <button

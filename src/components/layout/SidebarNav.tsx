@@ -25,15 +25,19 @@ export function SidebarNav({
   return (
     <nav
       aria-label={t.nav.primary}
-      className={`sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-border-subtle bg-gradient-to-b from-bg-deep to-surface py-4 transition-[width] md:flex ${
-        collapsed ? "w-[4.5rem] px-2" : "w-60 px-3 lg:w-[15.5rem]"
+      className={`sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-[rgb(111_217_231/0.14)] bg-gradient-to-b from-[#070d12] to-[#050a0e] py-4 transition-[width] md:flex ${
+        collapsed ? "w-[4.5rem] px-2" : "w-[14.75rem] px-3"
       }`}
     >
-      <div className={`mb-8 flex items-center ${collapsed ? "flex-col gap-3" : "justify-between"}`}>
-        <div className="flex min-w-0 items-center gap-2 px-1">
+      <div
+        className={`mb-4 flex items-center border-b border-[rgb(111_217_231/0.1)] pb-5 ${collapsed ? "flex-col gap-3" : "justify-between"}`}
+      >
+        <div className="flex min-w-0 items-center gap-3 px-1">
           <BrandMark className="size-9" />
           {!collapsed ? (
-            <span className="font-bold uppercase tracking-[0.08em] text-fg">{t.app.name}</span>
+            <span className="display-title font-display text-[0.8125rem] uppercase tracking-[0.16em] text-fg-strong">
+              {t.app.name}
+            </span>
           ) : null}
         </div>
         <button
@@ -50,7 +54,7 @@ export function SidebarNav({
         </button>
       </div>
 
-      <ul className="flex flex-1 flex-col justify-center gap-2">
+      <ul className="flex flex-1 flex-col justify-start gap-1 pt-2">
         {NAV_ITEMS.map((item) => {
           const active = isActivePath(item.href, pathname);
           const { Icon } = item;
@@ -62,11 +66,11 @@ export function SidebarNav({
                 aria-current={active ? "page" : undefined}
                 aria-label={collapsed ? label : undefined}
                 title={collapsed ? label : undefined}
-                className={`relative flex min-h-12 items-center gap-3 rounded-sm border-l-[3px] px-3 ${
+                className={`wf-cut-nav relative flex min-h-12 items-center gap-3 border-l-2 px-3 text-[0.875rem] font-semibold uppercase tracking-[0.12em] ${
                   collapsed ? "justify-center" : ""
                 } ${
                   active
-                    ? "border-accent bg-accent-surface font-semibold text-accent-strong after:absolute after:right-3 after:size-1.5 after:rotate-45 after:bg-accent"
+                    ? "border-accent text-accent-strong after:absolute after:right-3 after:size-1.5 after:rotate-45 after:bg-accent"
                     : "border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
                 }`}
               >

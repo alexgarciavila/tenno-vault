@@ -106,7 +106,7 @@ export function IncarnonView() {
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
-            className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-border bg-surface-alt px-3 text-[0.8125rem] font-medium text-fg hover:border-accent md:hidden"
+            className="wf-cut inline-flex min-h-11 items-center gap-2 px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg md:hidden"
           >
             {t.incarnon.filters}
             {activeCount > 0 ? (
@@ -119,7 +119,7 @@ export function IncarnonView() {
             <button
               type="button"
               onClick={() => setFilters(EMPTY_FILTERS)}
-              className="min-h-11 text-[0.8125rem] text-accent hover:underline"
+              className="min-h-11 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-accent hover:underline"
             >
               {t.incarnon.clearFilters}
             </button>
@@ -148,7 +148,7 @@ export function IncarnonView() {
           onSetUninstalledCopies={setUninstalledCopies}
         />
       ) : (
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] gap-4 lg:gap-5">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,19.5rem),1fr))] gap-4 lg:gap-5">
           {filtered.map((weapon) => (
             <WeaponCard
               key={weapon.id}
@@ -168,7 +168,7 @@ export function IncarnonView() {
           <button
             type="button"
             onClick={() => setFilters(EMPTY_FILTERS)}
-            className="mt-4 min-h-11 text-[0.8125rem] text-accent hover:underline"
+            className="mt-4 min-h-11 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-accent hover:underline"
           >
             {t.incarnon.clearFilters}
           </button>

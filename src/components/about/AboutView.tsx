@@ -22,12 +22,16 @@ export function AboutView() {
       <EditorialPageHeader title={t.about.title} />
 
       <section className="angular-panel space-y-2 p-5">
-        <h2 className="text-xl font-semibold text-fg">{t.about.appHeading}</h2>
+        <h2 className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong">
+          {t.about.appHeading}
+        </h2>
         <p className="text-fg-muted">{t.about.appBody}</p>
       </section>
 
       <section className="angular-panel space-y-2 p-5">
-        <h2 className="text-xl font-semibold text-fg">{t.about.sourceHeading}</h2>
+        <h2 className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong">
+          {t.about.sourceHeading}
+        </h2>
         <p className="text-fg-muted">
           {t.about.sourceBody} {formatCatalogDate(generatedAt)}.
         </p>
@@ -35,13 +39,17 @@ export function AboutView() {
       </section>
 
       <section className="angular-panel space-y-2 p-5">
-        <h2 className="text-xl font-semibold text-fg">{t.about.licenseHeading}</h2>
+        <h2 className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong">
+          {t.about.licenseHeading}
+        </h2>
         <p className="text-fg-muted">{t.about.licenseBody}</p>
         <ExternalLink href={attribution.licenseUrl} label={t.about.licenseLink} />
       </section>
 
       <section className="angular-panel space-y-2 p-5">
-        <h2 className="text-xl font-semibold text-fg">{t.about.noticeHeading}</h2>
+        <h2 className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong">
+          {t.about.noticeHeading}
+        </h2>
         <p className="text-fg-muted">{t.about.noticeBody}</p>
       </section>
     </div>

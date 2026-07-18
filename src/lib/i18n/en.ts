@@ -106,6 +106,8 @@ export const en = {
   evolutions: {
     title: "Evolutions",
     subtitle: "Progress · Perks",
+    subtitlePrefix: "Per-weapon progress",
+    completedCountLabel: "completed",
     emptyTitle: "You don't have any installation tracked yet.",
     emptyBody: "Go to Incarnon and mark a variant as installed to start tracking its evolutions.",
     goToIncarnon: "Go to Incarnon",

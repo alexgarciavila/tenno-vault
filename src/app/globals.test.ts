@@ -63,15 +63,39 @@ describe("globals.css — regresiones de reflow y foco móvil", () => {
     expect(externalLabel).toMatch(/overflow-wrap\s*:\s*anywhere\s*;/);
   });
 
-  it("hace reflow del nombre y badge de las cards antes de que puedan solaparse", () => {
+  it("apila el título a ancho completo y el badge debajo a la izquierda en todas las cards", () => {
     const header = declarationBlock(".weapon-card__header");
     const name = declarationBlock(".weapon-card__name");
+    const category = declarationBlock(".weapon-card__category");
 
+    // Columna: título arriba (fila propia), badge debajo (fila propia). Al
+    // apilar en vertical, título y badge no pueden solaparse en ningún ancho.
     expect(header).toMatch(/display\s*:\s*flex\s*;/);
-    expect(header).toMatch(/flex-wrap\s*:\s*wrap\s*;/);
-    expect(name).toMatch(/flex\s*:\s*1\s+1\s+8rem\s*;/);
-    expect(name).toMatch(/min-width\s*:\s*min\(100%,\s*8rem\)\s*;/);
-    expect(name).toMatch(/overflow-wrap\s*:\s*anywhere\s*;/);
+    expect(header).toMatch(/flex-direction\s*:\s*column\s*;/);
+    // Título a ancho completo, envuelve por palabras, sin partir a mitad.
+    expect(name).toMatch(/align-self\s*:\s*stretch\s*;/);
+    expect(name).toMatch(/overflow-wrap\s*:\s*normal\s*;/);
+    expect(name).not.toMatch(/overflow-wrap\s*:\s*anywhere\s*;/);
+    // Badge en su propia fila, pegado a la izquierda, ajustado a su contenido.
+    expect(category).toMatch(/align-self\s*:\s*flex-start\s*;/);
+  });
+
+  it("no parte los títulos display a mitad de palabra fuera del modo extremo", () => {
+    const displayTitle = declarationBlock(".display-title");
+    const pageTitle = declarationBlock(".editorial-page-header__title");
+
+    expect(displayTitle).toMatch(/overflow-wrap\s*:\s*normal\s*;/);
+    expect(displayTitle).toMatch(/word-break\s*:\s*normal\s*;/);
+    expect(displayTitle).not.toMatch(/overflow-wrap\s*:\s*anywhere\s*;/);
+    expect(pageTitle).toMatch(/overflow-wrap\s*:\s*normal\s*;/);
+    expect(pageTitle).not.toMatch(/overflow-wrap\s*:\s*anywhere\s*;/);
+  });
+
+  it("permite partir los títulos display solo como último recurso a ≤240px", () => {
+    const extreme = css.match(/@media\s*\(max-width:\s*240px\)\s*\{([\s\S]*)\}\s*$/)?.[1] ?? "";
+    expect(extreme).toMatch(
+      /\.display-title\s*,\s*\.weapon-card__name\s*,\s*\.editorial-page-header__title\s*\{[\s\S]*?overflow-wrap\s*:\s*anywhere/,
+    );
   });
 
   it("neutraliza mínimos intrínsecos y mantiene fieldset/legend compresibles", () => {

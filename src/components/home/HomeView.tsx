@@ -26,7 +26,7 @@ export function HomeView() {
   const isEmpty = hydrated && summary.adaptersObtained === 0;
 
   const quickLink =
-    "inline-flex min-h-11 items-center rounded-sm border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent hover:bg-surface-elevated";
+    "wf-cut inline-flex min-h-11 items-center px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg";
 
   return (
     <div className="space-y-6">
@@ -38,7 +38,7 @@ export function HomeView() {
           <p className="mt-1 text-fg-muted">{t.home.welcomeBody}</p>
           <Link
             href="/incarnon"
-            className="mt-4 inline-flex min-h-11 items-center rounded-sm bg-accent px-4 font-semibold text-bg hover:bg-accent-strong"
+            className="mt-4 inline-flex min-h-11 items-center rounded-sm bg-accent px-4 font-bold uppercase tracking-[0.1em] text-bg hover:bg-accent-strong"
           >
             {t.home.goToIncarnon}
           </Link>
@@ -69,7 +69,10 @@ export function HomeView() {
       <CatalogDateNote generatedAt={catalog.generatedAt} />
 
       <section aria-labelledby="accesos-rapidos" className="angular-panel space-y-3 p-5">
-        <h2 id="accesos-rapidos" className="text-xl font-semibold text-fg">
+        <h2
+          id="accesos-rapidos"
+          className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong"
+        >
           {t.home.quickAccessTitle}
         </h2>
         <div className="flex flex-wrap gap-3">

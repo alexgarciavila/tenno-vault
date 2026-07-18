@@ -33,10 +33,10 @@ export function MoreSheet({
                 href={item.href}
                 onClick={onClose}
                 aria-current={active ? "page" : undefined}
-                className={`reflow-chain flex min-h-12 items-center gap-3 rounded-lg px-3 ${
+                className={`wf-cut-nav reflow-chain flex min-h-12 items-center gap-3 px-3 text-[0.875rem] font-semibold uppercase tracking-[0.12em] ${
                   active
-                    ? "border-l-[3px] border-accent bg-accent-surface font-semibold text-accent-strong"
-                    : "border-l-[3px] border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
+                    ? "border-l-2 border-accent text-accent-strong"
+                    : "border-l-2 border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
                 }`}
               >
                 <Icon className="size-5" />

@@ -21,8 +21,10 @@ export function MetricCard({
   const t = useT();
   return (
     <div className="angular-panel extreme-panel reflow-chain p-5">
-      <p className="reflow-text text-[0.8125rem] font-medium text-fg-muted">{label}</p>
-      <p className="reflow-text mt-2 text-3xl font-bold tabular-nums text-accent-strong">
+      <p className="reflow-text text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-fg-muted">
+        {label}
+      </p>
+      <p className="reflow-text mt-2 font-display text-3xl tabular-nums text-accent-strong">
         {value}
         {typeof total === "number" ? (
           <span className="ml-1 text-base font-normal text-fg-muted">

@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
 /*
- * Sistema visual de Tenno Vault. Tema oscuro único del MVP.
+ * Sistema visual de Tenno Vault. Tema oscuro único, identidad "estilo Warframe"
+ * fiel al prototipo aprobado: tipografía Michroma (display) + Rajdhani (texto),
+ * paleta cian sobre azul-negro, recorte angular característico (esquina sup-izq
+ * e inf-dcha) y bordes de acento con degradado.
+ *
  * Tokens expuestos vía `@theme` para que Tailwind 4 genere utilidades
- * (bg-*, text-*, border-*). Tipografía: system font stack (PWA offline, sin
- * dependencia de fuentes externas).
+ * (bg-*, text-*, border-*, font-*). Fuentes autoalojadas con next/font/local
+ * (variables --font-michroma / --font-rajdhani, ver src/app/fonts.ts): sin
+ * dependencia de red, PWA offline intacta.
  */
 @theme {
-  --color-bg: #03070b;
-  --color-bg-deep: #020509;
-  --color-surface: #08131b;
-  --color-surface-alt: #0d1b25;
-  --color-surface-elevated: #122630;
+  --color-bg: #04070a;
+  --color-bg-deep: #050a0e;
+  --color-surface: #0a141c;
+  --color-surface-alt: #0d1a22;
+  --color-surface-elevated: #12232d;
   --color-border: #31505c;
-  --color-border-subtle: #1b3540;
-  --color-fg: #f1f7f9;
-  --color-fg-muted: #a5bac2;
+  --color-border-subtle: #16303a;
+  --color-fg: #cfe3ea;
+  --color-fg-strong: #f0f8fa;
+  --color-fg-muted: #8ba7b1;
   --color-fg-subtle: #78939d;
-  --color-accent: #70dceb;
-  --color-accent-strong: #a8f0f7;
-  --color-accent-surface: #0b3944;
-  --color-focus: #a8f0f7;
+  --color-accent: #6fd9e7;
+  --color-accent-strong: #a8ecf5;
+  --color-accent-surface: #0b2f38;
+  --color-focus: #a8ecf5;
   --color-gold: #d9b66f;
   --color-gold-surface: #3a2c12;
   --color-success-fg: #8de5ad;
@@ -30,12 +36,54 @@
   --color-danger-fg: #ffb4be;
   --color-danger-bg: #4a1220;
 
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* next/font expone --font-rajdhani / --font-michroma en <html>. */
+  --font-sans: var(--font-rajdhani), "Segoe UI", sans-serif;
+  --font-display: var(--font-michroma), "Trebuchet MS", sans-serif;
 }
 
 :root {
   color-scheme: dark;
   --mobile-bottom-nav-clearance: calc(5.5rem + env(safe-area-inset-bottom));
+
+  /* Recorte angular característico del prototipo (sup-izq + inf-dcha). */
+  --wf-clip: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
+  --wf-clip-chip: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  --wf-clip-sm: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  --wf-clip-nav: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+
+  /* Capas de acento (decorativas) reutilizadas por el sistema angular. */
+  --wf-border-subtle: rgb(111 217 231 / 0.14);
+  --wf-border: rgb(111 217 231 / 0.18);
+  --wf-border-active: rgb(111 217 231 / 0.8);
+  --wf-fill-rest: rgb(111 217 231 / 0.03);
+  --wf-fill-active: rgb(111 217 231 / 0.16);
+  --wf-grad-border: linear-gradient(
+    135deg,
+    rgb(111 217 231 / 0.3),
+    rgb(111 217 231 / 0.07) 40%,
+    rgb(111 217 231 / 0.18)
+  );
+  --wf-grad-border-strong: linear-gradient(
+    150deg,
+    rgb(111 217 231 / 0.7),
+    rgb(111 217 231 / 0.18) 45%,
+    rgb(111 217 231 / 0.4)
+  );
+  --wf-grad-surface: linear-gradient(165deg, #0a141c 0%, #070e14 100%);
 }
 
 html,
@@ -49,10 +97,24 @@ body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.5;
-  background-image:
-    radial-gradient(circle at 92% 4%, rgb(112 220 235 / 0.08), transparent 32rem),
-    radial-gradient(circle at 5% 92%, rgb(20 66 105 / 0.14), transparent 36rem);
+  background-image: radial-gradient(1200px 700px at 75% -8%, #0b1620 0%, rgb(6 11 16 / 0) 55%);
   background-attachment: fixed;
+}
+
+/*
+ * Color de enlace por defecto en @layer base: así las utilidades de Tailwind
+ * (p. ej. `text-bg` en CTAs sólidos sobre fondo acento) prevalecen. Sin capa,
+ * una regla de elemento gana a las utilidades y dejaría el texto cian sobre
+ * fondo cian (contraste 1:1).
+ */
+@layer base {
+  a {
+    color: var(--color-accent);
+  }
+}
+
+::selection {
+  background: rgb(111 217 231 / 0.25);
 }
 
 html {
@@ -92,6 +154,20 @@ h2 {
   word-break: normal;
 }
 
+/* Título de página al estilo del prototipo: Michroma, mayúsculas, tracking amplio. */
+.editorial-page-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.15rem + 1.4vw, 1.875rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-fg-strong);
+  /* Nunca partir un título display a mitad de palabra (p. ej. "INCARNO"+"N");
+     el clamp del tamaño ya lo mantiene dentro de contenedores estrechos. Anula
+     el `overflow-wrap: anywhere` heredado de `.editorial-page-header__copy`. */
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 /* URLs y etiquetas legales visibles deben poder partirse en reflow extremo. */
 .legal-copy {
   min-width: 0;
@@ -121,6 +197,26 @@ h2 {
   max-width: 100%;
   overflow-wrap: anywhere;
   word-break: normal;
+}
+
+/*
+ * Título display (Michroma, tracking amplio). NUNCA parte una palabra por dentro
+ * en viewports normales: el tracking amplio de Michroma haría más ancha la
+ * palabra que su contenedor y `overflow-wrap: anywhere` la trocearía (bug
+ * "INNODE"+"M"). Se declara después de `.reflow-text` para ganar por orden de
+ * origen cuando ambos se aplican al mismo elemento.
+ *
+ * NO se fija `min-width`: se conserva el mínimo automático (min-content = palabra
+ * más larga) para que, dentro de un contenedor flex con badge/contador, el título
+ * nunca pueda encogerse por debajo de su palabra y desbordar sobre el elemento
+ * vecino. En el modo extremo (≤240px) se permite la rotura como último recurso
+ * (ver media query), lo que reduce el min-content y evita scroll horizontal.
+ */
+.display-title {
+  max-width: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 fieldset.reflow-chain,
@@ -180,24 +276,224 @@ fieldset.reflow-chain > legend {
   }
 }
 
-/* Conserva nombre y categoría en línea cuando caben y los apila cuando no. */
+/*
+ * Cabecera única y consistente en TODAS las tarjetas: el título ocupa la fila
+ * superior a ancho completo (envolviendo por palabras si hace falta) y el badge
+ * de categoría va SIEMPRE en su propia fila, debajo del título y pegado a la
+ * izquierda — nunca al lado ni a la derecha, sea el nombre corto o largo. Al
+ * apilar en columna es imposible que el título y el badge se solapen.
+ */
 .weapon-card__header {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .weapon-card__name {
-  min-width: min(100%, 8rem);
-  flex: 1 1 8rem;
-  overflow-wrap: anywhere;
+  /* Título a ancho completo de la tarjeta; envuelve por palabras. No partir a
+     mitad de palabra en viewports normales; rotura solo en modo extremo. */
+  align-self: stretch;
+  overflow-wrap: normal;
   word-break: normal;
 }
 
 .weapon-card__category {
-  min-width: 0;
+  /* Badge en su fila, pegado a la izquierda, ajustado a su contenido. */
+  align-self: flex-start;
   max-width: 100%;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   word-break: normal;
+}
+
+a,
+button,
+input,
+select {
+  transition-duration: 150ms;
+  transition-property: color, background-color, border-color, opacity;
+}
+
+/*
+ * Panel angular: superficie con borde de acento en degradado y recorte
+ * sup-izq/inf-dcha del prototipo. La geometría vive en capas decorativas
+ * (::before borde, ::after superficie) con `pointer-events:none`, por lo que el
+ * contenido y el foco nunca se recortan (WCAG). Degrada a rectángulo si el
+ * navegador no soporta clip-path.
+ */
+.angular-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.angular-panel::before,
+.angular-panel::after {
+  position: absolute;
+  z-index: -1;
+  clip-path: var(--wf-clip);
+  content: "";
+  pointer-events: none;
+}
+
+.angular-panel::before {
+  inset: 0;
+  background: var(--wf-grad-border);
+}
+
+.angular-panel::after {
+  inset: 1px;
+  background: var(--wf-grad-surface);
+}
+
+/* Realce en hover (cards) y en deep-link (:target), solo sobre la capa de borde. */
+.angular-panel--hover:hover::before {
+  background: var(--wf-grad-border-strong);
+}
+
+.angular-panel--target:target::before {
+  background: var(--wf-grad-border-strong);
+}
+
+.angular-panel--target:target::after {
+  box-shadow: inset 0 0 18px rgb(111 217 231 / 0.12);
+}
+
+/* Utilidad de recorte directo para superficies NO focables (marcos, imágenes). */
+.wf-clip {
+  clip-path: var(--wf-clip);
+}
+
+.wf-clip-sm {
+  clip-path: var(--wf-clip-sm);
+}
+
+/* Hexágono decorativo (marcadores de tier, marca). */
+.wf-hex {
+  clip-path: polygon(50% 0, 100% 28%, 100% 72%, 50% 100%, 0 72%, 0 28%);
+}
+
+/*
+ * Elementos interactivos angulares (chips, botones de vista, badges, buscador,
+ * select, ítems de nav). El recorte y el borde de acento viven en `::before`
+ * decorativo; el elemento real queda rectangular para que el anillo de foco
+ * nunca se recorte.
+ */
+.wf-cut {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  border: 0;
+}
+
+.wf-cut::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: var(--wf-clip-chip);
+  border: 1px solid var(--wf-border);
+  background: var(--wf-fill-rest);
+  content: "";
+  pointer-events: none;
+}
+
+.wf-cut:hover::before {
+  border-color: rgb(111 217 231 / 0.6);
+}
+
+/* Estado activo/seleccionado, tanto por atributo ARIA como por clase auxiliar. */
+.wf-cut[aria-pressed="true"]::before,
+.wf-cut[aria-checked="true"]::before,
+.wf-cut[data-active="true"]::before {
+  border-color: var(--wf-border-active);
+  background: var(--wf-fill-active);
+}
+
+/* Chip/badge con recorte pequeño (categorías, estados secundarios, tier). */
+.wf-cut-sm::before {
+  clip-path: var(--wf-clip-sm);
+}
+
+/* Ítem de navegación: solo recorta la esquina superior izquierda. */
+.wf-cut-nav {
+  position: relative;
+  isolation: isolate;
+}
+
+.wf-cut-nav::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: var(--wf-clip-nav);
+  background: transparent;
+  content: "";
+  pointer-events: none;
+}
+
+.wf-cut-nav[aria-current="page"]::before {
+  background: linear-gradient(90deg, rgb(111 217 231 / 0.16), rgb(111 217 231 / 0.03));
+}
+
+/* Buscador / panel angular focable: marco de acento sin recortar el foco. */
+.wf-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.wf-frame::before,
+.wf-frame::after {
+  position: absolute;
+  z-index: -1;
+  clip-path: var(--wf-clip-chip);
+  content: "";
+  pointer-events: none;
+}
+
+.wf-frame::before {
+  inset: 0;
+  background: linear-gradient(135deg, rgb(111 217 231 / 0.45), rgb(111 217 231 / 0.12));
+}
+
+.wf-frame::after {
+  inset: 1px;
+  background: #081016;
+}
+
+/* Etiqueta de sección de filtros: rombo de acento + texto en mayúsculas. */
+.wf-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.wf-section-label::before {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  background: var(--color-accent);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  content: "";
+}
+
+/* Rombo inline de metadato (◆ INNATA/GENESIS). */
+.wf-diamond::before {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.5em;
+  background: currentColor;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  vertical-align: middle;
+  content: "";
+}
+
+.editorial-rule {
+  height: 1px;
+  min-width: 2rem;
+  flex: 1;
+  background: linear-gradient(90deg, rgb(111 217 231 / 0.5), rgb(111 217 231 / 0.06));
 }
 
 /* Reflow/zoom extremo: reduce solo decoración y padding, nunca targets o copy. */
@@ -265,44 +561,14 @@ fieldset.reflow-chain > legend {
     padding-right: 8px !important;
     padding-left: 8px !important;
   }
-}
 
-a,
-button,
-input,
-select {
-  transition-duration: 150ms;
-  transition-property: color, background-color, border-color, opacity;
-}
-
-.angular-panel {
-  position: relative;
-  isolation: isolate;
-}
-
-.angular-panel::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  clip-path: polygon(
-    0 0,
-    calc(100% - 0.75rem) 0,
-    100% 0.75rem,
-    100% 100%,
-    0.75rem 100%,
-    0 calc(100% - 0.75rem)
-  );
-  content: "";
-  pointer-events: none;
-}
-
-.editorial-rule {
-  height: 1px;
-  min-width: 2rem;
-  flex: 1;
-  background: linear-gradient(90deg, var(--color-accent), transparent);
+  /* Último recurso a ≤240px: los títulos display pueden partir por dentro para
+     evitar overflow horizontal cuando ni el clamp ni el reflow bastan. */
+  .display-title,
+  .weapon-card__name,
+  .editorial-page-header__title {
+    overflow-wrap: anywhere;
+  }
 }
 
 /* Foco visible en todos los elementos focables. */

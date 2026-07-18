@@ -107,6 +107,8 @@ export const es = {
   evolutions: {
     title: "Evoluciones",
     subtitle: "Progreso · Perks",
+    subtitlePrefix: "Progreso por arma",
+    completedCountLabel: "completadas",
     emptyTitle: "Todavía no tienes ninguna instalación registrada.",
     emptyBody:
       "Ve a Incarnon y marca una variante como instalada para empezar a seguir sus evoluciones.",

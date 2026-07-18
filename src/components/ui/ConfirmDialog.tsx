@@ -99,7 +99,10 @@ export function ConfirmDialog({
         aria-describedby={descId}
         className="extreme-modal-panel reflow-chain relative max-h-[min(90dvh,44rem)] w-full max-w-md overflow-y-auto rounded-xl border border-border bg-surface p-5 shadow-[0_16px_40px_rgb(0_0_0/.32)] before:absolute before:left-0 before:top-0 before:h-1 before:max-w-full before:w-24 before:bg-accent"
       >
-        <h2 id={titleId} className="reflow-text text-lg font-semibold text-fg">
+        <h2
+          id={titleId}
+          className="reflow-text text-lg font-semibold uppercase tracking-[0.08em] text-fg-strong"
+        >
           {title}
         </h2>
         <div id={descId} className="reflow-text mt-2 space-y-2 text-fg-muted">
@@ -123,7 +126,7 @@ export function ConfirmDialog({
             ref={cancelRef}
             type="button"
             onClick={onCancel}
-            className="reflow-text min-h-11 rounded-lg border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent"
+            className="wf-cut reflow-text min-h-11 px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg"
           >
             {cancelLabel}
           </button>
@@ -131,7 +134,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onConfirm}
             disabled={confirmDisabled}
-            className={`reflow-text min-h-11 rounded-lg px-4 font-medium disabled:cursor-not-allowed disabled:opacity-40 ${
+            className={`reflow-text min-h-11 rounded-sm px-4 text-[0.8125rem] font-bold uppercase tracking-[0.09em] disabled:cursor-not-allowed disabled:opacity-40 ${
               danger
                 ? "bg-danger-bg text-danger-fg hover:brightness-125"
                 : "bg-accent text-bg hover:bg-accent-strong"

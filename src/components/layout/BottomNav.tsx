@@ -22,7 +22,7 @@ export function BottomNav({
   const t = useT();
   const primary = NAV_ITEMS.filter((item) => item.primary);
   const itemClass =
-    "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 px-1 py-2 text-center text-[0.6875rem] leading-tight";
+    "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 px-1 py-2 text-center text-[0.6875rem] font-semibold uppercase leading-tight tracking-[0.06em]";
 
   return (
     <nav
