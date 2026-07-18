@@ -39,6 +39,10 @@ next-env.d.ts
 
 # gobernanza y artefactos de agentes IA (solo uso interno de desarrollo,
 # el repo es público y no debe exponer cómo se construyó el proyecto)
+/design/
+/.agents/
+/.codex/
+/.opencode/
 /AGENTS.md
 /CLAUDE.md
 /agents/
