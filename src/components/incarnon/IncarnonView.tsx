@@ -17,7 +17,6 @@ import { CatalogDateNote } from "../ui/CatalogDateNote";
 import { EmptyState } from "../ui/EmptyState";
 import { SearchInput } from "../ui/SearchInput";
 import { Sheet } from "../ui/Sheet";
-import { ToggleChip } from "../ui/ToggleChip";
 import { ViewSwitch } from "../ui/ViewSwitch";
 import { EditorialPageHeader } from "../ui/EditorialPageHeader";
 import { FilterControls } from "./FilterControls";
@@ -41,11 +40,11 @@ export function IncarnonView() {
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  // Deep-link "Ver pendientes" desde Inicio: ?pendientes=1 preactiva el toggle.
+  // Deep-link "Ver por conseguir" desde Inicio.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("pendientes") === "1") {
-      setFilters((prev) => ({ ...prev, onlyPending: true }));
+      setFilters((prev) => ({ ...prev, hasMissingCopies: true }));
     }
   }, []);
 
@@ -92,20 +91,12 @@ export function IncarnonView() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <ToggleChip
-            label={t.incarnon.onlyPending}
-            checked={filters.onlyPending}
-            onChange={(checked) => patch({ onlyPending: checked })}
-          />
-          <ToggleChip
-            label={t.incarnon.onlyIncompleteEvolutions}
-            checked={filters.onlyIncompleteEvolutions}
-            onChange={(checked) => patch({ onlyIncompleteEvolutions: checked })}
-          />
           {/* Botón de filtros: abre la hoja modal en móvil. */}
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={sheetOpen}
             className="wf-cut inline-flex min-h-11 items-center gap-2 px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg md:hidden"
           >
             {t.incarnon.filters}

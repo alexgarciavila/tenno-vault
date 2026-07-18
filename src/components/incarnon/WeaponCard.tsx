@@ -51,10 +51,6 @@ export function WeaponCard({
     onUninstallVariant(variantId);
   }
 
-  // Pie "EVOLUCIONES · n/m": n = tiers completados en las instalaciones; m = total
-  // de tiers de esas instalaciones. Cuando NO hay ninguna instalación, se muestra
-  // el total de tiers del ARMA (weapon.evolutions.length) con n = 0, para reflejar
-  // el objetivo del arma (p. ej. "0/5") en lugar de un "0/0" sin contexto.
   const hasInstallations = vm.evolutions.byInstallation.length > 0;
   const evolutionsTotal = hasInstallations ? vm.evolutions.totalTiers : weapon.evolutions.length;
   const evolutionsCompleted = hasInstallations ? vm.evolutions.completedTiers : 0;
@@ -83,27 +79,53 @@ export function WeaponCard({
           : t.kind.innate}
       </p>
 
-      <StatusBadge status={vm.status.status} hasIncompleteData={vm.status.hasIncompleteData} />
-
-      <p className="reflow-text flex flex-wrap gap-x-1 text-[0.8125rem] tabular-nums text-fg">
-        {vm.copies.installed} {t.incarnon.summaryInstalled} · {vm.copies.uninstalled}{" "}
-        {t.incarnon.summaryAvailable} · {vm.copies.missing} {t.incarnon.summaryPending}
-        {vm.copies.extra > 0 ? (
-          <span className="text-fg-muted">
-            {" · "}
-            {vm.copies.extra}{" "}
-            {vm.copies.extra === 1 ? t.incarnon.extraCopies : t.incarnon.extraCopiesPlural}
-          </span>
-        ) : null}
-      </p>
+      <StatusBadge isCompleted={vm.isCompleted} hasIncompleteData={vm.hasIncompleteData} />
+      <dl className="grid gap-2 text-[0.8125rem] tabular-nums text-fg sm:grid-cols-2">
+        <div>
+          <dt className="inline font-semibold text-fg-muted">{t.incarnon.copies}: </dt>
+          <dd className="inline">
+            {vm.copies.owned} / {vm.copies.required}
+          </dd>
+        </div>
+        <div>
+          <dt className="inline font-semibold text-fg-muted">{t.incarnon.installed}: </dt>
+          <dd className="inline">{vm.copies.installed}</dd>
+        </div>
+        <div>
+          <dt className="inline font-semibold text-fg-muted">{t.incarnon.inInventory}: </dt>
+          <dd className="inline">{vm.copies.inventory}</dd>
+        </div>
+        <div>
+          <dt className="inline font-semibold text-fg-muted">{t.incarnon.toAcquire}: </dt>
+          <dd className="inline">{vm.copies.missing}</dd>
+        </div>
+        <div className="sm:col-span-2">
+          <dt className="inline font-semibold text-fg-muted">{t.incarnon.colEvolutions}: </dt>
+          <dd className="inline">
+            {evolutionsCompleted} / {evolutionsTotal}
+          </dd>
+          {vm.copies.owned > vm.copies.required ? (
+            <span className="ml-2 text-fg-muted">
+              {t.incarnon.surplus
+                .replace("{count}", String(vm.copies.owned - vm.copies.required))
+                .replace(
+                  "{copies}",
+                  vm.copies.owned - vm.copies.required === 1
+                    ? t.incarnon.copy
+                    : t.incarnon.copiesPlural,
+                )}
+            </span>
+          ) : null}
+        </div>
+      </dl>
 
       {!isInnate ? (
         <div className="reflow-chain border-y border-border-subtle py-3">
           <CopyStepper
-            value={vm.copies.uninstalled}
+            value={vm.copies.inventory}
             label={t.incarnon.uninstalledCopies}
-            onIncrement={() => onSetUninstalledCopies(vm.copies.uninstalled + 1)}
-            onDecrement={() => onSetUninstalledCopies(Math.max(0, vm.copies.uninstalled - 1))}
+            onIncrement={() => onSetUninstalledCopies(vm.copies.inventory + 1)}
+            onDecrement={() => onSetUninstalledCopies(Math.max(0, vm.copies.inventory - 1))}
           />
         </div>
       ) : null}
@@ -117,12 +139,6 @@ export function WeaponCard({
           installedVariantIds={vm.installedVariantIds}
           onToggle={onToggleVariant}
         />
-      </div>
-
-      <div className="reflow-chain mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3 text-[0.6875rem] uppercase tracking-[0.16em] text-fg-subtle">
-        <span className="reflow-text tabular-nums text-fg-muted">
-          {t.incarnon.colEvolutions} · {evolutionsCompleted}/{evolutionsTotal}
-        </span>
       </div>
 
       <footer className="extreme-actions reflow-chain flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-3 max-[420px]:items-stretch max-[420px]:[&>*]:w-full">

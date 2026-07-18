@@ -12,7 +12,7 @@
  *    tier con radiogroup de perks y checkbox de completado).
  *
  * Semántica de contadores:
- *  - Cabecera de arma (n/m): `computeEvolutionSummary` — n = tiers completados
+ *  - Cabecera de arma (n/m): resumen factual — n = tiers completados
  *    en TODAS las instalaciones existentes; m = total de tiers de esas
  *    instalaciones (escala con el nº de instalaciones).
  *  - Lista compacta: un tier se marca COMPLETADO si está completado en TODAS las
@@ -29,7 +29,7 @@ import { useRouter } from "next/navigation";
 import { getCatalog } from "../../data/catalog";
 import { resolveCatalogText, type ResolvedCatalogText } from "../../lib/catalog-i18n";
 import { useLanguage, useT } from "../../lib/i18n";
-import { computeEvolutionSummary } from "../../lib/inventory";
+import { computeInventorySummary } from "../../lib/inventory";
 import { useHydrated } from "../../lib/use-hydrated";
 import { useProgressStore } from "../../store/progress-store";
 import { EditorialPageHeader } from "../ui/EditorialPageHeader";
@@ -75,12 +75,15 @@ export function EvolutionsView() {
     );
   }
 
-  // Armas con al menos una instalación válida (variantId presente en catálogo).
+  // La misma normalización que el resumen evita mostrar duplicados u huérfanas.
   const groups = catalog.weapons
     .map((weapon) => {
-      const variantIds = new Set(weapon.variants.map((v) => v.id));
-      const installations =
-        progress[weapon.id]?.installations.filter((inst) => variantIds.has(inst.variantId)) ?? [];
+      const summary = computeInventorySummary(weapon, progress[weapon.id]);
+      const installations = summary.installedVariantIds
+        .map((variantId) =>
+          progress[weapon.id]?.installations.find((item) => item.variantId === variantId),
+        )
+        .filter((item): item is NonNullable<typeof item> => Boolean(item));
       return { weapon, installations };
     })
     .filter((group) => group.installations.length > 0);
@@ -99,20 +102,14 @@ export function EvolutionsView() {
     );
   }
 
-  const totalDone = groups.reduce(
-    (acc, group) =>
-      acc +
-      group.installations.reduce(
-        (sum, inst) => sum + inst.evolutionProgress.filter((ep) => ep.completed).length,
-        0,
-      ),
+  const summaries = groups.map(({ weapon }) =>
+    computeInventorySummary(weapon, progress[weapon.id]),
+  );
+  const totalDone = summaries.reduce(
+    (total, summary) => total + summary.evolutions.completedTiers,
     0,
   );
-  const totalAll = groups.reduce(
-    (acc, group) =>
-      acc + group.installations.reduce((sum, inst) => sum + inst.evolutionProgress.length, 0),
-    0,
-  );
+  const totalAll = summaries.reduce((total, summary) => total + summary.evolutions.totalTiers, 0);
   const subtitle = `${t.evolutions.subtitlePrefix.toUpperCase()} · ${totalDone}/${totalAll} ${t.evolutions.completedCountLabel.toUpperCase()}`;
 
   const toggle = (id: string) =>
@@ -131,7 +128,7 @@ export function EvolutionsView() {
         {groups.map(({ weapon, installations }) => {
           const weaponName = resolveCatalogText(weapon.name, language);
           const isOpen = expanded.has(weapon.id);
-          const summary = computeEvolutionSummary(weapon, progress[weapon.id]);
+          const summary = computeInventorySummary(weapon, progress[weapon.id]).evolutions;
           const sortedTiers = [...weapon.evolutions].sort((a, b) => a.tier - b.tier);
           const titleId = `titulo-${weapon.id}`;
           const panelId = `evo-panel-${weapon.id}`;
