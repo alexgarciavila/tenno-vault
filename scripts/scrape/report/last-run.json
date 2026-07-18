@@ -1,7 +1,10 @@
 {
-  "startedAt": "2026-07-13T21:52:26.628Z",
-  "finishedAt": "2026-07-13T21:55:07.172Z",
-  "mode": "all",
+  "catalogSchemaVersion": 3,
+  "translationSchemaVersion": 1,
+  "translationSource": "project-translation",
+  "startedAt": "2026-07-18T17:53:44.953Z",
+  "finishedAt": "2026-07-18T17:53:44.978Z",
+  "mode": "convert-v3",
   "total": 53,
   "ok": 53,
   "reviewRequired": [],
@@ -9,116 +12,3036 @@
   "errors": [],
   "imageIssues": [],
   "imagesKept": [],
-  "imagesStaged": [
-    "felarx",
-    "innodem",
-    "laetum",
-    "onos",
-    "phenmor",
-    "praedos",
-    "ruvox",
-    "thalys",
-    "boar",
-    "boltor",
-    "braton",
-    "burston",
-    "dera",
-    "dread",
-    "gorgon",
-    "latron",
-    "miter",
-    "paris",
-    "soma",
-    "strun",
-    "sybaris",
-    "torid",
-    "vectis",
-    "angstrum",
-    "atomos",
-    "ballistica",
-    "bronco",
-    "cestra",
-    "despair",
-    "dual-toxocyst",
-    "furis",
-    "gammacor",
-    "kunai",
-    "lato",
-    "lex",
-    "sicarus",
-    "stug",
-    "vasto",
-    "zylok",
-    "ack-and-brunt",
-    "anku",
-    "bo",
-    "ceramic-dagger",
-    "destreza",
-    "dual-ichor",
-    "furax",
-    "hate",
-    "magistar",
-    "nami-solo",
-    "obex",
-    "okina",
-    "sibear",
-    "skana"
-  ],
-  "imagesPublished": [
-    "felarx",
-    "innodem",
-    "laetum",
-    "onos",
-    "phenmor",
-    "praedos",
-    "ruvox",
-    "thalys",
-    "boar",
-    "boltor",
-    "braton",
-    "burston",
-    "dera",
-    "dread",
-    "gorgon",
-    "latron",
-    "miter",
-    "paris",
-    "soma",
-    "strun",
-    "sybaris",
-    "torid",
-    "vectis",
-    "angstrum",
-    "atomos",
-    "ballistica",
-    "bronco",
-    "cestra",
-    "despair",
-    "dual-toxocyst",
-    "furis",
-    "gammacor",
-    "kunai",
-    "lato",
-    "lex",
-    "sicarus",
-    "stug",
-    "vasto",
-    "zylok",
-    "ack-and-brunt",
-    "anku",
-    "bo",
-    "ceramic-dagger",
-    "destreza",
-    "dual-ichor",
-    "furax",
-    "hate",
-    "magistar",
-    "nami-solo",
-    "obex",
-    "okina",
-    "sibear",
-    "skana"
-  ],
+  "imagesStaged": [],
+  "imagesPublished": [],
+  "coverage": {
+    "translated": 1594,
+    "missing": 0,
+    "notApplicable": 631,
+    "percentage": 100,
+    "byField": {
+      "name": {
+        "translated": 53,
+        "missing": 0,
+        "notApplicable": 0,
+        "percentage": 100
+      },
+      "weaponName": {
+        "translated": 53,
+        "missing": 0,
+        "notApplicable": 0,
+        "percentage": 100
+      },
+      "variantName": {
+        "translated": 97,
+        "missing": 0,
+        "notApplicable": 0,
+        "percentage": 100
+      },
+      "unlockCondition": {
+        "translated": 175,
+        "missing": 0,
+        "notApplicable": 45,
+        "percentage": 100
+      },
+      "perkName": {
+        "translated": 509,
+        "missing": 0,
+        "notApplicable": 0,
+        "percentage": 100
+      },
+      "perkDescription": {
+        "translated": 509,
+        "missing": 0,
+        "notApplicable": 0,
+        "percentage": 100
+      },
+      "perkNotes": {
+        "translated": 198,
+        "missing": 0,
+        "notApplicable": 311,
+        "percentage": 100
+      },
+      "variantValue": {
+        "translated": 0,
+        "missing": 0,
+        "notApplicable": 275,
+        "percentage": 100
+      }
+    },
+    "byWeapon": {
+      "felarx": {
+        "translated": 43,
+        "missing": 0,
+        "notApplicable": 4,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "innodem": {
+        "translated": 38,
+        "missing": 0,
+        "notApplicable": 9,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 9,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "laetum": {
+        "translated": 44,
+        "missing": 0,
+        "notApplicable": 3,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 10,
+            "missing": 0,
+            "notApplicable": 3,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "onos": {
+        "translated": 43,
+        "missing": 0,
+        "notApplicable": 4,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "phenmor": {
+        "translated": 44,
+        "missing": 0,
+        "notApplicable": 3,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 10,
+            "missing": 0,
+            "notApplicable": 3,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "praedos": {
+        "translated": 34,
+        "missing": 0,
+        "notApplicable": 13,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 13,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "ruvox": {
+        "translated": 37,
+        "missing": 0,
+        "notApplicable": 10,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 10,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "thalys": {
+        "translated": 38,
+        "missing": 0,
+        "notApplicable": 9,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 13,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 9,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "boar": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 7,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "boltor": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 24,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 15,
+            "percentage": 100
+          }
+        }
+      },
+      "braton": {
+        "translated": 33,
+        "missing": 0,
+        "notApplicable": 28,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 6,
+            "missing": 0,
+            "notApplicable": 3,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 24,
+            "percentage": 100
+          }
+        }
+      },
+      "burston": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 7,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "dera": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 16,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 10,
+            "percentage": 100
+          }
+        }
+      },
+      "dread": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 6,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "gorgon": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 22,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 15,
+            "percentage": 100
+          }
+        }
+      },
+      "latron": {
+        "translated": 31,
+        "missing": 0,
+        "notApplicable": 14,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 9,
+            "percentage": 100
+          }
+        }
+      },
+      "miter": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 6,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "paris": {
+        "translated": 31,
+        "missing": 0,
+        "notApplicable": 11,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "soma": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 6,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "strun": {
+        "translated": 32,
+        "missing": 0,
+        "notApplicable": 25,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 20,
+            "percentage": 100
+          }
+        }
+      },
+      "sybaris": {
+        "translated": 31,
+        "missing": 0,
+        "notApplicable": 20,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 15,
+            "percentage": 100
+          }
+        }
+      },
+      "torid": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 7,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "vectis": {
+        "translated": 30,
+        "missing": 0,
+        "notApplicable": 11,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "angstrum": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 10,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          }
+        }
+      },
+      "atomos": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 5,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "ballistica": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 22,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 15,
+            "percentage": 100
+          }
+        }
+      },
+      "bronco": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 12,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          }
+        }
+      },
+      "cestra": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "despair": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "dual-toxocyst": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 5,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 5,
+            "missing": 0,
+            "notApplicable": 4,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "furis": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 12,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "gammacor": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 14,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "kunai": {
+        "translated": 31,
+        "missing": 0,
+        "notApplicable": 10,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 6,
+            "missing": 0,
+            "notApplicable": 3,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "lato": {
+        "translated": 30,
+        "missing": 0,
+        "notApplicable": 18,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 12,
+            "percentage": 100
+          }
+        }
+      },
+      "lex": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 17,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          }
+        }
+      },
+      "sicarus": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 16,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 10,
+            "percentage": 100
+          }
+        }
+      },
+      "stug": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 6,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "vasto": {
+        "translated": 32,
+        "missing": 0,
+        "notApplicable": 9,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 7,
+            "missing": 0,
+            "notApplicable": 2,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "zylok": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 16,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 4,
+            "missing": 0,
+            "notApplicable": 5,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 10,
+            "percentage": 100
+          }
+        }
+      },
+      "ack-and-brunt": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "anku": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 7,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "bo": {
+        "translated": 29,
+        "missing": 0,
+        "notApplicable": 19,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 12,
+            "percentage": 100
+          }
+        }
+      },
+      "ceramic-dagger": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 7,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "destreza": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 15,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          }
+        }
+      },
+      "dual-ichor": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "furax": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 17,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 9,
+            "percentage": 100
+          }
+        }
+      },
+      "hate": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "magistar": {
+        "translated": 25,
+        "missing": 0,
+        "notApplicable": 16,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 9,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          }
+        }
+      },
+      "nami-solo": {
+        "translated": 25,
+        "missing": 0,
+        "notApplicable": 9,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "obex": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 15,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 6,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 8,
+            "percentage": 100
+          }
+        }
+      },
+      "okina": {
+        "translated": 27,
+        "missing": 0,
+        "notApplicable": 18,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 10,
+            "percentage": 100
+          }
+        }
+      },
+      "sibear": {
+        "translated": 26,
+        "missing": 0,
+        "notApplicable": 8,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          }
+        }
+      },
+      "skana": {
+        "translated": 28,
+        "missing": 0,
+        "notApplicable": 23,
+        "percentage": 100,
+        "byField": {
+          "name": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "weaponName": {
+            "translated": 1,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "variantName": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "unlockCondition": {
+            "translated": 3,
+            "missing": 0,
+            "notApplicable": 1,
+            "percentage": 100
+          },
+          "perkName": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkDescription": {
+            "translated": 9,
+            "missing": 0,
+            "notApplicable": 0,
+            "percentage": 100
+          },
+          "perkNotes": {
+            "translated": 2,
+            "missing": 0,
+            "notApplicable": 7,
+            "percentage": 100
+          },
+          "variantValue": {
+            "translated": 0,
+            "missing": 0,
+            "notApplicable": 15,
+            "percentage": 100
+          }
+        }
+      }
+    }
+  },
+  "translationIssues": [],
+  "identityIssues": [],
   "publication": {
     "status": "published"
   }

@@ -248,7 +248,7 @@ describe("WeaponCard", () => {
 
       const header = container.querySelector(".weapon-card__header");
       const category = container.querySelector(".weapon-card__category");
-      const name = screen.getByRole("heading", { level: 2, name: weapon.name });
+      const name = screen.getByRole("heading", { level: 2, name: weapon.name.en });
       expect(header).not.toBeNull();
       expect(name.classList).toContain("weapon-card__name");
       expect(header?.contains(name)).toBe(true);

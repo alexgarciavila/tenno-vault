@@ -198,7 +198,7 @@ export function diffBackup(
   incoming: ProgressRecord,
   catalog: IncarnonCatalog,
 ): BackupDiff {
-  const nameById = new Map(catalog.weapons.map((w) => [w.id, w.name]));
+  const nameById = new Map(catalog.weapons.map((w) => [w.id, w.name.en]));
   const weaponById = new Map(catalog.weapons.map((w) => [w.id, w]));
 
   const added: WeaponDiff[] = [];

@@ -29,10 +29,13 @@ function filesBelow(root: string): string[] {
   return files.sort();
 }
 
-describe("catálogo v2 e imágenes publicadas reales", () => {
-  it("mantiene un informe completo 53/53 sin incidencias ni staging pendiente", () => {
+describe("catálogo v3 e imágenes publicadas reales", () => {
+  it("materializa la conversión v3 53/53 sin incidencias ni staging pendiente", () => {
     expect(reportJson).toMatchObject({
-      mode: "all",
+      catalogSchemaVersion: 3,
+      translationSchemaVersion: 1,
+      translationSource: "project-translation",
+      mode: "convert-v3",
       total: 53,
       ok: 53,
       reviewRequired: [],
@@ -40,19 +43,60 @@ describe("catálogo v2 e imágenes publicadas reales", () => {
       errors: [],
       imageIssues: [],
       imagesKept: [],
+      imagesStaged: [],
+      imagesPublished: [],
+      translationIssues: [],
+      identityIssues: [],
       publication: { status: "published" },
     });
-    expect(reportJson.imagesStaged).toHaveLength(53);
-    expect(new Set(reportJson.imagesStaged).size).toBe(53);
-    expect(reportJson.imagesPublished).toHaveLength(53);
-    expect(new Set(reportJson.imagesPublished).size).toBe(53);
-    expect([...reportJson.imagesPublished].sort()).toEqual([...reportJson.imagesStaged].sort());
+    expect(reportJson.coverage).toMatchObject({
+      translated: 1594,
+      missing: 0,
+      notApplicable: 631,
+      percentage: 100,
+    });
+    expect(Object.values(reportJson.coverage.byWeapon)).toHaveLength(53);
+    expect(
+      Object.values(reportJson.coverage.byWeapon).every(
+        (weapon) => weapon.missing === 0 && weapon.percentage === 100,
+      ),
+    ).toBe(true);
     expect(filesBelow(STAGING_ROOT)).toEqual([]);
+  });
+
+  it("mantiene el informe publicado coherente por campo, arma y arma/campo", () => {
+    const sum = (stats: Array<{ translated: number; missing: number; notApplicable: number }>) =>
+      stats.reduce(
+        (total, item) => ({
+          translated: total.translated + item.translated,
+          missing: total.missing + item.missing,
+          notApplicable: total.notApplicable + item.notApplicable,
+        }),
+        { translated: 0, missing: 0, notApplicable: 0 },
+      );
+    const expected = {
+      translated: reportJson.coverage.translated,
+      missing: reportJson.coverage.missing,
+      notApplicable: reportJson.coverage.notApplicable,
+    };
+
+    expect(sum(Object.values(reportJson.coverage.byField))).toEqual(expected);
+    expect(sum(Object.values(reportJson.coverage.byWeapon))).toEqual(expected);
+    expect(Object.keys(reportJson.coverage.byWeapon).sort()).toEqual(
+      catalogJson.weapons.map((weapon) => weapon.id).sort(),
+    );
+    for (const weapon of Object.values(reportJson.coverage.byWeapon)) {
+      expect(sum(Object.values(weapon.byField))).toEqual({
+        translated: weapon.translated,
+        missing: weapon.missing,
+        notApplicable: weapon.notApplicable,
+      });
+    }
   });
 
   it("valida referencias, blobs, hashes, tipos, rutas, origen y ausencia de huérfanos", () => {
     const catalog = incarnonCatalogSchema.parse(catalogJson);
-    expect(catalog.schemaVersion).toBe(2);
+    expect(catalog.schemaVersion).toBe(3);
     expect(catalog.weapons).toHaveLength(53);
     expect(catalog.weapons.every((weapon) => weapon.dataStatus === "complete")).toBe(true);
     expect(catalog.weapons.every((weapon) => weapon.reviewNotes.length === 0)).toBe(true);
@@ -84,6 +128,21 @@ describe("catálogo v2 e imágenes publicadas reales", () => {
       sourceUrl: "https://wiki.warframe.com/w/Incarnon",
       license: "CC BY-NC-SA 3.0",
       licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+      canonicalLanguage: "en",
+      translations: [
+        {
+          id: "tenno-vault-es-from-warframe-wiki-en",
+          language: "es",
+          kind: "project-translation",
+          derivedFrom: "warframe-wiki-en",
+          responsibility: "Colaboradores de Tenno Vault",
+          license: "CC BY-NC-SA 3.0",
+          licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+          updatedAt: "2026-07-18T00:00:00.000Z",
+          changes:
+            "Traducción propia al español del contenido canónico inglés de la Warframe Wiki.",
+        },
+      ],
     });
     for (const weapon of catalog.weapons) {
       expect(weapon.sourceUrl).toMatch(/^https:\/\/wiki\.warframe\.com\/w\//);

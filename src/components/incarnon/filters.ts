@@ -65,7 +65,7 @@ function matches(
 
   const search = filters.search.trim().toLowerCase();
   if (search !== "") {
-    const haystack = `${weapon.name} ${weapon.weaponName}`.toLowerCase();
+    const haystack = `${weapon.name.en} ${weapon.weaponName.en}`.toLowerCase();
     if (!haystack.includes(search)) return false;
   }
 

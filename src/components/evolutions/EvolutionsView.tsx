@@ -27,7 +27,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCatalog } from "../../data/catalog";
-import { useT } from "../../lib/i18n";
+import { resolveCatalogText, type ResolvedCatalogText } from "../../lib/catalog-i18n";
+import { useLanguage, useT } from "../../lib/i18n";
 import { computeEvolutionSummary } from "../../lib/inventory";
 import { useHydrated } from "../../lib/use-hydrated";
 import { useProgressStore } from "../../store/progress-store";
@@ -43,6 +44,7 @@ const WIKI_LINK_CLASS = "text-[0.75rem] font-semibold uppercase tracking-[0.1em]
 
 export function EvolutionsView() {
   const t = useT();
+  const language = useLanguage();
   const hydrated = useHydrated();
   const router = useRouter();
   const catalog = getCatalog();
@@ -127,6 +129,7 @@ export function EvolutionsView() {
 
       <div className="reflow-chain flex flex-col gap-4">
         {groups.map(({ weapon, installations }) => {
+          const weaponName = resolveCatalogText(weapon.name, language);
           const isOpen = expanded.has(weapon.id);
           const summary = computeEvolutionSummary(weapon, progress[weapon.id]);
           const sortedTiers = [...weapon.evolutions].sort((a, b) => a.tier - b.tier);
@@ -164,7 +167,7 @@ export function EvolutionsView() {
                       id={titleId}
                       className="display-title font-display text-[1.0625rem] uppercase tracking-[0.12em] text-fg-strong"
                     >
-                      {weapon.name}
+                      <CatalogText value={weaponName} />
                     </span>
                     <span className="wf-cut wf-cut-sm self-start px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-accent">
                       {t.category[weapon.category]}
@@ -180,6 +183,8 @@ export function EvolutionsView() {
                 <div id={panelId} className="reflow-chain mt-5 space-y-6">
                   {installations.map((installation) => {
                     const variant = weapon.variants.find((v) => v.id === installation.variantId);
+                    if (!variant) return null;
+                    const variantName = resolveCatalogText(variant.name, language);
                     const completedTiers = installation.evolutionProgress.filter(
                       (ep) => ep.completed,
                     ).length;
@@ -190,7 +195,7 @@ export function EvolutionsView() {
                       >
                         <div className="extreme-stack extreme-gap reflow-chain flex flex-wrap items-center justify-between gap-2">
                           <h3 className="reflow-text text-base font-semibold uppercase tracking-[0.1em] text-gold">
-                            {variant?.name ?? installation.variantId}
+                            <CatalogText value={variantName} />
                           </h3>
                           <ProgressMiniBar
                             completed={completedTiers}
@@ -246,9 +251,9 @@ export function EvolutionsView() {
                     const completedAll =
                       perInstall.length > 0 && perInstall.every((ep) => ep?.completed);
 
-                    let primary: string;
+                    let primary: ResolvedCatalogText | null = null;
                     if (!tier.selectable && fixedPerk) {
-                      primary = fixedPerk.name;
+                      primary = resolveCatalogText(fixedPerk.name, language);
                     } else {
                       const selectedIds = [
                         ...new Set(
@@ -261,12 +266,11 @@ export function EvolutionsView() {
                         selectedIds.length === 1
                           ? tier.perks.find((p) => p.id === selectedIds[0])
                           : undefined;
-                      primary = chosen?.name ?? `${t.evolutions.tier} ${toRoman(tier.tier)}`;
+                      primary = chosen ? resolveCatalogText(chosen.name, language) : null;
                     }
-
                     const condition = tier.unlockCondition
-                      ? `${t.evolutions.challenge}: ${tier.unlockCondition}`
-                      : t.evolutions.unlockOnInstall;
+                      ? resolveCatalogText(tier.unlockCondition, language)
+                      : null;
 
                     return (
                       <li
@@ -283,10 +287,20 @@ export function EvolutionsView() {
                         </span>
                         <span className="reflow-text min-w-0 flex-1">
                           <span className="reflow-text block text-[0.8125rem] font-bold uppercase tracking-[0.08em] text-fg-strong">
-                            {primary}
+                            {primary ? (
+                              <CatalogText value={primary} />
+                            ) : (
+                              `${t.evolutions.tier} ${toRoman(tier.tier)}`
+                            )}
                           </span>
                           <span className="reflow-text block text-[0.75rem] text-fg-subtle">
-                            {condition}
+                            {condition ? (
+                              <>
+                                {t.evolutions.challenge}: <CatalogText value={condition} />
+                              </>
+                            ) : (
+                              t.evolutions.unlockOnInstall
+                            )}
                           </span>
                         </span>
                         <span
@@ -308,4 +322,8 @@ export function EvolutionsView() {
       </div>
     </div>
   );
+}
+
+function CatalogText({ value }: { value: ResolvedCatalogText }) {
+  return <span lang={value.isFallback ? value.effectiveLanguage : undefined}>{value.text}</span>;
 }

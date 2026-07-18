@@ -41,7 +41,7 @@ describe("parseWeaponPage — Braton (Genesis, 4 variantes)", () => {
       "braton-prime",
     ]);
     const vandal = page.variants[2];
-    expect(vandal?.name).toBe("Braton Vandal");
+    expect(vandal?.name.en).toBe("Braton Vandal");
     expect(vandal?.wikiUrl).toBe("https://wiki.warframe.com/w/Braton_Vandal");
   });
 
@@ -54,33 +54,33 @@ describe("parseWeaponPage — Braton (Genesis, 4 variantes)", () => {
     const tier1 = page.evolutions[0];
     expect(tier1?.selectable).toBe(false);
     expect(tier1?.unlockCondition).toBeNull();
-    expect(tier1?.perks[0]?.name).toBe("Incarnon Form");
+    expect(tier1?.perks[0]?.name.en).toBe("Incarnon Form");
     expect(tier1?.perks[0]?.variantValues).toBeUndefined();
   });
 
   it("tier 2: condición de desbloqueo y 2 perks, con selectable true", () => {
     const tier2 = page.evolutions[1];
-    expect(tier2?.unlockCondition).toBe("Complete a solo mission with this weapon equipped.");
+    expect(tier2?.unlockCondition?.en).toBe("Complete a solo mission with this weapon equipped.");
     expect(tier2?.selectable).toBe(true);
-    expect(tier2?.perks.map((p) => p.name)).toEqual(["Daring Reverie", "Munitions Grit"]);
+    expect(tier2?.perks.map((p) => p.name.en)).toEqual(["Daring Reverie", "Munitions Grit"]);
   });
 
   it('perk "Daring Reverie": id estable y variantValues normalizados para las 4 variantes', () => {
     const daring = page.evolutions[1]?.perks[0];
     expect(daring?.id).toBe("braton-e2-daring-reverie");
     expect(daring?.variantValues).toEqual({
-      braton: "X = 24 · Y = 30",
-      "mk1-braton": "X = 28 · Y = 22",
-      "braton-vandal": "X = 12 · Y = 34",
-      "braton-prime": "X = 4 · Y = 38",
+      braton: { kind: "shared", value: "X = 24 · Y = 30" },
+      "mk1-braton": { kind: "shared", value: "X = 28 · Y = 22" },
+      "braton-vandal": { kind: "shared", value: "X = 12 · Y = 34" },
+      "braton-prime": { kind: "shared", value: "X = 4 · Y = 38" },
     });
   });
 
   it("tiers 3 y 4 arrastran su desafío previo del documento", () => {
-    expect(page.evolutions[2]?.unlockCondition).toBe(
+    expect(page.evolutions[2]?.unlockCondition?.en).toBe(
       "Kill 100 enemies with this weapon's Incarnon Form.",
     );
-    expect(page.evolutions[3]?.unlockCondition).toContain("Kill 30 enemies without reloading.");
+    expect(page.evolutions[3]?.unlockCondition?.en).toContain("Kill 30 enemies without reloading.");
   });
 });
 
@@ -100,13 +100,13 @@ describe("parseWeaponPage — Lex (Genesis, 2 variantes)", () => {
 
   it("asigna las condiciones de desbloqueo a los tiers 2–4 (tier 1 null)", () => {
     expect(page.evolutions[0]?.unlockCondition).toBeNull();
-    expect(page.evolutions[1]?.unlockCondition).toBe(
+    expect(page.evolutions[1]?.unlockCondition?.en).toBe(
       "Complete a solo mission with this weapon equipped",
     );
-    expect(page.evolutions[2]?.unlockCondition).toBe(
+    expect(page.evolutions[2]?.unlockCondition?.en).toBe(
       "Kill 100 enemies with this weapon's Incarnon Form",
     );
-    expect(page.evolutions[3]?.unlockCondition).toContain("Get 5 headshots with this weapon");
+    expect(page.evolutions[3]?.unlockCondition?.en).toContain("Get 5 headshots with this weapon");
   });
 });
 
@@ -125,13 +125,13 @@ describe("parseWeaponPage — Skana (Genesis, 3 variantes)", () => {
   });
 
   it("asigna las condiciones de desbloqueo de los tiers 2–4", () => {
-    expect(page.evolutions[1]?.unlockCondition).toBe(
+    expect(page.evolutions[1]?.unlockCondition?.en).toBe(
       "Complete a solo mission with this weapon equipped",
     );
-    expect(page.evolutions[2]?.unlockCondition).toBe(
+    expect(page.evolutions[2]?.unlockCondition?.en).toBe(
       "Activate this weapon's Incarnon form 6 times in a mission",
     );
-    expect(page.evolutions[3]?.unlockCondition).toBe("Reach 10x Combo Multiplier 10 times");
+    expect(page.evolutions[3]?.unlockCondition?.en).toBe("Reach 10x Combo Multiplier 10 times");
   });
 });
 
@@ -160,7 +160,7 @@ describe("parseWeaponPage — Phenmor (innata, 5 tiers)", () => {
     expect(page.variants).toEqual([
       {
         id: "phenmor",
-        name: "Phenmor",
+        name: { en: "Phenmor" },
         wikiUrl: "https://wiki.warframe.com/w/Phenmor",
       },
     ]);
@@ -168,9 +168,9 @@ describe("parseWeaponPage — Phenmor (innata, 5 tiers)", () => {
 
   it("extrae 5 tiers y el desafío de EVO1 existe en innatas", () => {
     expect(page.evolutions.map((t) => t.tier)).toEqual([1, 2, 3, 4, 5]);
-    expect(page.evolutions[0]?.unlockCondition).toBe("Kill 100 enemies with the Phenmor.");
+    expect(page.evolutions[0]?.unlockCondition?.en).toBe("Kill 100 enemies with the Phenmor.");
     expect(page.evolutions[0]?.selectable).toBe(false);
-    expect(page.evolutions[0]?.perks[0]?.name).toBe("Incarnon Form");
+    expect(page.evolutions[0]?.perks[0]?.name.en).toBe("Incarnon Form");
   });
 
   it("los perks innatos no llevan variantValues (sin columnas de variante)", () => {

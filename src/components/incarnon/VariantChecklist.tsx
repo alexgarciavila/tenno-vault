@@ -29,7 +29,7 @@ export function VariantChecklist({
                 onChange={(event) => onToggle(variant.id, event.target.checked)}
                 className="size-5 shrink-0 accent-[#6fd9e7]"
               />
-              <span className="reflow-text flex-1 text-fg">{variant.name}</span>
+              <span className="reflow-text flex-1 text-fg">{variant.name.en}</span>
             </label>
           </li>
         );

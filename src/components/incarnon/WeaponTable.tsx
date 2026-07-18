@@ -99,7 +99,7 @@ export function WeaponTable({
                     role="rowheader"
                     className={`${td} col-span-2 border-b border-border-subtle pb-2 font-display text-sm uppercase tracking-[0.08em] text-fg-strong xl:col-span-1 xl:border-0 xl:pb-0`}
                   >
-                    {weapon.name}
+                    {weapon.name.en}
                   </th>
                   <td
                     role="cell"
