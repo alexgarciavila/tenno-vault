@@ -13,6 +13,7 @@ vi.mock("next/navigation", () => ({
 
 beforeEach(() => {
   localStorage.clear();
+  window.history.replaceState(null, "", window.location.pathname);
   push.mockClear();
   useProgressStore.setState({ progress: {} });
 });
@@ -26,7 +27,7 @@ function renderView() {
 }
 
 describe("EvolutionsView — instalaciones y navegación", () => {
-  it("muestra solo instalaciones válidas, conserva el deep-link y ordena los tiers", async () => {
+  it("muestra una lista plegada, la despliega por clic y ordena los tiers con romanos", async () => {
     useProgressStore.setState({
       progress: {
         braton: {
@@ -41,17 +42,72 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     const { container } = renderView();
-    expect(
-      await screen.findByRole("heading", { level: 2, name: "Braton Incarnon Genesis" }),
-    ).toBeDefined();
+    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
     expect(container.querySelector("#arma-braton")).not.toBeNull();
-    expect(screen.getByRole("heading", { level: 3, name: "Braton Prime" })).toBeDefined();
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute("aria-controls")).toBe("evo-panel-braton");
+    expect(screen.queryByRole("heading", { level: 3, name: "Braton Prime" })).toBeNull();
     expect(screen.queryByText("variante-eliminada")).toBeNull();
 
+    expect(container.textContent).toContain("PROGRESO POR ARMA · 0/4 COMPLETADAS");
+    expect(screen.getByText("I", { selector: "li span[aria-hidden='true']" })).toBeDefined();
+    expect(screen.getByText("IV", { selector: "li span[aria-hidden='true']" })).toBeDefined();
+
+    fireEvent.click(trigger);
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("heading", { level: 3, name: "Braton Prime" })).toBeDefined();
     const tiers = screen
       .getAllByRole("heading", { level: 4 })
-      .map((heading) => Number(heading.textContent?.match(/\d+/)?.[0]));
-    expect(tiers).toEqual([1, 2, 3, 4]);
+      .map((heading) => heading.textContent?.match(/Evolución\s+([IVX]+)/)?.[1]);
+    expect(tiers).toEqual(["I", "II", "III", "IV"]);
+    expect(screen.getByRole("link", { name: /Ver en la wiki/i }).className).toContain("uppercase");
+  });
+
+  it("apila en la cabecera del acordeón el nombre arriba y el badge debajo a la izquierda", async () => {
+    useProgressStore.setState({
+      progress: {
+        braton: {
+          weaponId: "braton",
+          uninstalledCopies: 0,
+          installations: [buildInstallation("braton", "braton-prime")],
+        },
+      },
+    });
+
+    renderView();
+    await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    // El título display vive en una columna (nombre arriba, badge debajo).
+    const title = document.getElementById("titulo-braton");
+    expect(title?.className).toContain("display-title");
+    const stack = title?.parentElement;
+    expect(stack?.className).toContain("flex-col");
+    // El título es el primer hijo y el badge queda apilado justo debajo.
+    expect(stack?.firstElementChild).toBe(title);
+    expect(stack?.children.length).toBeGreaterThanOrEqual(2);
+    const badge = stack?.children[1] as HTMLElement | undefined;
+    expect(badge?.className).toContain("self-start");
+  });
+
+  it("abre el arma indicada por deep-link y conserva el detalle accesible", async () => {
+    window.history.replaceState(null, "", "#arma-braton");
+    const scrollIntoView = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoView;
+    useProgressStore.setState({
+      progress: {
+        braton: {
+          weaponId: "braton",
+          uninstalledCopies: 0,
+          installations: [buildInstallation("braton", "braton-prime")],
+        },
+      },
+    });
+
+    renderView();
+    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    await waitFor(() => expect(trigger.getAttribute("aria-expanded")).toBe("true"));
+    expect(screen.getByRole("heading", { level: 3, name: "Braton Prime" })).toBeDefined();
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
+    window.history.replaceState(null, "", window.location.pathname);
   });
 
   it("ofrece CTA funcional a Incarnon cuando no hay instalaciones", async () => {
@@ -73,7 +129,8 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     const { container } = renderView();
-    await screen.findByRole("heading", { level: 2, name: "Braton Incarnon Genesis" });
+    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    fireEvent.click(trigger);
 
     const weaponGroup = container.querySelector("#arma-braton");
     const fieldset = container.querySelector("fieldset.reflow-chain");

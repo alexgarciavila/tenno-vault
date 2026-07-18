@@ -1,11 +1,25 @@
 "use client";
 
 /**
- * Vista tabla compacta de Incarnon. Contenedor con scroll
- * horizontal accesible (`role="region"`, `aria-label`, `tabindex=0`) para no
- * recortar columnas en móvil: la vista "tabla" es una preferencia global
- * persistida, no solo de escritorio. Cada fila muestra las mismas cifras que la
- * tarjeta (mismo view-model) y un stepper compacto de copias.
+ * Vista tabla responsive de Incarnon con patrón "stacked table". TODA la
+ * información de cada fila se muestra SIEMPRE, en cualquier ancho: nunca se
+ * ocultan columnas ni se genera scroll horizontal en uso normal — el contenido
+ * refluye hacia abajo.
+ *
+ * - Desde `xl` (≥1280px, ancho seguro para las 7 columnas descontando la
+ *   sidebar de escritorio): tabla clásica con todas las columnas en línea.
+ * - Por debajo de `xl`: cada fila se convierte en una mini-ficha apilada
+ *   (grid de pares etiqueta+valor) con el nombre del arma como cabecera. El
+ *   `<thead>` se oculta (no alinea con nada) y cada celda muestra su propia
+ *   etiqueta (reutiliza los literales i18n de las cabeceras).
+ *
+ * Accesibilidad: al cambiar `display` de los elementos de tabla algunos
+ * navegadores pierden las semánticas implícitas, así que se declaran `role`
+ * explícitos (`table`/`rowgroup`/`row`/`columnheader`/`rowheader`/`cell`). Los
+ * targets del stepper se mantienen ≥44px y su envoltorio `w-32 shrink-0`
+ * (en modo apilado sobra ancho, el container query no se dispara).
+ *
+ * Cada fila muestra las mismas cifras que la tarjeta (mismo view-model).
  */
 import type { IncarnonWeapon } from "../../data/catalog-schema";
 import { useT } from "../../lib/i18n";
@@ -26,45 +40,50 @@ export function WeaponTable({
   onSetUninstalledCopies: (weaponId: string, n: number) => void;
 }) {
   const t = useT();
-  const th = "px-3 py-2 text-left font-medium text-fg-muted whitespace-nowrap";
-  const td = "px-3 py-2 align-middle whitespace-nowrap";
+  const th =
+    "px-3 py-3 text-left text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-accent";
+  // Celda de datos: bloque con etiqueta+valor en modo apilado; table-cell en xl.
+  const td = "block xl:table-cell xl:px-3 xl:py-2 xl:align-top";
+  // Etiqueta del campo, visible solo en modo apilado (<xl).
+  const label =
+    "mb-0.5 block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-accent xl:hidden";
 
   return (
     <div className="space-y-2">
-      <p className="text-[0.8125rem] text-fg-muted lg:sr-only">{t.incarnon.tableScrollHint}</p>
+      <p className="sr-only">{t.incarnon.tableScrollHint}</p>
       <div
         role="region"
         aria-label={t.incarnon.tableRegionLabel}
         tabIndex={0}
         className="overflow-x-auto rounded-sm border border-border bg-surface shadow-[inset_-18px_0_18px_-22px_var(--color-accent)]"
       >
-        <table className="min-w-[57.5rem] w-full border-collapse text-[0.8125rem]">
-          <thead className="bg-surface-alt">
-            <tr>
-              <th scope="col" className={th}>
+        <table role="table" className="block w-full border-collapse text-[0.8125rem] xl:table">
+          <thead role="rowgroup" className="hidden bg-surface-alt xl:table-header-group">
+            <tr role="row">
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colName}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colCategory}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colWeek}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colStatus}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colCopies}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colEvolutions}
               </th>
-              <th scope="col" className={th}>
+              <th scope="col" role="columnheader" className={th}>
                 {t.incarnon.colActions}
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup" className="block xl:table-row-group">
             {weapons.map((weapon) => {
               const progress = progressRecord[weapon.id];
               const vm = buildWeaponViewModel(weapon, progress);
@@ -72,45 +91,70 @@ export function WeaponTable({
               return (
                 <tr
                   key={weapon.id}
-                  className="border-t border-border-subtle bg-surface hover:bg-surface-alt"
+                  role="row"
+                  className="mb-3 grid grid-cols-2 gap-x-4 gap-y-3 rounded-sm border border-border-subtle bg-surface p-3 hover:bg-surface-alt xl:mb-0 xl:table-row xl:rounded-none xl:border-0 xl:border-t xl:p-0"
                 >
-                  <th scope="row" className={`${td} font-medium text-fg`}>
+                  <th
+                    scope="row"
+                    role="rowheader"
+                    className={`${td} col-span-2 border-b border-border-subtle pb-2 font-display text-sm uppercase tracking-[0.08em] text-fg-strong xl:col-span-1 xl:border-0 xl:pb-0`}
+                  >
                     {weapon.name}
                   </th>
-                  <td className={`${td} text-fg-muted`}>{t.category[weapon.category]}</td>
-                  <td className={`${td} tabular-nums text-fg-muted`}>
+                  <td
+                    role="cell"
+                    className={`${td} text-[0.8125rem] font-semibold uppercase tracking-[0.08em] text-fg-muted`}
+                  >
+                    <span className={label}>{t.incarnon.colCategory}</span>
+                    {t.category[weapon.category]}
+                  </td>
+                  <td role="cell" className={`${td} tabular-nums text-fg-muted`}>
+                    <span className={label}>{t.incarnon.colWeek}</span>
                     {weapon.rotation ? `${weapon.rotation.week} · ${weapon.rotation.letter}` : "—"}
                   </td>
-                  <td className={td}>
+                  <td role="cell" className={td}>
+                    <span className={label}>{t.incarnon.colStatus}</span>
                     <StatusBadge
                       status={vm.status.status}
                       hasIncompleteData={vm.status.hasIncompleteData}
                     />
                   </td>
-                  <td className={`${td} tabular-nums text-fg`}>
+                  <td role="cell" className={`${td} tabular-nums text-fg`}>
+                    <span className={label}>{t.incarnon.colCopies}</span>
                     {vm.copies.installed} / {vm.copies.uninstalled} / {vm.copies.missing}
                   </td>
-                  <td className={td}>
+                  <td role="cell" className={td}>
+                    <span className={label}>{t.incarnon.colEvolutions}</span>
                     <ProgressMiniBar
                       completed={vm.evolutions.completedTiers}
                       total={vm.evolutions.totalTiers}
                     />
                   </td>
-                  <td className={td}>
-                    <div className="flex items-center gap-3">
+                  <td role="cell" className={`${td} col-span-2 xl:col-span-1`}>
+                    <span className={label}>{t.incarnon.colActions}</span>
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-3">
                       {!isInnate ? (
-                        <CopyStepper
-                          value={vm.copies.uninstalled}
-                          onIncrement={() =>
-                            onSetUninstalledCopies(weapon.id, vm.copies.uninstalled + 1)
-                          }
-                          onDecrement={() =>
-                            onSetUninstalledCopies(
-                              weapon.id,
-                              Math.max(0, vm.copies.uninstalled - 1),
-                            )
-                          }
-                        />
+                        // Ancho explícito obligatorio: `.copy-stepper` usa
+                        // `container-type: inline-size` (globals.css), que implica
+                        // `contain: inline-size` y hace que su ancho intrínseco se
+                        // compute como 0. w-32 (8rem = 128px = 2 botones 44px + 2
+                        // gaps 8px + valor 24px) le da el ancho que el containment
+                        // impide inferir, evitando el container query de 127px.
+                        <div className="w-32 shrink-0">
+                          <CopyStepper
+                            value={vm.copies.uninstalled}
+                            nowrap
+                            onIncrement={() =>
+                              onSetUninstalledCopies(weapon.id, vm.copies.uninstalled + 1)
+                            }
+                            onDecrement={() =>
+                              onSetUninstalledCopies(
+                                weapon.id,
+                                Math.max(0, vm.copies.uninstalled - 1),
+                              )
+                            }
+                          />
+                        </div>
                       ) : null}
                       <ExternalLink href={weapon.sourceUrl} label={t.incarnon.viewWiki} />
                     </div>

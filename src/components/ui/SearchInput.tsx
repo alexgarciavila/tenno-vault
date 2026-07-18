@@ -36,18 +36,21 @@ export function SearchInput({
 
   return (
     <div className="w-full">
-      <label htmlFor={id} className="mb-1 block text-[0.8125rem] font-medium text-fg-muted">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-fg-muted"
+      >
         {label}
       </label>
-      <div className="relative after:pointer-events-none after:absolute after:right-0 after:top-0 after:size-2 after:border-r after:border-t after:border-accent">
-        <IconSearch className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-fg-muted" />
+      <div className="wf-frame relative flex min-h-12 items-center">
+        <IconSearch className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-fg-subtle" />
         <input
           id={id}
           type="search"
           value={local}
           placeholder={placeholder}
           onChange={(event) => setLocal(event.target.value)}
-          className="min-h-12 w-full rounded-lg border border-border bg-surface-alt pl-10 pr-3 text-fg placeholder:text-fg-subtle hover:border-accent focus:border-accent"
+          className="min-h-12 w-full bg-transparent pl-11 pr-4 text-[1rem] font-semibold uppercase tracking-[0.09em] text-fg-strong placeholder:uppercase placeholder:text-fg-subtle"
         />
       </div>
     </div>

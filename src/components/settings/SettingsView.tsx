@@ -120,7 +120,10 @@ export function SettingsView() {
       <EditorialPageHeader title={t.settings.title} />
 
       <section aria-labelledby="cfg-idioma" className="angular-panel space-y-3 p-5">
-        <h2 id="cfg-idioma" className="text-xl font-semibold text-fg">
+        <h2
+          id="cfg-idioma"
+          className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong"
+        >
           {t.settings.languageSection}
         </h2>
         <SegmentedControl
@@ -135,14 +138,20 @@ export function SettingsView() {
       </section>
 
       <section aria-labelledby="cfg-vista" className="angular-panel space-y-3 p-5">
-        <h2 id="cfg-vista" className="text-xl font-semibold text-fg">
+        <h2
+          id="cfg-vista"
+          className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong"
+        >
           {t.settings.viewSection}
         </h2>
         <ViewSwitch value={view} onChange={setView} />
       </section>
 
       <section aria-labelledby="cfg-backup" className="angular-panel space-y-5 p-5">
-        <h2 id="cfg-backup" className="text-xl font-semibold text-fg">
+        <h2
+          id="cfg-backup"
+          className="text-base font-semibold uppercase tracking-[0.14em] text-fg-strong"
+        >
           {t.settings.backupSection}
         </h2>
 
@@ -150,7 +159,7 @@ export function SettingsView() {
           <button
             type="button"
             onClick={handleExport}
-            className="min-h-11 rounded-sm border border-border bg-surface-alt px-4 font-medium text-fg hover:border-accent hover:bg-surface-elevated"
+            className="wf-cut min-h-11 px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg"
           >
             {t.settings.export}
           </button>
@@ -175,13 +184,16 @@ export function SettingsView() {
         aria-labelledby="cfg-peligro"
         className="space-y-3 rounded-sm border border-danger-fg bg-danger-bg/25 p-5"
       >
-        <h2 id="cfg-peligro" className="text-xl font-semibold text-danger-fg">
+        <h2
+          id="cfg-peligro"
+          className="text-base font-semibold uppercase tracking-[0.14em] text-danger-fg"
+        >
           {t.settings.dangerSection}
         </h2>
         <button
           type="button"
           onClick={() => setResetOpen(true)}
-          className="min-h-11 rounded-lg bg-danger-bg px-4 font-medium text-danger-fg hover:brightness-125"
+          className="min-h-11 rounded-sm bg-danger-bg px-4 font-bold uppercase tracking-[0.1em] text-danger-fg hover:brightness-125"
         >
           {t.settings.reset}
         </button>

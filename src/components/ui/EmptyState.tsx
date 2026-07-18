@@ -23,7 +23,7 @@ export function EmptyState({
         <button
           type="button"
           onClick={onCta}
-          className="reflow-text mt-4 inline-flex min-h-11 items-center rounded-sm bg-accent px-4 font-semibold text-bg hover:bg-accent-strong"
+          className="reflow-text mt-4 inline-flex min-h-11 items-center rounded-sm bg-accent px-4 font-bold uppercase tracking-[0.1em] text-bg hover:bg-accent-strong"
         >
           {ctaLabel}
         </button>

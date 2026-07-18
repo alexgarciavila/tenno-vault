@@ -38,7 +38,7 @@ export function FileImportControl({
           // Permite reseleccionar el mismo archivo.
           event.target.value = "";
         }}
-        className="reflow-text block w-full text-[0.8125rem] text-fg-muted file:mr-3 file:min-h-11 file:max-w-full file:cursor-pointer file:rounded-sm file:border file:border-border file:bg-surface-alt file:px-4 file:font-medium file:text-fg hover:file:border-accent"
+        className="reflow-text block w-full text-[0.8125rem] text-fg-muted file:mr-3 file:min-h-11 file:max-w-full file:cursor-pointer file:rounded-sm file:border file:border-border file:bg-surface-alt file:px-4 file:font-semibold file:uppercase file:tracking-[0.09em] file:text-fg-muted hover:file:border-accent hover:file:text-fg"
       />
       <span className="sr-only">{buttonLabel}</span>
     </div>

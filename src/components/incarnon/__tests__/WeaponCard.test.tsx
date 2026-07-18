@@ -102,6 +102,8 @@ describe("WeaponCard", () => {
     );
     expect(screen.getByText("Instalado parcialmente")).toBeDefined();
     expect(normalized(container.textContent)).toContain("1 instalado · 1 disponible · 2 pendiente");
+    expect(normalized(container.textContent)).toContain("Evoluciones · 0/4");
+    expect(screen.getByRole("link", { name: /Ver en la wiki/i }).className).toContain("uppercase");
   });
 
   it("ejemplo B (Lex): estado 'Completado'", () => {

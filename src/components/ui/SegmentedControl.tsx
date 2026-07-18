@@ -36,7 +36,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="reflow-chain inline-flex flex-wrap rounded-lg border border-border bg-surface-alt p-1"
+      className="reflow-chain inline-flex flex-wrap gap-1.5"
     >
       {options.map((option, index) => {
         const selected = option.value === value;
@@ -50,10 +50,8 @@ export function SegmentedControl<T extends string>({
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(option.value)}
             onKeyDown={(event) => onKeyDown(event, index)}
-            className={`reflow-text min-h-11 rounded-sm border px-3 py-1 text-[0.8125rem] font-medium ${
-              selected
-                ? "border-accent bg-accent-surface text-accent-strong"
-                : "border-transparent text-fg-muted hover:bg-surface-elevated hover:text-fg"
+            className={`wf-cut reflow-text min-h-11 px-4 py-1 text-[0.8125rem] font-bold uppercase tracking-[0.14em] ${
+              selected ? "text-accent-strong" : "text-fg-muted hover:text-fg"
             }`}
           >
             {option.label}

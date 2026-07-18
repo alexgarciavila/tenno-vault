@@ -27,4 +27,20 @@ describe("CopyStepper — contrato de reflow extremo", () => {
     expect(value?.textContent).toBe("7");
     expect(Array.from(controls?.children ?? [])).toEqual([decrement, value, increment]);
   });
+
+  it("envuelve por defecto (flex-wrap) y no envuelve con nowrap", () => {
+    const { container: wrapContainer } = render(
+      <CopyStepper value={0} onIncrement={vi.fn()} onDecrement={vi.fn()} />,
+    );
+    const wrapRoot = wrapContainer.querySelector(".copy-stepper");
+    expect(wrapRoot?.classList).toContain("flex-wrap");
+    expect(wrapRoot?.classList).not.toContain("flex-nowrap");
+
+    const { container: nowrapContainer } = render(
+      <CopyStepper value={0} nowrap onIncrement={vi.fn()} onDecrement={vi.fn()} />,
+    );
+    const nowrapRoot = nowrapContainer.querySelector(".copy-stepper");
+    expect(nowrapRoot?.classList).toContain("flex-nowrap");
+    expect(nowrapRoot?.classList).not.toContain("flex-wrap");
+  });
 });
