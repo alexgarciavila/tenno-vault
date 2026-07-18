@@ -9,6 +9,11 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- Sustituido el resumen de inventario basado en estados ambiguos por cantidades
+  explícitas de copias, instalaciones, inventario y copias por conseguir. El
+  indicador final `Completado` exige todas las copias requeridas instaladas y
+  sus evoluciones terminadas; las métricas de inicio y los filtros usan las
+  mismas condiciones factuales.
 - Renovada la identidad visual de Tenno Vault, incluido el shell y la navegación
   responsive, con un rediseño completo de Incarnon y Evoluciones y una adaptación
   coherente de Inicio, Configuración y Acerca de.

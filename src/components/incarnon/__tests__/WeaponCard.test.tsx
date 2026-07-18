@@ -120,7 +120,7 @@ describe("WeaponCard", () => {
     expect(screen.getByRole("checkbox", { name: "Braton" })).toBeDefined();
   });
 
-  it("ejemplo A (Braton): estado 'Instalado parcialmente' y resumen 1·1·2", () => {
+  it("ejemplo A (Braton): muestra el desglose factual sin badge intermedio", () => {
     const weapon = getWeapon("braton")!;
     const { container } = render(
       <WeaponCard
@@ -131,9 +131,12 @@ describe("WeaponCard", () => {
         onSetUninstalledCopies={noop}
       />,
     );
-    expect(screen.getByText("Instalado parcialmente")).toBeDefined();
-    expect(normalized(container.textContent)).toContain("1 instalado · 1 disponible · 2 pendiente");
-    expect(normalized(container.textContent)).toContain("Evoluciones · 0/4");
+    expect(screen.queryByText("Instalado parcialmente")).toBeNull();
+    expect(normalized(container.textContent)).toContain("Copias: 2 / 4");
+    expect(normalized(container.textContent)).toContain("Instaladas: 1");
+    expect(normalized(container.textContent)).toContain("En inventario: 1");
+    expect(normalized(container.textContent)).toContain("Por conseguir: 2");
+    expect(normalized(container.textContent)).toContain("Evoluciones: 0 / 4");
     expect(screen.getByRole("link", { name: /Ver en la wiki/i }).className).toContain("uppercase");
   });
 
@@ -151,7 +154,7 @@ describe("WeaponCard", () => {
     expect(screen.getByText("Completado")).toBeDefined();
   });
 
-  it("ejemplo C (Skana): estado 'Cubierto' con 1 copia extra", () => {
+  it("ejemplo C (Skana): muestra excedente sin un estado de cobertura", () => {
     const weapon = getWeapon("skana")!;
     const { container } = render(
       <WeaponCard
@@ -162,8 +165,8 @@ describe("WeaponCard", () => {
         onSetUninstalledCopies={noop}
       />,
     );
-    expect(screen.getByText("Cubierto")).toBeDefined();
-    expect(normalized(container.textContent)).toContain("1 copia extra");
+    expect(screen.queryByText("Cubierto")).toBeNull();
+    expect(normalized(container.textContent)).toContain("Excedente: 1 copia");
   });
 
   it("instalar una variante nueva llama a onInstallVariant sin confirmación", () => {

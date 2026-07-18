@@ -2,7 +2,8 @@ import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { getWeapon } from "../../../data/catalog";
 import { I18nProvider } from "../../../lib/i18n";
-import { bratonExampleA } from "../../../test-support/progress-fixtures";
+import { useSettingsStore } from "../../../store/settings-store";
+import { bratonExampleA, skanaExampleC } from "../../../test-support/progress-fixtures";
 import { WeaponTable } from "../WeaponTable";
 
 describe("WeaponTable — regresión estructural", () => {
@@ -33,7 +34,7 @@ describe("WeaponTable — regresión estructural", () => {
     expect(within(row).queryByRole("button", { name: "Quitar copia" })).toBeNull();
   });
 
-  it("mantiene región de scroll enfocables, tabla y encabezados semánticos", () => {
+  it("mantiene región, tabla y encabezados semánticos sin patrón de scroll", () => {
     const weapon = getWeapon("braton")!;
     render(
       <I18nProvider>
@@ -46,11 +47,12 @@ describe("WeaponTable — regresión estructural", () => {
     );
 
     const region = screen.getByRole("region", { name: "Tabla de Incarnon" });
-    expect(region.getAttribute("tabindex")).toBe("0");
+    expect(region.getAttribute("tabindex")).toBeNull();
+    expect(region.className).not.toContain("overflow-x-auto");
     expect(within(region).getByRole("table")).toBeDefined();
-    expect(within(region).getAllByRole("columnheader")).toHaveLength(7);
+    expect(within(region).getAllByRole("columnheader")).toHaveLength(6);
     expect(within(region).getByRole("rowheader", { name: weapon.name.en })).toBeDefined();
-    expect(screen.getByText("Desplaza horizontalmente para ver todas las columnas.")).toBeDefined();
+    expect(screen.queryByText("Desplaza horizontalmente para ver todas las columnas.")).toBeNull();
   });
 
   it("preserva acciones y enlace de fuente sin usar la imagen remota del catálogo", () => {
@@ -70,6 +72,63 @@ describe("WeaponTable — regresión estructural", () => {
     expect(screen.getByRole("button", { name: "Quitar copia" })).toBeDefined();
     expect(screen.getByRole("link", { name: /Wiki/i }).getAttribute("href")).toBe(weapon.sourceUrl);
     expect(screen.queryByRole("img")).toBeNull();
+  });
+
+  it("muestra cantidades factuales etiquetadas en la fila apilada", () => {
+    const weapon = getWeapon("braton")!;
+    render(
+      <I18nProvider>
+        <WeaponTable
+          weapons={[weapon]}
+          progressRecord={{ braton: bratonExampleA() }}
+          onSetUninstalledCopies={vi.fn()}
+        />
+      </I18nProvider>,
+    );
+    const row = screen.getByRole("row", { name: /Braton/ });
+    expect(within(row).getAllByText("Copias: 2 / 4")).toHaveLength(2);
+    expect(within(row).getByText("Instaladas: 1")).toBeDefined();
+    expect(within(row).getByText("En inventario: 1")).toBeDefined();
+    expect(within(row).getByText("Por conseguir: 2")).toBeDefined();
+    expect(within(row).queryByText("Evoluciones: 0 / 4")).toBeNull();
+    expect(within(row).getAllByText("0 / 4")).toHaveLength(1);
+  });
+
+  it("pluraliza la frase compacta de instalaciones en español e inglés", () => {
+    const weapon = getWeapon("braton")!;
+    const props = {
+      weapons: [weapon],
+      progressRecord: { braton: bratonExampleA() },
+      onSetUninstalledCopies: vi.fn(),
+    };
+    const { rerender } = render(
+      <I18nProvider>
+        <WeaponTable {...props} />
+      </I18nProvider>,
+    );
+
+    expect(screen.getByText("1 instalada · 1 en inventario · 2 por conseguir")).toBeDefined();
+
+    const skana = getWeapon("skana")!;
+    rerender(
+      <I18nProvider>
+        <WeaponTable
+          weapons={[skana]}
+          progressRecord={{ skana: skanaExampleC() }}
+          onSetUninstalledCopies={vi.fn()}
+        />
+      </I18nProvider>,
+    );
+    expect(screen.getByText("2 instaladas · 2 en inventario · 0 por conseguir")).toBeDefined();
+
+    useSettingsStore.setState({ language: "en" });
+    rerender(
+      <I18nProvider>
+        <WeaponTable {...props} />
+      </I18nProvider>,
+    );
+    expect(screen.getByText("1 installed · 1 in inventory · 2 to acquire")).toBeDefined();
+    useSettingsStore.setState({ language: "es" });
   });
 
   it("da ancho explícito al stepper y no impone min-w global en la tabla", () => {
@@ -108,9 +167,9 @@ describe("WeaponTable — regresión estructural", () => {
       </I18nProvider>,
     );
 
-    // Contenedor: overflow-x solo como red de seguridad, sin acotar alto.
+    // El contenedor no ofrece scroll horizontal: los datos refluyen en la ficha.
     const region = screen.getByRole("region", { name: "Tabla de Incarnon" });
-    expect(region.className).toContain("overflow-x-auto");
+    expect(region.className).not.toContain("overflow-x-auto");
     expect(region.className).not.toContain("overflow-y-auto");
     expect(region.className).not.toContain("max-h-");
 

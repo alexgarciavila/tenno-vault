@@ -1,5 +1,5 @@
 /**
- * Mini-barra de progreso de evoluciones. SIEMPRE acompañada del texto "X/Y"
+ * Mini-barra de progreso de evoluciones. SIEMPRE acompañada del texto "X / Y"
  * adyacente (nunca solo la barra) — mismo principio de accesibilidad que los
  * badges. La barra es decorativa (`aria-hidden`); el texto
  * es la fuente de verdad.
@@ -15,7 +15,7 @@ export function ProgressMiniBar({ completed, total }: { completed: number; total
         <span className="block h-full bg-accent" style={{ width: `${pct}%` }} />
       </span>
       <span className="reflow-text text-[0.8125rem] tabular-nums text-fg-muted">
-        {completed}/{total}
+        {completed} / {total}
       </span>
     </span>
   );

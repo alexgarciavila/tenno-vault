@@ -23,7 +23,7 @@ export function HomeView() {
 
   const total = catalog.weapons.length;
   const summary = computeGlobalSummary(catalog.weapons, hydrated ? progress : {});
-  const isEmpty = hydrated && summary.adaptersObtained === 0;
+  const isEmpty = hydrated && summary.weaponsWithCopies === 0;
 
   const quickLink =
     "wf-cut inline-flex min-h-11 items-center px-4 text-[0.8125rem] font-semibold uppercase tracking-[0.09em] text-fg-muted hover:text-fg";
@@ -47,16 +47,20 @@ export function HomeView() {
 
       <div className="grid grid-cols-1 gap-4 min-[560px]:grid-cols-2 lg:grid-cols-3">
         <MetricCard
-          label={t.home.metrics.obtained}
-          value={summary.adaptersObtained}
+          label={t.home.metrics.withCopies}
+          value={summary.weaponsWithCopies}
           total={total}
         />
-        <MetricCard label={t.home.metrics.installed} value={summary.installed} total={total} />
-        <MetricCard label={t.home.metrics.available} value={summary.availableCopies} />
-        <MetricCard label={t.home.metrics.pending} value={summary.pendingCopies} />
         <MetricCard
-          label={t.home.metrics.covered}
-          value={summary.fullyCoveredFamilies}
+          label={t.home.metrics.withInstallations}
+          value={summary.weaponsWithInstallations}
+          total={total}
+        />
+        <MetricCard label={t.home.metrics.inventory} value={summary.inventoryCopies} />
+        <MetricCard label={t.home.metrics.missing} value={summary.missingCopies} />
+        <MetricCard
+          label={t.home.metrics.completed}
+          value={summary.completedWeapons}
           total={total}
         />
         <MetricCard

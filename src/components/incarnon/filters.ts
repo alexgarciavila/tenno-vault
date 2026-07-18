@@ -4,19 +4,16 @@
  * pasan TODOS los filtros combinados (AND). Testeable de forma aislada.
  */
 import type { IncarnonWeapon, WeaponCategory, WeaponKind } from "../../data/catalog-schema";
-import {
-  computeCopies,
-  computeEvolutionSummary,
-  computeStatus,
-  type IncarnonStatus,
-} from "../../lib/inventory";
+import { computeInventorySummary } from "../../lib/inventory";
 import type { ProgressRecord } from "../../lib/user-types";
 
 export interface FilterState {
   /** Texto de búsqueda sobre `name`/`weaponName` (contenido en inglés). */
   search: string;
-  /** Estados seleccionados; vacío = todos. */
-  statuses: IncarnonStatus[];
+  hasInventory: boolean;
+  hasMissingCopies: boolean;
+  hasPendingInstallations: boolean;
+  isCompleted: boolean;
   /** Bandera independiente: solo armas con datos de catálogo incompletos. */
   incompleteData: boolean;
   /** Categorías seleccionadas; vacío = todas. */
@@ -25,34 +22,35 @@ export interface FilterState {
   week: number | null;
   /** Tipos seleccionados; vacío = todos. */
   kinds: WeaponKind[];
-  /** Solo armas con copias pendientes (missing > 0). */
-  onlyPending: boolean;
-  /** Solo armas con instalaciones cuyas evoluciones no están completas. */
-  onlyIncompleteEvolutions: boolean;
+  hasIncompleteEvolutions: boolean;
 }
 
 export const EMPTY_FILTERS: FilterState = {
   search: "",
-  statuses: [],
+  hasInventory: false,
+  hasMissingCopies: false,
+  hasPendingInstallations: false,
+  isCompleted: false,
   incompleteData: false,
   categories: [],
   week: null,
   kinds: [],
-  onlyPending: false,
-  onlyIncompleteEvolutions: false,
+  hasIncompleteEvolutions: false,
 };
 
 /** Nº de filtros activos (para el contador del botón "Filtros" en móvil). */
 export function countActiveFilters(filters: FilterState): number {
   let count = 0;
   if (filters.search.trim() !== "") count += 1;
-  if (filters.statuses.length > 0) count += 1;
+  if (filters.hasInventory) count += 1;
+  if (filters.hasMissingCopies) count += 1;
+  if (filters.hasPendingInstallations) count += 1;
+  if (filters.isCompleted) count += 1;
   if (filters.incompleteData) count += 1;
   if (filters.categories.length > 0) count += 1;
   if (filters.week !== null) count += 1;
   if (filters.kinds.length > 0) count += 1;
-  if (filters.onlyPending) count += 1;
-  if (filters.onlyIncompleteEvolutions) count += 1;
+  if (filters.hasIncompleteEvolutions) count += 1;
   return count;
 }
 
@@ -85,23 +83,23 @@ function matches(
     return false;
   }
 
-  const { status } = computeStatus(weapon, progress);
-  if (filters.statuses.length > 0 && !filters.statuses.includes(status)) {
+  const summary = computeInventorySummary(weapon, progress);
+  if (filters.hasInventory && summary.copies.inventory <= 0) return false;
+  if (filters.hasMissingCopies && summary.copies.missing <= 0) return false;
+  if (
+    filters.hasPendingInstallations &&
+    !(summary.copies.required > 0 && summary.copies.installed < summary.copies.required)
+  )
     return false;
-  }
-
-  if (filters.onlyPending) {
-    const { missing } = computeCopies(weapon, progress);
-    if (missing <= 0) return false;
-  }
-
-  if (filters.onlyIncompleteEvolutions) {
-    const summary = computeEvolutionSummary(weapon, progress);
-    const hasInstallations = summary.byInstallation.length > 0;
-    if (!hasInstallations || summary.completedTiers >= summary.totalTiers) {
-      return false;
-    }
-  }
+  if (filters.isCompleted && !summary.isCompleted) return false;
+  if (
+    filters.hasIncompleteEvolutions &&
+    !(
+      summary.evolutions.byInstallation.length > 0 &&
+      summary.evolutions.completedTiers < summary.evolutions.totalTiers
+    )
+  )
+    return false;
 
   return true;
 }

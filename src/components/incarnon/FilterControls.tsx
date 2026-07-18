@@ -6,19 +6,12 @@
  * estado, distinta presentación. El filtro de semana se deshabilita con nota
  * cuando solo se pide el tipo "innata" (rotation siempre null ahí).
  */
+import { useId } from "react";
 import type { WeaponCategory, WeaponKind } from "../../data/catalog-schema";
 import { useT } from "../../lib/i18n";
-import type { IncarnonStatus } from "../../lib/inventory";
 import { ToggleChip } from "../ui/ToggleChip";
 import type { FilterState } from "./filters";
 
-const STATUSES: IncarnonStatus[] = [
-  "not-owned",
-  "available",
-  "partially-installed",
-  "covered",
-  "completed",
-];
 const CATEGORIES: WeaponCategory[] = ["primary", "secondary", "melee"];
 const KINDS: WeaponKind[] = ["genesis", "innate"];
 const WEEKS = [
@@ -45,21 +38,39 @@ export function FilterControls({
   onChange: (patch: Partial<FilterState>) => void;
 }) {
   const t = useT();
+  const weekId = useId();
   const weekDisabled = filters.kinds.length === 1 && filters.kinds[0] === "innate";
 
   return (
     <div className="reflow-chain grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-4">
       <fieldset className="reflow-chain">
-        <legend className="wf-section-label reflow-text mb-3">{t.incarnon.filterStatus}</legend>
+        <legend className="wf-section-label reflow-text mb-3">{t.incarnon.filterProgress}</legend>
         <div className="reflow-chain flex flex-wrap gap-2">
-          {STATUSES.map((status) => (
-            <ToggleChip
-              key={status}
-              label={t.status[status]}
-              checked={filters.statuses.includes(status)}
-              onChange={() => onChange({ statuses: toggle(filters.statuses, status) })}
-            />
-          ))}
+          <ToggleChip
+            label={t.incarnon.hasInventory}
+            checked={filters.hasInventory}
+            onChange={(hasInventory) => onChange({ hasInventory })}
+          />
+          <ToggleChip
+            label={t.incarnon.hasMissingCopies}
+            checked={filters.hasMissingCopies}
+            onChange={(hasMissingCopies) => onChange({ hasMissingCopies })}
+          />
+          <ToggleChip
+            label={t.incarnon.hasPendingInstallations}
+            checked={filters.hasPendingInstallations}
+            onChange={(hasPendingInstallations) => onChange({ hasPendingInstallations })}
+          />
+          <ToggleChip
+            label={t.status.completed}
+            checked={filters.isCompleted}
+            onChange={(isCompleted) => onChange({ isCompleted })}
+          />
+          <ToggleChip
+            label={t.incarnon.hasIncompleteEvolutions}
+            checked={filters.hasIncompleteEvolutions}
+            onChange={(hasIncompleteEvolutions) => onChange({ hasIncompleteEvolutions })}
+          />
           <ToggleChip
             label={t.status.incompleteData}
             checked={filters.incompleteData}
@@ -97,11 +108,11 @@ export function FilterControls({
       </fieldset>
 
       <div className="reflow-chain">
-        <label htmlFor="filtro-semana" className="wf-section-label mb-3">
+        <label htmlFor={weekId} className="wf-section-label mb-3">
           {t.incarnon.filterWeek}
         </label>
         <select
-          id="filtro-semana"
+          id={weekId}
           value={filters.week ?? ""}
           disabled={weekDisabled}
           onChange={(event) =>

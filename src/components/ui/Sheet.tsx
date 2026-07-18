@@ -39,7 +39,7 @@ export function Sheet({
       }
       if (event.key !== "Tab") return;
       const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
-        'button, [href], input, [tabindex]:not([tabindex="-1"])',
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
       );
       if (!focusables || focusables.length === 0) return;
       const first = focusables[0];
