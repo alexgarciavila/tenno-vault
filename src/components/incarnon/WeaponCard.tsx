@@ -81,7 +81,7 @@ export function WeaponCard({
 
       <p className="wf-diamond text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-gold">
         {weapon.rotation
-          ? `${t.incarnon.weekShort} ${weapon.rotation.week} · ${weapon.rotation.letter}`
+          ? `${t.incarnon.weekShort} ${weapon.rotation.week} (${weapon.rotation.letter})`
           : t.kind.innate}
       </p>
 

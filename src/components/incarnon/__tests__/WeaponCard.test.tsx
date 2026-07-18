@@ -15,6 +15,37 @@ function normalized(text: string | null): string {
 }
 
 describe("WeaponCard", () => {
+  it("muestra la semana y la rotación con el formato de la wiki", () => {
+    const weapon = getWeapon("braton")!;
+    render(
+      <WeaponCard
+        weapon={weapon}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+
+    expect(screen.getByText("Semana 1 (A)")).toBeDefined();
+    expect(screen.queryByText("Semana 1 · A")).toBeNull();
+  });
+
+  it("mantiene la etiqueta de las armas innatas sin semana ni rotación", () => {
+    const weapon = getWeapon("felarx")!;
+    render(
+      <WeaponCard
+        weapon={weapon}
+        onInstallVariant={noop}
+        onUninstallVariant={noop}
+        onSetUninstalledCopies={noop}
+      />,
+    );
+
+    expect(screen.getByText("Innata")).toBeDefined();
+    expect(screen.queryByText(/Semana\s+\d/)).toBeNull();
+    expect(screen.queryByText(/·\s*[A-G]/)).toBeNull();
+  });
+
   it("reserva la región 16:9 y muestra solo la ruta local como imagen decorativa", () => {
     const weapon = getWeapon("braton")!;
     const sha256 = "a".repeat(64);

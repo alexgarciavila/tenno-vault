@@ -21,7 +21,17 @@ const STATUSES: IncarnonStatus[] = [
 ];
 const CATEGORIES: WeaponCategory[] = ["primary", "secondary", "melee"];
 const KINDS: WeaponKind[] = ["genesis", "innate"];
-const WEEKS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const WEEKS = [
+  { value: 1, letter: "A" },
+  { value: 2, letter: "B" },
+  { value: 3, letter: "C" },
+  { value: 4, letter: "D" },
+  { value: 5, letter: "E" },
+  { value: 6, letter: "F" },
+  { value: 7, letter: "G" },
+  { value: 8, letter: "H" },
+  { value: 9, letter: "I" },
+] as const;
 
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
@@ -101,8 +111,8 @@ export function FilterControls({
         >
           <option value="">—</option>
           {WEEKS.map((week) => (
-            <option key={week} value={week}>
-              {week}
+            <option key={week.value} value={week.value}>
+              {t.incarnon.weekShort} {week.value} ({week.letter})
             </option>
           ))}
         </select>

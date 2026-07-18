@@ -110,7 +110,7 @@ export function WeaponTable({
                   </td>
                   <td role="cell" className={`${td} tabular-nums text-fg-muted`}>
                     <span className={label}>{t.incarnon.colWeek}</span>
-                    {weapon.rotation ? `${weapon.rotation.week} · ${weapon.rotation.letter}` : "—"}
+                    {weapon.rotation ? `${weapon.rotation.week} (${weapon.rotation.letter})` : "—"}
                   </td>
                   <td role="cell" className={td}>
                     <span className={label}>{t.incarnon.colStatus}</span>
