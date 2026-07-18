@@ -1,7 +1,11 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
+
+import type { TranslationCoverage } from "./translations/apply";
 
 export interface RunReport {
+  catalogSchemaVersion: number;
+  translationSchemaVersion: number | null;
+  translationSource: "project-translation" | null;
   startedAt: string;
   finishedAt: string;
   /** "all" | "weapon:<id>" | "list-only". */
@@ -26,16 +30,17 @@ export interface RunReport {
   imagesStaged: string[];
   /** Imágenes confirmadas únicamente después del commit del catálogo. */
   imagesPublished: string[];
-  publication: { status: "published" | "aborted"; reason?: string };
+  coverage: TranslationCoverage | null;
+  translationIssues: Array<{
+    kind: "orphan" | "blank" | "placeholder-mismatch" | "mechanic-mismatch";
+    path: string;
+    reason: string;
+  }>;
+  identityIssues: string[];
+  publication: { status: "published" | "aborted" | "not-published"; reason?: string };
 }
 
 export const DEFAULT_REPORT_PATH = join("scripts", "scrape", "report", "last-run.json");
-
-/** Escribe el informe JSON de la ejecución (crea el directorio si no existe). */
-export function writeReport(report: RunReport, path: string = DEFAULT_REPORT_PATH): void {
-  mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, `${JSON.stringify(report, null, 2)}\n`, "utf8");
-}
 
 /** Resumen legible por consola. */
 export function printSummary(report: RunReport): void {
@@ -50,6 +55,9 @@ export function printSummary(report: RunReport): void {
   console.log(`  Imágenes nuevas:  ${report.imagesPublished.length}`);
   console.log(`  Imágenes previas: ${report.imagesKept.length}`);
   console.log(`  Incidencias img.: ${report.imageIssues.length}`);
+  if (report.coverage) console.log(`  Cobertura ES:     ${report.coverage.percentage}%`);
+  console.log(`  Incidencias ES:   ${report.translationIssues.length}`);
+  console.log(`  Incidencias IDs:  ${report.identityIssues.length}`);
   console.log(`  Publicación:      ${report.publication.status}`);
 
   for (const item of report.reviewRequired) {

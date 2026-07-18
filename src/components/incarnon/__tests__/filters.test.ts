@@ -19,7 +19,7 @@ describe("filterWeapons", () => {
   it("busca por nombre (contenido en inglés) ignorando mayúsculas", () => {
     const result = filterWeapons(weapons, {}, withFilters({ search: "braton" }));
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((w) => /braton/i.test(w.name))).toBe(true);
+    expect(result.every((w) => /braton/i.test(w.name.en))).toBe(true);
   });
 
   it("filtra por categoría", () => {

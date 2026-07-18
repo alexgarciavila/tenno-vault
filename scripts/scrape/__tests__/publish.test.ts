@@ -15,7 +15,14 @@ import { afterEach, describe, expect, it } from "vitest";
 import catalogJson from "../../../src/data/incarnon-catalog.json";
 import { incarnonCatalogSchema } from "../../../src/data/catalog-schema";
 import { imageMetadata, validateImageBytes } from "../image";
-import { cleanupStagingRun, publishCatalog, stageImage, type PublicationPaths } from "../publish";
+import {
+  cleanupStagingRun,
+  publishCatalogWithReport,
+  stageImage,
+  type CatalogReportPublicationPaths,
+} from "../publish";
+import reportJson from "../report/last-run.json";
+import type { RunReport } from "../report";
 
 const temporaryRoots: string[] = [];
 
@@ -55,16 +62,29 @@ function png(): Uint8Array {
   return bytes;
 }
 
-function paths(): { root: string; value: PublicationPaths } {
+function paths(): { root: string; value: CatalogReportPublicationPaths } {
   const root = mkdtempSync(join(tmpdir(), "tenno-vault-images-"));
   temporaryRoots.push(root);
   return {
     root,
     value: {
       catalogPath: join(root, "src", "data", "catalog.json"),
+      reportPath: join(root, "scripts", "scrape", "report", "last-run.json"),
       publicRoot: join(root, "public", "generated", "incarnon-images"),
       stagingRoot: join(root, "staging"),
     },
+  };
+}
+
+function completeReport(): RunReport {
+  return structuredClone(reportJson) as RunReport;
+}
+
+function catalogWithoutImages() {
+  const catalog = incarnonCatalogSchema.parse(catalogJson);
+  return {
+    ...catalog,
+    weapons: catalog.weapons.map((weapon) => ({ ...weapon, image: null })),
   };
 }
 
@@ -75,7 +95,7 @@ afterEach(() => {
 describe("publicación coherente de catálogo e imágenes", () => {
   it("promueve primero el blob SHA-256 y después confirma el catálogo", () => {
     const { root, value } = paths();
-    const base = incarnonCatalogSchema.parse(catalogJson);
+    const base = catalogWithoutImages();
     const bytes = png();
     const validated = validateImageBytes(
       "https://wiki.warframe.com/images/test.png",
@@ -85,21 +105,23 @@ describe("publicación coherente de catálogo e imágenes", () => {
     const metadata = imageMetadata(base.weapons[0]!.id, validated);
     const catalog = {
       ...base,
-      weapons: [{ ...base.weapons[0]!, image: metadata }],
+      weapons: base.weapons.map((weapon, index) =>
+        index === 0 ? { ...weapon, image: metadata } : weapon,
+      ),
     };
     const staged = stageImage("run", base.weapons[0]!.id, metadata, bytes, value.stagingRoot);
 
-    publishCatalog(catalog, [staged], value);
+    publishCatalogWithReport(catalog, [staged], completeReport(), value);
 
     expect(existsSync(join(root, "public", metadata.localPath))).toBe(true);
     expect(
       incarnonCatalogSchema.parse(JSON.parse(readFileSync(value.catalogPath, "utf8"))).weapons,
-    ).toHaveLength(1);
+    ).toHaveLength(53);
   });
 
   it("conserva intacto el JSON previo si falta un blob referenciado", () => {
     const { value } = paths();
-    const base = incarnonCatalogSchema.parse(catalogJson);
+    const base = catalogWithoutImages();
     const bytes = png();
     const validated = validateImageBytes(
       "https://wiki.warframe.com/images/test.png",
@@ -107,30 +129,54 @@ describe("publicación coherente de catálogo e imágenes", () => {
       bytes,
     );
     const metadata = imageMetadata(base.weapons[0]!.id, validated);
-    const validCatalog = { ...base, weapons: [{ ...base.weapons[0]!, image: metadata }] };
-    publishCatalog(
+    const validCatalog = {
+      ...base,
+      weapons: base.weapons.map((weapon, index) =>
+        index === 0 ? { ...weapon, image: metadata } : weapon,
+      ),
+    };
+    publishCatalogWithReport(
       validCatalog,
       [stageImage("run", base.weapons[0]!.id, metadata, bytes, value.stagingRoot)],
+      completeReport(),
       value,
     );
     const previous = readFileSync(value.catalogPath, "utf8");
     const missingHash = "c".repeat(64);
     const broken = {
       ...validCatalog,
-      weapons: [
-        {
-          ...validCatalog.weapons[0]!,
-          image: {
-            ...metadata,
-            sha256: missingHash,
-            localPath: `/generated/incarnon-images/${base.weapons[0]!.id}/${missingHash}.png`,
-          },
-        },
-      ],
+      weapons: validCatalog.weapons.map((weapon, index) =>
+        index === 0
+          ? {
+              ...weapon,
+              image: {
+                ...metadata,
+                sha256: missingHash,
+                localPath: `/generated/incarnon-images/${base.weapons[0]!.id}/${missingHash}.png`,
+              },
+            }
+          : weapon,
+      ),
     };
 
-    expect(() => publishCatalog(broken, [], value)).toThrow("No existe el recurso");
+    expect(() => publishCatalogWithReport(broken, [], completeReport(), value)).toThrow(
+      "No existe el recurso",
+    );
     expect(readFileSync(value.catalogPath, "utf8")).toBe(previous);
+  });
+
+  it("conserva byte a byte el JSON previo si el candidato no valida contra Zod", () => {
+    const { value } = paths();
+    const validCatalog = catalogWithoutImages();
+    publishCatalogWithReport(validCatalog, [], completeReport(), value);
+    const previous = readFileSync(value.catalogPath);
+    const invalidCatalog = structuredClone(validCatalog);
+    invalidCatalog.weapons[0]!.name.en = "   ";
+
+    expect(() => publishCatalogWithReport(invalidCatalog, [], completeReport(), value)).toThrow(
+      "no valida",
+    );
+    expect(readFileSync(value.catalogPath)).toEqual(previous);
   });
 
   it("rechaza symlinks en staging y no escribe fuera de la raíz", () => {
@@ -139,7 +185,7 @@ describe("publicación coherente de catálogo e imágenes", () => {
     mkdirSync(outside);
     mkdirSync(value.stagingRoot, { recursive: true });
     symlinkSync(outside, join(value.stagingRoot, "run"), "junction");
-    const base = incarnonCatalogSchema.parse(catalogJson);
+    const base = catalogWithoutImages();
     const validated = validateImageBytes(
       "https://wiki.warframe.com/images/test.png",
       "image/png",
@@ -177,7 +223,7 @@ describe("publicación coherente de catálogo e imágenes", () => {
 
   it("rechaza symlinks en publicación y valida runId/weaponId/metadatos", () => {
     const { root, value } = paths();
-    const base = incarnonCatalogSchema.parse(catalogJson);
+    const base = catalogWithoutImages();
     const validated = validateImageBytes(
       "https://wiki.warframe.com/images/test.png",
       "image/png",
@@ -202,8 +248,15 @@ describe("publicación coherente de catálogo e imágenes", () => {
     mkdirSync(outside);
     mkdirSync(value.publicRoot, { recursive: true });
     symlinkSync(outside, join(value.publicRoot, base.weapons[0]!.id), "junction");
-    const catalog = { ...base, weapons: [{ ...base.weapons[0]!, image: metadata }] };
-    expect(() => publishCatalog(catalog, [staged], value)).toThrow(/enlace simbólico|symlink/i);
+    const catalog = {
+      ...base,
+      weapons: base.weapons.map((weapon, index) =>
+        index === 0 ? { ...weapon, image: metadata } : weapon,
+      ),
+    };
+    expect(() => publishCatalogWithReport(catalog, [staged], completeReport(), value)).toThrow(
+      /enlace simbólico|symlink/i,
+    );
     expect(existsSync(join(outside, metadata.sha256 + ".png"))).toBe(false);
   });
 

@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import {
+  CATALOG_SCHEMA_VERSION,
   type IncarnonCatalog,
   type IncarnonWeapon,
   type WeaponCategory,
@@ -25,13 +26,21 @@ import { parseIndex, type IndexWeaponEntry, type ParsedIndex } from "./parse-ind
 import { parseWeaponPage } from "./parse-weapon";
 import {
   cleanupStagingRun,
-  publishCatalog,
   stageImage,
   verifyPublishedImage,
+  type CatalogReportPublicationPaths,
   type StagedImage,
 } from "./publish";
-import { printSummary, writeReport, type RunReport } from "./report";
+import { publishCompleteScrapeRun } from "./pipeline-publication";
+import { printSummary, type RunReport } from "./report";
 import { decideDataStatus, formatValidationError, validateCatalog } from "./validate";
+import { blockingIdentityIssues, identityIssues, reconcilePerkIds } from "./identity";
+import spanishTranslationsJson from "./translations/es.json";
+import { applySpanishTranslations } from "./translations/apply";
+import {
+  loadSpanishTranslationSidecar,
+  spanishTranslationSidecarSchema,
+} from "./translations/schema";
 
 const INDEX_URL = "https://wiki.warframe.com/w/Incarnon";
 const CATALOG_PATH = join("src", "data", "incarnon-catalog.json");
@@ -41,7 +50,9 @@ const ATTRIBUTION = {
   sourceUrl: "https://wiki.warframe.com/w/Incarnon",
   license: "CC BY-NC-SA 3.0",
   licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/3.0/",
-} as const;
+  canonicalLanguage: "en",
+  translations: [],
+} satisfies IncarnonCatalog["attribution"];
 
 interface CliOptions {
   mode: "all" | "weapon" | "list-only";
@@ -159,8 +170,8 @@ function buildWeaponRecord(
 
   const weapon: IncarnonWeapon = {
     id: entry.id,
-    name: entry.name,
-    weaponName,
+    name: { en: entry.name },
+    weaponName: { en: weaponName },
     kind: entry.kind,
     category,
     rotation,
@@ -195,6 +206,40 @@ function printList(index: ParsedIndex): void {
   }
 }
 
+/**
+ * Cierra un intento no publicable únicamente en memoria y consola.
+ * `last-run.json` describe siempre el catálogo activo y solo se escribe junto a él.
+ */
+export function finishScrapeWithoutPublication(
+  report: RunReport,
+  outcome: { status: "aborted"; reason: string } | { status: "not-published"; reason: string },
+  finishedAt: string = new Date().toISOString(),
+): RunReport {
+  const errors =
+    outcome.status === "aborted"
+      ? [...report.errors, { id: "publication", error: outcome.reason }]
+      : report.errors;
+  const finalReport: RunReport = {
+    ...report,
+    finishedAt,
+    errors,
+    publication: outcome,
+  };
+  printSummary(finalReport);
+  return finalReport;
+}
+
+/** Punto orquestable que usa el CLI para atravesar gate y transacción oficiales. */
+export function finishScrapePublication(
+  catalog: IncarnonCatalog,
+  stagedImages: StagedImage[],
+  report: RunReport,
+  paths?: CatalogReportPublicationPaths,
+  finishedAt?: string,
+): RunReport {
+  return publishCompleteScrapeRun(catalog, stagedImages, report, paths, finishedAt);
+}
+
 async function main(): Promise<void> {
   const options = parseCliArgs(process.argv.slice(2));
   const startedAt = new Date().toISOString();
@@ -207,7 +252,14 @@ async function main(): Promise<void> {
 
   if (options.mode === "list-only") {
     printList(index);
+    const outcome = {
+      status: "not-published",
+      reason: "Modo de consulta: no publica catálogo ni informe activo.",
+    } as const;
     const report: RunReport = {
+      catalogSchemaVersion: CATALOG_SCHEMA_VERSION,
+      translationSchemaVersion: null,
+      translationSource: null,
       startedAt,
       finishedAt: new Date().toISOString(),
       mode,
@@ -220,10 +272,12 @@ async function main(): Promise<void> {
       imagesKept: [],
       imagesStaged: [],
       imagesPublished: [],
-      publication: { status: "published" },
+      coverage: null,
+      translationIssues: [],
+      identityIssues: [],
+      publication: outcome,
     };
-    writeReport(report);
-    printSummary(report);
+    finishScrapeWithoutPublication(report, outcome);
     return;
   }
 
@@ -241,6 +295,9 @@ async function main(): Promise<void> {
   const stagedImages: StagedImage[] = [];
   const runId = startedAt.replace(/[^0-9A-Za-z]/g, "-");
   const report: RunReport = {
+    catalogSchemaVersion: CATALOG_SCHEMA_VERSION,
+    translationSchemaVersion: 1,
+    translationSource: "project-translation",
     startedAt,
     finishedAt: "",
     mode,
@@ -253,6 +310,9 @@ async function main(): Promise<void> {
     imagesKept: [],
     imagesStaged: [],
     imagesPublished: [],
+    coverage: null,
+    translationIssues: [],
+    identityIssues: [],
     publication: { status: "aborted", reason: "Ejecución todavía no publicada." },
   };
 
@@ -267,11 +327,7 @@ async function main(): Promise<void> {
   }
 
   function abortPublication(reason: string): void {
-    report.publication = { status: "aborted", reason };
-    report.finishedAt = new Date().toISOString();
-    report.errors.push({ id: "publication", error: reason });
-    writeReport(report);
-    printSummary(report);
+    Object.assign(report, finishScrapeWithoutPublication(report, { status: "aborted", reason }));
     process.exitCode = 1;
   }
 
@@ -402,12 +458,49 @@ async function main(): Promise<void> {
       return;
     }
 
-    const catalog: IncarnonCatalog = {
-      schemaVersion: 2,
+    if (existing) {
+      for (const weapon of weapons) {
+        const previous = existingById.get(weapon.id);
+        if (!previous || report.kept.includes(weapon.id)) continue;
+        const reconciliationIssues = reconcilePerkIds(previous, weapon);
+        report.identityIssues.push(...reconciliationIssues);
+      }
+    }
+    if (report.reviewRequired.length > 0 || report.identityIssues.length > 0) {
+      abortPublication(
+        "Hay elementos review-required o IDs no reconciliados; se conserva el catálogo previo.",
+      );
+      return;
+    }
+
+    const canonicalCatalog: IncarnonCatalog = {
+      schemaVersion: CATALOG_SCHEMA_VERSION,
       generatedAt: new Date().toISOString(),
       attribution: { ...ATTRIBUTION },
       weapons,
     };
+    const sidecarResult = spanishTranslationSidecarSchema.safeParse(spanishTranslationsJson);
+    if (!sidecarResult.success) {
+      abortPublication("El sidecar ES no valida; se conserva el catálogo previo.");
+      return;
+    }
+    const sidecar = loadSpanishTranslationSidecar(sidecarResult.data);
+    const translated = applySpanishTranslations(canonicalCatalog, sidecar);
+    report.translationIssues = translated.issues;
+    report.coverage = translated.coverage;
+    if (translated.issues.length > 0) {
+      abortPublication("El sidecar ES contiene desajustes; se conserva el catálogo previo.");
+      return;
+    }
+    const catalog = translated.catalog;
+    if (existing) report.identityIssues.push(...identityIssues(existing, catalog));
+    const blockingIssues = blockingIdentityIssues(report.identityIssues);
+    if (blockingIssues.length > 0) {
+      abortPublication(
+        "BLOCKED: existen bajas, colisiones o cambios de IDs; se conserva el catálogo previo.",
+      );
+      return;
+    }
 
     const validation = validateCatalog(catalog);
     if (!validation.success) {
@@ -418,19 +511,18 @@ async function main(): Promise<void> {
     }
 
     try {
-      publishCatalog(validation.catalog, stagedImages);
+      const finalReport = finishScrapePublication(validation.catalog, stagedImages, report);
+      Object.assign(report, finalReport);
     } catch (error) {
       const reason = error instanceof Error ? error.message : String(error);
-      report.imageIssues.push({ id: "catalog", phase: "publish", reason });
+      if (!reason.startsWith("BLOCKED: cobertura ES")) {
+        report.imageIssues.push({ id: "catalog", phase: "publish", reason });
+      }
       abortPublication(reason);
       return;
     }
     console.log(`Catálogo escrito en ${CATALOG_PATH} (${weapons.length} armas).`);
 
-    report.imagesPublished = [...report.imagesStaged];
-    report.publication = { status: "published" };
-    report.finishedAt = new Date().toISOString();
-    writeReport(report);
     printSummary(report);
   } finally {
     try {

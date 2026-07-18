@@ -18,7 +18,12 @@ import { useSettingsStore } from "../../store/settings-store";
 import { getStrings } from "./dictionaries";
 import { es, type Language, type Strings } from "./es";
 
-const I18nContext = createContext<Strings>(es);
+interface I18nContextValue {
+  language: Language;
+  strings: Strings;
+}
+
+const I18nContext = createContext<I18nContextValue>({ language: "es", strings: es });
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const hydrated = useHydrated();
@@ -30,12 +35,18 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.lang = active;
   }, [active]);
 
-  return <I18nContext.Provider value={strings}>{children}</I18nContext.Provider>;
+  return (
+    <I18nContext.Provider value={{ language: active, strings }}>{children}</I18nContext.Provider>
+  );
 }
 
 /** Textos de UI del idioma activo. Fallback al español fuera del provider. */
 export function useT(): Strings {
-  return useContext(I18nContext);
+  return useContext(I18nContext).strings;
+}
+
+export function useLanguage(): Language {
+  return useContext(I18nContext).language;
 }
 
 export { getStrings } from "./dictionaries";

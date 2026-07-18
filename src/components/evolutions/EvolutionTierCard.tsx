@@ -10,7 +10,13 @@
  */
 import { useId } from "react";
 import type { EvolutionTier } from "../../data/catalog-schema";
-import { useT } from "../../lib/i18n";
+import {
+  resolveCatalogText,
+  resolveCatalogValue,
+  type ResolvedCatalogText,
+  type ResolvedCatalogValue,
+} from "../../lib/catalog-i18n";
+import { useLanguage, useT } from "../../lib/i18n";
 import { toRoman } from "./roman";
 
 export function EvolutionTierCard({
@@ -29,8 +35,13 @@ export function EvolutionTierCard({
   onToggleCompleted: (completed: boolean) => void;
 }) {
   const t = useT();
+  const language = useLanguage();
   const radioName = useId();
   const fixedPerk = tier.perks[0];
+  const fixedName = fixedPerk ? resolveCatalogText(fixedPerk.name, language) : null;
+  const condition = tier.unlockCondition
+    ? resolveCatalogText(tier.unlockCondition, language)
+    : null;
 
   return (
     <article
@@ -49,10 +60,10 @@ export function EvolutionTierCard({
         </span>
         <h4 className="reflow-text flex-1 font-semibold uppercase tracking-[0.1em] text-fg-strong">
           {t.evolutions.tier} {toRoman(tier.tier)}
-          {!tier.selectable && fixedPerk ? (
+          {!tier.selectable && fixedName ? (
             <span className="font-normal normal-case tracking-normal text-fg-muted">
               {" · "}
-              {fixedPerk.name}
+              <CatalogText value={fixedName} />
             </span>
           ) : null}
         </h4>
@@ -63,9 +74,13 @@ export function EvolutionTierCard({
           {completed ? t.evolutions.completed : t.evolutions.pending}
         </span>
         <p className="reflow-text w-full rounded-sm border-l-2 border-gold bg-gold-surface/40 px-3 py-2 text-[0.8125rem] text-fg-muted max-[240px]:px-1">
-          {tier.unlockCondition
-            ? `${t.evolutions.challenge}: ${tier.unlockCondition}`
-            : t.evolutions.unlockOnInstall}
+          {condition ? (
+            <>
+              {t.evolutions.challenge}: <CatalogText value={condition} />
+            </>
+          ) : (
+            t.evolutions.unlockOnInstall
+          )}
         </p>
       </header>
 
@@ -74,7 +89,11 @@ export function EvolutionTierCard({
           <legend className="wf-section-label reflow-text mb-2.5">{t.evolutions.choosePerk}</legend>
           <div className="reflow-chain flex flex-col gap-1">
             {tier.perks.map((perk) => {
-              const values = perk.variantValues?.[variantId];
+              const name = resolveCatalogText(perk.name, language);
+              const description = resolveCatalogText(perk.description, language);
+              const rawValues = perk.variantValues?.[variantId];
+              const values = rawValues ? resolveCatalogValue(rawValues, language) : null;
+              const notes = perk.notes ? resolveCatalogText(perk.notes, language) : null;
               return (
                 <label
                   key={perk.id}
@@ -89,19 +108,19 @@ export function EvolutionTierCard({
                   />
                   <span className="reflow-text flex-1">
                     <span className="reflow-text block font-semibold uppercase tracking-[0.08em] text-fg-strong">
-                      {perk.name}
+                      <CatalogText value={name} />
                     </span>
                     <span className="reflow-text block text-[0.8125rem] text-fg-muted">
-                      {perk.description}
+                      <CatalogText value={description} />
                     </span>
                     {values ? (
                       <span className="reflow-text mt-0.5 block text-[0.8125rem] tabular-nums text-accent">
-                        {values}
+                        <CatalogValue value={values} />
                       </span>
                     ) : null}
-                    {perk.notes ? (
+                    {notes ? (
                       <span className="reflow-text mt-0.5 block text-[0.75rem] italic text-fg-muted">
-                        {perk.notes}
+                        <CatalogText value={notes} />
                       </span>
                     ) : null}
                   </span>
@@ -110,8 +129,10 @@ export function EvolutionTierCard({
             })}
           </div>
         </fieldset>
-      ) : fixedPerk?.description ? (
-        <p className="reflow-text mt-2 text-[0.8125rem] text-fg-muted">{fixedPerk.description}</p>
+      ) : fixedPerk ? (
+        <p className="reflow-text mt-2 text-[0.8125rem] text-fg-muted">
+          <CatalogText value={resolveCatalogText(fixedPerk.description, language)} />
+        </p>
       ) : null}
 
       <label className="extreme-perk-option reflow-chain mt-4 flex min-h-11 cursor-pointer items-center gap-3 border-t border-border-subtle pt-3">
@@ -126,5 +147,17 @@ export function EvolutionTierCard({
         </span>
       </label>
     </article>
+  );
+}
+
+function CatalogText({ value }: { value: ResolvedCatalogText }) {
+  return <span lang={value.isFallback ? value.effectiveLanguage : undefined}>{value.text}</span>;
+}
+
+function CatalogValue({ value }: { value: ResolvedCatalogValue }) {
+  return (
+    <span lang={!value.languageNeutral && value.isFallback ? value.effectiveLanguage : undefined}>
+      {value.text}
+    </span>
   );
 }

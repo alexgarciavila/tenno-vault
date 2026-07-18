@@ -9,6 +9,7 @@ import type {
   WeaponVariant,
 } from "../../src/data/catalog-schema";
 import { absoluteWikiUrl, cleanText, joinValueLines, perkId, slugify } from "./normalize";
+import { classifyLegacyVariantValue } from "./catalog-compat";
 
 export interface ParseWeaponContext {
   weaponId: string;
@@ -190,13 +191,13 @@ function parseVariants(
     if (!href) {
       notes.push(`Evolutions: la variante "${name}" no tiene enlace; URL derivada del nombre.`);
     }
-    variants.push({ id: slugify(name), name, wikiUrl });
+    variants.push({ id: slugify(name), name: { en: name }, wikiUrl });
   });
 
   if (variants.length === 0) {
     // Cabecera solo con "Evolution" + "Notes": arma innata con variante implícita.
     if (ctx.kind === "innate") {
-      return [{ id: ctx.weaponId, name: ctx.weaponName, wikiUrl: ctx.sourceUrl }];
+      return [{ id: ctx.weaponId, name: { en: ctx.weaponName }, wikiUrl: ctx.sourceUrl }];
     }
     notes.push("Evolutions: cabecera sin columnas de variante en un adaptador Genesis.");
   }
@@ -206,7 +207,7 @@ function parseVariants(
 
 interface MutableTier {
   tier: number;
-  unlockCondition: string | null;
+  unlockCondition: EvolutionTier["unlockCondition"];
   perks: EvolutionPerk[];
 }
 
@@ -250,12 +251,12 @@ function parsePerkCells(
     );
   }
 
-  const variantValues: Record<string, string> = {};
+  const variantValues: NonNullable<EvolutionPerk["variantValues"]> = {};
   let hasRealValue = false;
   variantColumnIds.forEach((variantId, i) => {
     const value = values[i];
     if (value !== undefined && value !== "" && value !== "-") {
-      variantValues[variantId] = value;
+      variantValues[variantId] = classifyLegacyVariantValue(value);
       hasRealValue = true;
     }
   });
@@ -265,11 +266,11 @@ function parsePerkCells(
 
   const perk: EvolutionPerk = {
     id: perkId(ctx.weaponId, tier, name),
-    name,
-    description,
+    name: { en: name },
+    description: { en: description },
   };
   if (hasRealValue) perk.variantValues = variantValues;
-  if (noteText && noteText !== "-") perk.notes = noteText;
+  if (noteText && noteText !== "-") perk.notes = { en: noteText };
   return perk;
 }
 
@@ -318,7 +319,11 @@ function parseEvolutions(
 
     const tierNumber = firstCell.is("th") ? evoTierNumber($, firstCell) : null;
     if (tierNumber !== null) {
-      currentTier = { tier: tierNumber, unlockCondition: pendingChallenge, perks: [] };
+      currentTier = {
+        tier: tierNumber,
+        unlockCondition: pendingChallenge === null ? null : { en: pendingChallenge },
+        perks: [],
+      };
       pendingChallenge = null;
       tiers.push(currentTier);
       const perk = parsePerkCells(

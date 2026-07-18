@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { I18nProvider } from "../../../lib/i18n";
 import { buildInstallation } from "../../../test-support/progress-fixtures";
 import { useProgressStore } from "../../../store/progress-store";
+import { useSettingsStore } from "../../../store/settings-store";
 import { EvolutionsView } from "../EvolutionsView";
 
 const push = vi.fn();
@@ -16,6 +17,7 @@ beforeEach(() => {
   window.history.replaceState(null, "", window.location.pathname);
   push.mockClear();
   useProgressStore.setState({ progress: {} });
+  useSettingsStore.setState({ language: "es", view: "cards" });
 });
 
 function renderView() {
@@ -42,7 +44,8 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     const { container } = renderView();
-    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    const trigger = await screen.findByRole("button", { name: /Génesis Incarnon de Braton/i });
+    expect(document.getElementById("titulo-braton")?.querySelector("[lang='en']")).toBeNull();
     expect(container.querySelector("#arma-braton")).not.toBeNull();
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
     expect(trigger.getAttribute("aria-controls")).toBe("evo-panel-braton");
@@ -63,6 +66,74 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     expect(screen.getByRole("link", { name: /Ver en la wiki/i }).className).toContain("uppercase");
   });
 
+  it("muestra traducciones propias de Furis en ES, EN canónico y conserva el progreso", async () => {
+    useProgressStore.setState({
+      progress: {
+        furis: {
+          weaponId: "furis",
+          uninstalledCopies: 0,
+          installations: [buildInstallation("furis", "furis")],
+        },
+      },
+    });
+
+    renderView();
+    const trigger = await screen.findByRole("button", { name: /Génesis Incarnon de Furis/i });
+    expect(
+      screen.getByText("Completa una misión en solitario con esta arma equipada."),
+    ).toBeDefined();
+    expect(screen.queryByText("Complete a solo mission with this weapon equipped.")).toBeNull();
+    fireEvent.click(trigger);
+    expect(screen.getByRole("heading", { level: 3, name: "Furis" })).toBeDefined();
+    expect(
+      screen.getByText(
+        "Aumenta el daño base en +X. Con sobreescudos: aumenta el daño base en +30.",
+      ),
+    ).toBeDefined();
+    expect(screen.getByText("La bonificación no se aplica a la Forma Incarnon.")).toBeDefined();
+    expect(screen.queryByText("The bonus does not apply to the Incarnon form.")).toBeNull();
+    const radio = screen.getByRole("radio", { name: /Incursión protectora/i });
+    fireEvent.click(radio);
+    const tierCheckboxes = screen.getAllByRole("checkbox");
+    fireEvent.click(tierCheckboxes[1]!);
+
+    useSettingsStore.getState().setLanguage("en");
+    expect(await screen.findByRole("button", { name: /Furis Incarnon Genesis/i })).toBeDefined();
+    expect(screen.getByText("Complete a solo mission with this weapon equipped.")).toBeDefined();
+    expect((screen.getByRole("radio", { name: /Haven Foray/i }) as HTMLInputElement).checked).toBe(
+      true,
+    );
+    expect((tierCheckboxes[1] as HTMLInputElement).checked).toBe(true);
+
+    useSettingsStore.getState().setLanguage("es");
+    expect(await screen.findByRole("button", { name: /Génesis Incarnon de Furis/i })).toBeDefined();
+    expect(
+      (screen.getByRole("radio", { name: /Incursión protectora/i }) as HTMLInputElement).checked,
+    ).toBe(true);
+  });
+
+  it("no marca fallback EN al recorrer Braton con el catálogo completo actual", async () => {
+    useProgressStore.setState({
+      progress: {
+        braton: {
+          weaponId: "braton",
+          uninstalledCopies: 0,
+          installations: [buildInstallation("braton", "braton-prime")],
+        },
+      },
+    });
+    const { container } = renderView();
+    const trigger = await screen.findByRole("button", { name: /Génesis Incarnon de Braton/i });
+    fireEvent.click(trigger);
+    const challengeText = screen.getAllByText(
+      "Completa una misión en solitario con esta arma equipada.",
+    )[0];
+    expect(challengeText?.closest("[lang='en']")).toBeNull();
+    const challenge = challengeText?.parentElement;
+    expect(challenge?.textContent).toContain("Desafío:");
+    expect(container.querySelector("[lang='en']")).toBeNull();
+  });
+
   it("apila en la cabecera del acordeón el nombre arriba y el badge debajo a la izquierda", async () => {
     useProgressStore.setState({
       progress: {
@@ -75,7 +146,7 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     renderView();
-    await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    await screen.findByRole("button", { name: /Génesis Incarnon de Braton/i });
     // El título display vive en una columna (nombre arriba, badge debajo).
     const title = document.getElementById("titulo-braton");
     expect(title?.className).toContain("display-title");
@@ -103,7 +174,7 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     renderView();
-    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    const trigger = await screen.findByRole("button", { name: /Génesis Incarnon de Braton/i });
     await waitFor(() => expect(trigger.getAttribute("aria-expanded")).toBe("true"));
     expect(screen.getByRole("heading", { level: 3, name: "Braton Prime" })).toBeDefined();
     await waitFor(() => expect(scrollIntoView).toHaveBeenCalled());
@@ -129,7 +200,7 @@ describe("EvolutionsView — instalaciones y navegación", () => {
     });
 
     const { container } = renderView();
-    const trigger = await screen.findByRole("button", { name: /Braton Incarnon Genesis/i });
+    const trigger = await screen.findByRole("button", { name: /Génesis Incarnon de Braton/i });
     fireEvent.click(trigger);
 
     const weaponGroup = container.querySelector("#arma-braton");

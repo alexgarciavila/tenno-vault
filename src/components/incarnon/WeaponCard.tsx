@@ -56,9 +56,7 @@ export function WeaponCard({
   // el total de tiers del ARMA (weapon.evolutions.length) con n = 0, para reflejar
   // el objetivo del arma (p. ej. "0/5") en lugar de un "0/0" sin contexto.
   const hasInstallations = vm.evolutions.byInstallation.length > 0;
-  const evolutionsTotal = hasInstallations
-    ? vm.evolutions.totalTiers
-    : weapon.evolutions.length;
+  const evolutionsTotal = hasInstallations ? vm.evolutions.totalTiers : weapon.evolutions.length;
   const evolutionsCompleted = hasInstallations ? vm.evolutions.completedTiers : 0;
 
   const pendingVariant = weapon.variants.find((v) => v.id === pendingUninstall);
@@ -70,7 +68,7 @@ export function WeaponCard({
     <article className="angular-panel angular-panel--hover extreme-panel reflow-chain flex flex-col gap-4 p-5">
       <header className="weapon-card__header reflow-chain gap-2">
         <h2 className="weapon-card__name font-display text-base uppercase tracking-[0.12em] text-fg-strong">
-          {weapon.name}
+          {weapon.name.en}
         </h2>
         <span className="wf-cut wf-cut-sm weapon-card__category px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-accent">
           {t.category[weapon.category]}
@@ -144,7 +142,7 @@ export function WeaponCard({
       <ConfirmDialog
         open={pendingUninstall !== null}
         danger
-        title={`${t.confirm.uninstallTitle} (${pendingVariant?.name ?? ""})`}
+        title={`${t.confirm.uninstallTitle} (${pendingVariant?.name.en ?? ""})`}
         description={
           pendingSummary ? (
             <p>

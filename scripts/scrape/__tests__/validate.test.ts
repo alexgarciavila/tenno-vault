@@ -7,23 +7,27 @@ import { decideDataStatus, formatValidationError, validateCatalog } from "../val
 function minimalWeapon(overrides: Partial<IncarnonWeapon> = {}): IncarnonWeapon {
   return {
     id: "braton",
-    name: "Braton Incarnon Genesis",
-    weaponName: "Braton",
+    name: { en: "Braton Incarnon Genesis" },
+    weaponName: { en: "Braton" },
     kind: "genesis",
     category: "primary",
     rotation: { week: 1, letter: "A" },
     image: null,
     variants: [
-      { id: "braton", name: "Braton", wikiUrl: "https://wiki.warframe.com/w/Braton" },
-      { id: "mk1-braton", name: "Mk1-Braton", wikiUrl: "https://wiki.warframe.com/w/Mk1-Braton" },
+      { id: "braton", name: { en: "Braton" }, wikiUrl: "https://wiki.warframe.com/w/Braton" },
+      {
+        id: "mk1-braton",
+        name: { en: "Mk1-Braton" },
+        wikiUrl: "https://wiki.warframe.com/w/Mk1-Braton",
+      },
       {
         id: "braton-vandal",
-        name: "Braton Vandal",
+        name: { en: "Braton Vandal" },
         wikiUrl: "https://wiki.warframe.com/w/Braton_Vandal",
       },
       {
         id: "braton-prime",
-        name: "Braton Prime",
+        name: { en: "Braton Prime" },
         wikiUrl: "https://wiki.warframe.com/w/Braton_Prime",
       },
     ],
@@ -32,32 +36,38 @@ function minimalWeapon(overrides: Partial<IncarnonWeapon> = {}): IncarnonWeapon 
         tier: 1,
         selectable: false,
         unlockCondition: null,
-        perks: [{ id: "braton-e1-incarnon-form", name: "Incarnon Form", description: "…" }],
+        perks: [
+          {
+            id: "braton-e1-incarnon-form",
+            name: { en: "Incarnon Form" },
+            description: { en: "…" },
+          },
+        ],
       },
       {
         tier: 2,
         selectable: true,
-        unlockCondition: "Complete a solo mission with this weapon equipped.",
+        unlockCondition: { en: "Complete a solo mission with this weapon equipped." },
         perks: [
           {
             id: "braton-e2-daring-reverie",
-            name: "Daring Reverie",
-            description: "Increase Base Damage by +X.",
-            variantValues: { braton: "X = 24 · Y = 30" },
+            name: { en: "Daring Reverie" },
+            description: { en: "Increase Base Damage by +X." },
+            variantValues: { braton: { kind: "shared", value: "X = 24 · Y = 30" } },
           },
         ],
       },
       {
         tier: 3,
         selectable: true,
-        unlockCondition: "Kill 100 enemies with this weapon's Incarnon Form.",
-        perks: [{ id: "braton-e3-x", name: "X", description: "" }],
+        unlockCondition: { en: "Kill 100 enemies with this weapon's Incarnon Form." },
+        perks: [{ id: "braton-e3-x", name: { en: "X" }, description: { en: "…" } }],
       },
       {
         tier: 4,
         selectable: true,
-        unlockCondition: "Kill 30 enemies without reloading.",
-        perks: [{ id: "braton-e4-y", name: "Y", description: "" }],
+        unlockCondition: { en: "Kill 30 enemies without reloading." },
+        perks: [{ id: "braton-e4-y", name: { en: "Y" }, description: { en: "…" } }],
       },
     ],
     sourceUrl: "https://wiki.warframe.com/w/Braton_Incarnon_Genesis",
@@ -70,13 +80,15 @@ function minimalWeapon(overrides: Partial<IncarnonWeapon> = {}): IncarnonWeapon 
 
 function minimalCatalog(weapon: IncarnonWeapon = minimalWeapon()): IncarnonCatalog {
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generatedAt: "2026-07-12T00:00:00.000Z",
     attribution: {
       source: "Warframe Wiki",
       sourceUrl: "https://wiki.warframe.com/w/Incarnon",
       license: "CC BY-NC-SA 3.0",
       licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+      canonicalLanguage: "en",
+      translations: [],
     },
     weapons: [weapon],
   };
@@ -116,9 +128,31 @@ describe("validateCatalog", () => {
   });
 
   it("rechaza schemaVersion desconocida", () => {
-    const catalog = { ...minimalCatalog(), schemaVersion: 3 };
+    const catalog = { ...minimalCatalog(), schemaVersion: 4 };
     const result = validateCatalog(catalog);
     expect(result.success).toBe(false);
+  });
+
+  it("exige atribución ES exactamente cuando existen traducciones", () => {
+    const withSpanish = minimalCatalog();
+    withSpanish.weapons[0]!.name.es = "Génesis Incarnon de Braton";
+    expect(validateCatalog(withSpanish).success).toBe(false);
+
+    const withoutSpanish = minimalCatalog();
+    withoutSpanish.attribution.translations = [
+      {
+        id: "tenno-vault-es-from-warframe-wiki-en",
+        language: "es",
+        kind: "project-translation",
+        derivedFrom: "warframe-wiki-en",
+        responsibility: "Tenno Vault contributors",
+        license: "CC BY-NC-SA 3.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        updatedAt: "2026-07-18T00:00:00.000Z",
+        changes: "Traducción propia.",
+      },
+    ];
+    expect(validateCatalog(withoutSpanish).success).toBe(false);
   });
 
   it("acepta metadatos de imagen coherentes y rechaza rutas incompletas", () => {

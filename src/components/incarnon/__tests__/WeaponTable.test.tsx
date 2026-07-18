@@ -10,11 +10,7 @@ describe("WeaponTable — regresión estructural", () => {
     const weapon = getWeapon("braton")!;
     render(
       <I18nProvider>
-        <WeaponTable
-          weapons={[weapon]}
-          progressRecord={{}}
-          onSetUninstalledCopies={vi.fn()}
-        />
+        <WeaponTable weapons={[weapon]} progressRecord={{}} onSetUninstalledCopies={vi.fn()} />
       </I18nProvider>,
     );
 
@@ -26,11 +22,7 @@ describe("WeaponTable — regresión estructural", () => {
     const weapon = getWeapon("felarx")!;
     render(
       <I18nProvider>
-        <WeaponTable
-          weapons={[weapon]}
-          progressRecord={{}}
-          onSetUninstalledCopies={vi.fn()}
-        />
+        <WeaponTable weapons={[weapon]} progressRecord={{}} onSetUninstalledCopies={vi.fn()} />
       </I18nProvider>,
     );
 
@@ -57,7 +49,7 @@ describe("WeaponTable — regresión estructural", () => {
     expect(region.getAttribute("tabindex")).toBe("0");
     expect(within(region).getByRole("table")).toBeDefined();
     expect(within(region).getAllByRole("columnheader")).toHaveLength(7);
-    expect(within(region).getByRole("rowheader", { name: weapon.name })).toBeDefined();
+    expect(within(region).getByRole("rowheader", { name: weapon.name.en })).toBeDefined();
     expect(screen.getByText("Desplaza horizontalmente para ver todas las columnas.")).toBeDefined();
   });
 
@@ -146,7 +138,7 @@ describe("WeaponTable — regresión estructural", () => {
     const categoryLabel = screen.getAllByText("Categoría", { selector: "span" })[0]!;
     expect(categoryLabel.classList).toContain("xl:hidden");
     // Todos los campos siguen presentes (info nunca oculta).
-    expect(screen.getByText(weapon.name)).toBeDefined();
+    expect(screen.getByText(weapon.name.en)).toBeDefined();
     expect(screen.getByText("Semana", { selector: "span" })).toBeDefined();
     expect(screen.getByText("Evoluciones", { selector: "span" })).toBeDefined();
   });

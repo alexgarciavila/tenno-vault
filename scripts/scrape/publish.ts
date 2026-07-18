@@ -15,6 +15,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join, parse, relative, resolve, sep } from "node:path";
+import { isDeepStrictEqual } from "node:util";
 
 import {
   incarnonCatalogSchema,
@@ -22,6 +23,9 @@ import {
   type IncarnonImage,
 } from "../../src/data/catalog-schema";
 import { validateImageBytes } from "./image";
+import { DEFAULT_REPORT_PATH, type RunReport } from "./report";
+import { assertCompleteTranslationCoverage } from "./translations/coverage-gate";
+import { measureLocalizedCatalogCoverage } from "./translations/coverage";
 import { formatValidationError } from "./validate";
 
 export const CATALOG_PATH = join("src", "data", "incarnon-catalog.json");
@@ -34,10 +38,19 @@ export interface PublicationPaths {
   stagingRoot: string;
 }
 
+export interface CatalogReportPublicationPaths extends PublicationPaths {
+  reportPath: string;
+}
+
 const DEFAULT_PATHS: PublicationPaths = {
   catalogPath: CATALOG_PATH,
   publicRoot: IMAGE_PUBLIC_ROOT,
   stagingRoot: IMAGE_STAGING_ROOT,
+};
+
+const DEFAULT_CATALOG_REPORT_PATHS: CatalogReportPublicationPaths = {
+  ...DEFAULT_PATHS,
+  reportPath: DEFAULT_REPORT_PATH,
 };
 
 export interface StagedImage {
@@ -253,12 +266,11 @@ function validateStagedImage(staged: StagedImage, stagingRoot: string): Buffer {
   return bytes;
 }
 
-/** Promueve blobs inmutables y usa el rename del catálogo como único commit point. */
-export function publishCatalog(
+function prepareCatalogPublication(
   catalog: IncarnonCatalog,
   stagedImages: StagedImage[],
-  paths: PublicationPaths = DEFAULT_PATHS,
-): void {
+  paths: PublicationPaths,
+): IncarnonCatalog {
   const validation = incarnonCatalogSchema.safeParse(catalog);
   if (!validation.success) {
     throw new Error(`El catálogo candidato no valida:\n${formatValidationError(validation.error)}`);
@@ -304,27 +316,128 @@ export function publishCatalog(
     unlinkSync(staged.stagingPath);
   }
 
-  const catalogPath = resolve(paths.catalogPath);
-  ensureSafeDirectory(dirname(catalogPath));
-  if (existsSync(catalogPath)) assertRegularFile(catalogPath);
-  const tmpPath = `${catalogPath}.tmp-${process.pid}-${randomUUID()}`;
+  return validation.data;
+}
+
+interface AtomicJsonFile {
+  path: string;
+  contents: string;
+  validate?: (raw: unknown) => void;
+}
+
+/** Prepara todos los JSON antes del commit y restaura sus bytes previos si falla un rename. */
+function replaceJsonFilesAtomically(files: AtomicJsonFile[]): void {
+  const targets = files.map((file) => resolve(file.path));
+  if (new Set(targets.map(pathKey)).size !== targets.length) {
+    throw new Error("Las rutas de publicación JSON deben ser distintas.");
+  }
+
+  const transactionId = `${process.pid}-${randomUUID()}`;
+  const prepared: Array<{
+    target: string;
+    tmpPath: string;
+    backupPath: string;
+    hadPrevious: boolean;
+  }> = [];
   try {
-    exclusiveWrite(tmpPath, `${JSON.stringify(validation.data, null, 2)}\n`);
-    const reread: unknown = JSON.parse(secureRead(tmpPath).toString("utf8"));
-    const check = incarnonCatalogSchema.safeParse(reread);
-    if (!check.success)
-      throw new Error(`El catálogo temporal no valida:\n${formatValidationError(check.error)}`);
-    if (existsSync(catalogPath)) assertRegularFile(catalogPath);
-    renameSync(tmpPath, catalogPath);
+    for (const [index, file] of files.entries()) {
+      const target = targets[index]!;
+      ensureSafeDirectory(dirname(target));
+      if (existsSync(target)) assertRegularFile(target);
+      const tmpPath = `${target}.tmp-${transactionId}`;
+      const backupPath = `${target}.bak-${transactionId}`;
+      exclusiveWrite(tmpPath, file.contents);
+      const reread: unknown = JSON.parse(secureRead(tmpPath).toString("utf8"));
+      file.validate?.(reread);
+      prepared.push({ target, tmpPath, backupPath, hadPrevious: existsSync(target) });
+    }
   } catch (error) {
-    if (existsSync(tmpPath)) {
-      try {
-        assertRegularFile(tmpPath);
-        unlinkSync(tmpPath);
-      } catch {
-        // Nunca se sigue ni elimina un enlace inesperado durante la limpieza.
-      }
+    for (const item of prepared) {
+      if (existsSync(item.tmpPath)) unlinkSync(item.tmpPath);
+    }
+    const pendingTarget = targets[prepared.length];
+    if (pendingTarget) {
+      const pendingTmp = `${pendingTarget}.tmp-${transactionId}`;
+      if (existsSync(pendingTmp)) unlinkSync(pendingTmp);
     }
     throw error;
   }
+
+  const backedUp: typeof prepared = [];
+  const committed: typeof prepared = [];
+  try {
+    for (const item of prepared) {
+      if (!item.hadPrevious) continue;
+      assertRegularFile(item.target);
+      renameSync(item.target, item.backupPath);
+      backedUp.push(item);
+    }
+    for (const item of prepared) {
+      renameSync(item.tmpPath, item.target);
+      committed.push(item);
+    }
+  } catch (error) {
+    for (const item of committed.reverse()) {
+      if (existsSync(item.target)) unlinkSync(item.target);
+    }
+    for (const item of backedUp.reverse()) {
+      if (existsSync(item.backupPath)) renameSync(item.backupPath, item.target);
+    }
+    for (const item of prepared) {
+      if (existsSync(item.tmpPath)) unlinkSync(item.tmpPath);
+    }
+    throw error;
+  }
+
+  for (const item of backedUp) {
+    assertRegularFile(item.backupPath);
+    unlinkSync(item.backupPath);
+  }
+}
+
+function catalogJsonFile(catalog: IncarnonCatalog, path: string): AtomicJsonFile {
+  return {
+    path,
+    contents: `${JSON.stringify(catalog, null, 2)}\n`,
+    validate(raw) {
+      const check = incarnonCatalogSchema.safeParse(raw);
+      if (!check.success) {
+        throw new Error(`El catálogo temporal no valida:\n${formatValidationError(check.error)}`);
+      }
+    },
+  };
+}
+
+/** Publica catálogo e informe desde temporales preparados dentro de una misma transacción local. */
+export function publishCatalogWithReport(
+  catalog: IncarnonCatalog,
+  stagedImages: StagedImage[],
+  report: RunReport,
+  paths: CatalogReportPublicationPaths = DEFAULT_CATALOG_REPORT_PATHS,
+): void {
+  if (report.publication.status !== "published" || !report.coverage) {
+    throw new Error(
+      "BLOCKED: catálogo e informe solo pueden publicarse como un resultado completo.",
+    );
+  }
+
+  const candidate = incarnonCatalogSchema.safeParse(catalog);
+  if (!candidate.success) {
+    throw new Error(`El catálogo candidato no valida:\n${formatValidationError(candidate.error)}`);
+  }
+  const measuredCoverage = measureLocalizedCatalogCoverage(candidate.data);
+  if (!isDeepStrictEqual(report.coverage, measuredCoverage)) {
+    throw new Error(
+      "BLOCKED: la cobertura del informe no corresponde exactamente con el catálogo candidato.",
+    );
+  }
+  assertCompleteTranslationCoverage(measuredCoverage);
+  const validated = prepareCatalogPublication(catalog, stagedImages, paths);
+  replaceJsonFilesAtomically([
+    catalogJsonFile(validated, paths.catalogPath),
+    {
+      path: paths.reportPath,
+      contents: `${JSON.stringify(report, null, 2)}\n`,
+    },
+  ]);
 }

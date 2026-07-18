@@ -127,7 +127,7 @@ describe("backup — diffBackup", () => {
     expect(diff.modified.map((d) => d.weaponId)).toEqual(["braton"]);
     expect(diff.modified[0]?.copiesDelta).toBe(2);
     // El nombre viene del catálogo real, no del id.
-    expect(diff.added[0]?.weaponName).toBe(catalog.weapons.find((w) => w.id === "lex")?.name);
+    expect(diff.added[0]?.weaponName).toBe(catalog.weapons.find((w) => w.id === "lex")?.name.en);
   });
 
   it("cuenta el delta de tiers completados en armas modificadas", () => {
