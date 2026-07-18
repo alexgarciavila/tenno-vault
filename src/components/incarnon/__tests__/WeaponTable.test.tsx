@@ -6,6 +6,41 @@ import { bratonExampleA } from "../../../test-support/progress-fixtures";
 import { WeaponTable } from "../WeaponTable";
 
 describe("WeaponTable — regresión estructural", () => {
+  it("muestra la semana y la rotación con el formato de la wiki", () => {
+    const weapon = getWeapon("braton")!;
+    render(
+      <I18nProvider>
+        <WeaponTable
+          weapons={[weapon]}
+          progressRecord={{}}
+          onSetUninstalledCopies={vi.fn()}
+        />
+      </I18nProvider>,
+    );
+
+    expect(screen.getByText("1 (A)")).toBeDefined();
+    expect(screen.queryByText("1 · A")).toBeNull();
+  });
+
+  it("mantiene las armas innatas sin semana, rotación ni control de copias", () => {
+    const weapon = getWeapon("felarx")!;
+    render(
+      <I18nProvider>
+        <WeaponTable
+          weapons={[weapon]}
+          progressRecord={{}}
+          onSetUninstalledCopies={vi.fn()}
+        />
+      </I18nProvider>,
+    );
+
+    const row = screen.getByRole("row", { name: /Felarx/ });
+    expect(within(row).getByText("—")).toBeDefined();
+    expect(within(row).queryByText(/\d+\s*[·()]\s*[A-G]/)).toBeNull();
+    expect(within(row).queryByRole("button", { name: "Añadir copia" })).toBeNull();
+    expect(within(row).queryByRole("button", { name: "Quitar copia" })).toBeNull();
+  });
+
   it("mantiene región de scroll enfocables, tabla y encabezados semánticos", () => {
     const weapon = getWeapon("braton")!;
     render(
